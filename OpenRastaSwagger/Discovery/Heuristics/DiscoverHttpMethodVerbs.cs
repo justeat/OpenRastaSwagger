@@ -6,7 +6,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
 {
     public class DiscoverHttpMethodVerbs : IDiscoveryHeuristic
     {
-        public void Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
+        public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
         {
             var exclusions = new List<string> {"ToString", "GetType", "GetHashCode", "Equals"};
 
@@ -14,7 +14,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
 
             if (exclusions.Contains(publicMethod.Name))
             {
-                return;
+                return false;
             }
 
             var nameUpper = publicMethod.Name.ToUpper();
@@ -23,13 +23,13 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             if (methodAttribute != null)
             {
                 methodMetdata.HttpVerb = methodAttribute.Method;
-                return;
+                return true;
             }
 
             if (allowedVerbs.Contains(nameUpper))
             {
                 methodMetdata.HttpVerb = nameUpper;
-                return;
+                return true;
             }
 
             foreach (var verb in allowedVerbs)
@@ -37,9 +37,11 @@ namespace OpenRastaSwagger.Discovery.Heuristics
                 if (nameUpper.StartsWith(verb))
                 {
                     methodMetdata.HttpVerb = verb;
-                    return;
+                    return true;
                 }
             }
+
+            return false;
         }
     }
 }

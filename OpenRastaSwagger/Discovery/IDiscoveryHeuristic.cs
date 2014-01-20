@@ -6,6 +6,6 @@ namespace OpenRastaSwagger.Discovery
 {
     public interface IDiscoveryHeuristic
     {
-        void Discover(MethodInfo method, OperationMetadata methodMetdata);
+        bool Discover(MethodInfo method, OperationMetadata methodMetdata);
     }
 }

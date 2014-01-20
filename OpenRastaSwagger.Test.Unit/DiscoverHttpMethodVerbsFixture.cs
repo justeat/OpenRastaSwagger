@@ -64,6 +64,15 @@ namespace OpenRastaSwagger.Test.Unit
             Assert.That(_metadata.HttpVerb, Is.EqualTo("GET"));
         }
 
+        [Test]
+        public void CanNotDiscoverNotStandardMethods()
+        {
+            var methodToDetect = typeof(SampleHandler).GetMethod("SomeOtherWeirdName");
+
+            Assert.IsFalse(_sut.Discover(methodToDetect, _metadata));
+        }
+
+        
         public class SampleHandler
         {
             public void Get() {}
@@ -82,6 +91,8 @@ namespace OpenRastaSwagger.Test.Unit
 
             [HttpOperation(HttpMethod.GET)]
             public void SomeWeirdName() { }
+
+            public void SomeOtherWeirdName() { }
 
         }
     }

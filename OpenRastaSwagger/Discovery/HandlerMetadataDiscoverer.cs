@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using OpenRasta.Configuration.MetaModel;
 using OpenRastaSwagger.Discovery.Heuristics;
 
@@ -30,23 +32,18 @@ namespace OpenRastaSwagger.Discovery
 
             foreach (var uri in metadata.Uris)
             {
-                foreach (var publicMethod in handlerType.GetMethods())
+                var exclusions = new List<string> { "ToString", "GetType", "GetHashCode", "Equals" };
+                foreach (var publicMethod in handlerType.GetMethods().Where(x=>x.IsPublic && !exclusions.Contains(x.Name)))
                 {
-                    IndexHttpOperation(metadata, uri, publicMethod);
+                    var operation = new OperationMetadata(uri);
+
+                    if (DiscoveryRules.All(x => x.Discover(publicMethod, operation)))
+                    {
+                        metadata.Add(operation);    
+                    }
+                    
                 }
             }
-        }
-
-        private void IndexHttpOperation(ICollection<OperationMetadata> metadata, UriModel uri, MethodInfo publicMethod)
-        {
-            var operation = new OperationMetadata(uri);
-
-            foreach (var heuristic in DiscoveryRules)
-            {
-                heuristic.Discover(publicMethod, operation);
-            }
-
-            metadata.Add(operation);
         }
     }
 }

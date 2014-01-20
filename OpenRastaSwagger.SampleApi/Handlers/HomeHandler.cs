@@ -8,5 +8,11 @@ namespace OpenRastaSwagger.SampleApi.Handlers
         {
             return new Home { Title = "Welcome home." };
         }
+
+        public Home NotGet()
+        {
+            return new Home { Title = "Welcome home." };
+        }
+
     }
 }
