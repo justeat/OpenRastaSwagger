@@ -25,23 +25,28 @@ namespace OpenRastaSwagger
         public ResourceList Discover(IMetaModelRepository metaModelRepository)
         {
             var swaggerSpec = new ResourceList {swaggerVersion = "1.2", apiVersion = "???"};
+            var apiResourceRegistrations = SelectRegistrationsThatArentSwaggerRoutes(metaModelRepository);
 
+            foreach (var reg in apiResourceRegistrations.Select(x => x.ResourceKey as ReflectionBasedMember<ITypeBuilder>).Distinct())
+            {
+                swaggerSpec.apis.Add(new Api { description = reg.Name, path = "/" + reg.Name.ToLower() });
+            }
+
+            return swaggerSpec;
+        }
+
+        private static IEnumerable<ResourceModel> SelectRegistrationsThatArentSwaggerRoutes(IMetaModelRepository metaModelRepository)
+        {
             var excludedHandlers = new List<Type>
             {
                 typeof (ResourceDetailsHandler),
                 typeof (ResourceListingHandler)
-            };
-
+            }; 
+            
             var apiResourceRegistrations =
                 metaModelRepository.ResourceRegistrations.Where(
                     x => x.Handlers.All(h => !excludedHandlers.Contains(h.Type.StaticType)));
-
-            foreach (var reg in apiResourceRegistrations.Select(x => x.ResourceKey as ReflectionBasedMember<ITypeBuilder>).Distinct())
-            {
-                swaggerSpec.apis.Add(new Api { description = reg.Name, path = "/" + reg.Name });
-            }
-
-            return swaggerSpec;
+            return apiResourceRegistrations;
         }
 
         public ResourceDetails DiscoverSingle(string path)
@@ -79,10 +84,10 @@ namespace OpenRastaSwagger
                     var op = new Operation
                     {
                         method = operationMetadata.HttpVerb,
-                        nickname = operationMetadata.Name,
-                        notes = operationMetadata.Notes,
-                        type = operationMetadata.ContentType,
-                        summary = operationMetadata.Summary,
+                        nickname = operationMetadata.Name ?? "",
+                        notes = operationMetadata.Notes ?? "",
+                        type = operationMetadata.ContentType ?? "",
+                        summary = operationMetadata.Summary ?? "",
                         parameters = new List<Parameter>
                         {
                             new Parameter
