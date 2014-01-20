@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
-using OpenRasta.Web;
+using OpenRasta.TypeSystem;
+using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRastaSwagger.Discovery;
+using OpenRastaSwagger.Handlers;
 using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
 using Api = OpenRastaSwagger.Model.ResourceListing.Api;
@@ -25,9 +26,19 @@ namespace OpenRastaSwagger
         {
             var swaggerSpec = new ResourceList {swaggerVersion = "1.2", apiVersion = "???"};
 
-            foreach (var uri in metaModelRepository.ResourceRegistrations.SelectMany(reg => reg.Uris))
+            var excludedHandlers = new List<Type>
             {
-                swaggerSpec.apis.Add(new Api{description = uri.Name, path = uri.Uri});
+                typeof (ResourceDetailsHandler),
+                typeof (ResourceListingHandler)
+            };
+
+            var apiResourceRegistrations =
+                metaModelRepository.ResourceRegistrations.Where(
+                    x => x.Handlers.All(h => !excludedHandlers.Contains(h.Type.StaticType)));
+
+            foreach (var reg in apiResourceRegistrations.Select(x => x.ResourceKey as ReflectionBasedMember<ITypeBuilder>).Distinct())
+            {
+                swaggerSpec.apis.Add(new Api { description = reg.Name, path = "/" + reg.Name });
             }
 
             return swaggerSpec;
