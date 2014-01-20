@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DiscoverHttpMethodVerbsFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UriParameterParserFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

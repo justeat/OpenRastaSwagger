@@ -24,30 +24,12 @@ namespace OpenRastaSwagger.SampleApi
                     .HandledBy<ResourceDetailsHandler>()
                     .AsJsonDataContract();
 
-                ResourceSpace.Has.ResourcesOfType<Home>()
-                    .AtUri("/home")
-                    .And.AtUri("/home-again")
-                    .HandledBy<HomeHandler>()
+                ResourceSpace.Has.ResourcesOfType<SimpleResource>()
+                    .AtUri("/simple/{message}")
+                    .HandledBy<SimpleHandler>()
                     .AsJsonDataContract();
 
-                ResourceSpace.Has.ResourcesOfType<Home>()
-                    .AtUri("/home2")
-                    .And.AtUri("/home-again2")
-                    .HandledBy<HomeHandler2>()
-                    .AsJsonDataContract();
-
-                ResourceSpace.Has.ResourcesOfType<Home>()
-                    .AtUri("/getAndPost")
-                    .HandledBy<MultiMethodHandler>()
-                    .AsJsonDataContract();
-
-                ResourceSpace.Has.ResourcesOfType<Bounce>()
-                    .AtUri("/bounce/{message}")
-                    .And.AtUri("/bounce?message={message}")
-                    .HandledBy<BounceHandler>()
-                    .AsJsonDataContract();
-
-                ResourceSpace.Has.ResourcesOfType<ComplexResponse>()
+                ResourceSpace.Has.ResourcesOfType<ComplexResource>()
                     .AtUri("/complex")
                     .HandledBy<ComplexHandler>()
                     .AsJsonDataContract();

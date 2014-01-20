@@ -95,14 +95,12 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Handlers\BounceHandler.cs" />
+    <Compile Include="Handlers\SimpleHandler.cs" />
     <Compile Include="Handlers\ComplexHandler.cs" />
-    <Compile Include="Handlers\HomeHandler.cs" />
-    <Compile Include="Handlers\HomeHandler2.cs" />
-    <Compile Include="Handlers\MultiMethodHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Bounce.cs" />
-    <Compile Include="Resources\Home.cs" />
+    <Compile Include="Resources\ComplexRequest.cs" />
+    <Compile Include="Resources\ComplexResource.cs" />
+    <Compile Include="Resources\SimpleResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.Debug.config">

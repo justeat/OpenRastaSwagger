@@ -20,13 +20,13 @@ namespace OpenRastaSwagger.Test.Functional
     {
 
         [Test]
-        public void CanRetrieveResourceDetails()
+        public void CanRetrieveSimpleResourceDetails()
         {
             using (var host = new InMemoryHost(new Configuration()))
             {
                 var request = new InMemoryRequest
                 {
-                    Uri = new Uri("http://localhost/api-docs/getAndPost"),
+                    Uri = new Uri("http://localhost/api-docs/simple"),
                     HttpMethod = "GET",
                     Entity = {ContentType = MediaType.Json}
                 };
@@ -37,15 +37,14 @@ namespace OpenRastaSwagger.Test.Functional
                 var statusCode = response.StatusCode;
                 Assert.AreEqual(200, statusCode);
 
-                if (response.Entity.ContentLength > 0)
-                {
-                    response.Entity.Stream.Seek(0, SeekOrigin.Begin);
+                Assert.IsTrue(response.Entity.ContentLength>0);
 
-                    var serializer = new DataContractJsonSerializer(typeof(ResourceDetails));
-                    var resourceDetails = (ResourceDetails) serializer.ReadObject(response.Entity.Stream);
+                response.Entity.Stream.Seek(0, SeekOrigin.Begin);
 
-                   // Assert.AreEqual("Welcome home.", resourceDetails.Title);
-                }
+                var serializer = new DataContractJsonSerializer(typeof(ResourceDetails));
+                var resourceDetails = (ResourceDetails) serializer.ReadObject(response.Entity.Stream);
+
+                Assert.IsNotNull(resourceDetails);
             }            
 
         }

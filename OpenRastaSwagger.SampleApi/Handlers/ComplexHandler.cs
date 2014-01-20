@@ -4,9 +4,9 @@ namespace OpenRastaSwagger.SampleApi.Handlers
 {
     public class ComplexHandler
     {
-        public ComplexResponse Post(ComplexRequest req)
+        public ComplexResource Post(ComplexRequest req)
         {
-            return new ComplexResponse() { Request= req};
+            return new ComplexResource() { Request= req};
         }
 
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
 using OpenRasta.TypeSystem;
@@ -93,9 +92,24 @@ namespace OpenRastaSwagger
                         parameters = new List<Parameter>()
                     };
 
+                    var paramParser = new UriParameterParser(operationMetadata.Uri.Uri);
+
                     foreach (var param in operationMetadata.InputParameters)
                     {
-                        var swagParam = MapInputParameter(param, operationMetadata);
+                        var paramType = paramParser.HasPathParam(param.Name) ? "path" : "query";
+
+                        if (!IsTypeSwaggerPrimitive(param.Type))
+                        {
+                            paramType = "body";
+                        }
+
+                        var swagParam = new Parameter
+                        {
+                            paramType = paramType,
+                            type = param.Type.Name,
+                            name = param.Name
+                        };
+
                         op.parameters.Add(swagParam);
 
                         RegisterCustomType(customTypesForSwagger, param.Type);
@@ -120,31 +134,12 @@ namespace OpenRastaSwagger
             return swaggerSpec;
         }
 
-        private Parameter MapInputParameter(InputParameter param, OperationMetadata operationMetadata)
+        private static bool IsTypeSwaggerPrimitive(Type type)
         {
-            string paramType = "query";
-            var indexOfPath = operationMetadata.Uri.Uri.ToLower().IndexOf(param.Name.ToLower());
-            
-            if (indexOfPath > -1)
-            {
-                var indexOfQuestion = operationMetadata.Uri.Uri.IndexOf('?');
-                paramType = indexOfQuestion == -1 ? "path" : (indexOfQuestion > indexOfPath ? "path" : "query");
-            }
-
-            if (!param.Type.IsPrimitive && !_primitiveMappings.ContainsKey(param.Type))
-            {
-                paramType = "body";
-            }
-
-            return new Parameter
-            {
-                paramType = paramType,
-                type = param.Type.Name,
-                name = param.Name
-            };
+            return type.IsPrimitive || PrimitiveMappings.ContainsKey(type);
         }
 
-        private static Dictionary<Type, string> _primitiveMappings = new Dictionary<Type, string>
+        private static readonly Dictionary<Type, string> PrimitiveMappings = new Dictionary<Type, string>
         {
             {typeof (int), "int32"},
             {typeof (long), "int64"},
@@ -167,13 +162,13 @@ namespace OpenRastaSwagger
 
             foreach (var prop in returnType.GetProperties())
             {
-                var name = _primitiveMappings.ContainsKey(prop.PropertyType)
-                    ? _primitiveMappings[prop.PropertyType]
+                var name = PrimitiveMappings.ContainsKey(prop.PropertyType)
+                    ? PrimitiveMappings[prop.PropertyType]
                     : prop.PropertyType.Name;
 
-                modelSpec.properties.Add(prop.Name, new PropertyType { type = name, description = "Fancy" });
-                    
-                if (!prop.PropertyType.IsPrimitive && !_primitiveMappings.ContainsKey(prop.PropertyType))
+                modelSpec.properties.Add(prop.Name, new PropertyType { type = name, description = "" });
+
+                if (!IsTypeSwaggerPrimitive(prop.PropertyType))
                 {
                     RegisterCustomType(customTypesForSwagger, prop.PropertyType);
                 }
