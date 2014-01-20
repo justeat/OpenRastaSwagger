@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
 using OpenRasta.TypeSystem;
@@ -24,7 +25,7 @@ namespace OpenRastaSwagger
 
         public ResourceList Discover(IMetaModelRepository metaModelRepository)
         {
-            var swaggerSpec = new ResourceList {swaggerVersion = "1.2", apiVersion = "???"};
+            var swaggerSpec = new ResourceList { swaggerVersion = "1.2", apiVersion = Assembly.GetCallingAssembly().GetName().Version.ToString() };
             var apiResourceRegistrations = SelectRegistrationsThatArentSwaggerRoutes(metaModelRepository);
 
             foreach (var reg in apiResourceRegistrations.Select(x => x.ResourceKey as ReflectionBasedMember<ITypeBuilder>).Distinct())
@@ -57,12 +58,10 @@ namespace OpenRastaSwagger
 
         public ResourceDetails DiscoverSingle(IMetaModelRepository metaModelRepository, string path)
         {
-            UriModel discoveredUri = null;
-
             var swaggerSpec = new ResourceDetails
             {
                 swaggerVersion = "1.2",
-                apiVersion = "???",
+                apiVersion = Assembly.GetCallingAssembly().GetName().Version.ToString(),
                 apis = new List<ApiDetails>()
             };
 
@@ -72,15 +71,17 @@ namespace OpenRastaSwagger
             {
                 var registrationMetadata = discoverer.Discover(reg);
                 
-                var apiDetails = new ApiDetails
-                {
-                    description = "",
-                    path = "/" + path,
-                    operations = new List<Operation>()
-                };
 
                 foreach (var operationMetadata in registrationMetadata)
                 {
+
+                    var apiDetails = new ApiDetails
+                    {
+                        description = "",
+                        path = operationMetadata.Uri.Uri,
+                        operations = new List<Operation>()
+                    };
+
                     var op = new Operation
                     {
                         method = operationMetadata.HttpVerb,

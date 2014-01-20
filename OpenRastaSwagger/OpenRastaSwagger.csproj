@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Discovery\Heuristics\DiscoverDescription.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverHttpMethodVerbs.cs" />
     <Compile Include="Discovery\ResourceMetadataDiscoverer.cs" />
     <Compile Include="Discovery\IDiscoverHandlerMetadata.cs" />

@@ -12,6 +12,7 @@ namespace OpenRastaSwagger.Discovery
         public List<IDiscoveryHeuristic> DiscoveryRules = new List<IDiscoveryHeuristic>
         {
             new DiscoverHttpMethodVerbs(),
+            new DiscoverDescription(),
         };
 
         public ResourceMetadata Discover(ResourceModel resource)
