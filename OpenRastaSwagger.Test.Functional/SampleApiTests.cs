@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenRasta.Hosting.InMemory;
 using OpenRasta.Web;
+using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.SampleApi;
 using OpenRastaSwagger.SampleApi.Resources;
 
@@ -19,13 +20,13 @@ namespace OpenRastaSwagger.Test.Functional
     {
 
         [Test]
-        public void CanRetrieveHome()
+        public void CanRetrieveResourceDetails()
         {
             using (var host = new InMemoryHost(new Configuration()))
             {
                 var request = new InMemoryRequest
                 {
-                    Uri = new Uri("http://localhost/home"),
+                    Uri = new Uri("http://localhost/api-docs/getAndPost"),
                     HttpMethod = "GET",
                     Entity = {ContentType = MediaType.Json}
                 };
@@ -40,10 +41,10 @@ namespace OpenRastaSwagger.Test.Functional
                 {
                     response.Entity.Stream.Seek(0, SeekOrigin.Begin);
 
-                    var serializer = new DataContractJsonSerializer(typeof(Home));
-                    var home = (Home) serializer.ReadObject(response.Entity.Stream);
+                    var serializer = new DataContractJsonSerializer(typeof(ResourceDetails));
+                    var resourceDetails = (ResourceDetails) serializer.ReadObject(response.Entity.Stream);
 
-                    Assert.AreEqual("Welcome home.", home.Title);
+                   // Assert.AreEqual("Welcome home.", resourceDetails.Title);
                 }
             }            
 

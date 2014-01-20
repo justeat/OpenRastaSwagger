@@ -42,6 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Discovery\DiscoverHttpMethodVerbs.cs" />
+    <Compile Include="Discovery\HandlerMetadataDiscoverer.cs" />
+    <Compile Include="Discovery\IDiscoverHandlerMetadata.cs" />
+    <Compile Include="Discovery\IDiscoveryHeuristic.cs" />
+    <Compile Include="Discovery\OperationMetadata.cs" />
+    <Compile Include="Discovery\ResourceMetadata.cs" />
     <Compile Include="Handlers\ResourceDetailsHandler.cs" />
     <Compile Include="Handlers\ResourceListingHandler.cs" />
     <Compile Include="Model\ResourceDetails\Api.cs" />

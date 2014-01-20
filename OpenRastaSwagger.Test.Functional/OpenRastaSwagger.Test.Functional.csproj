@@ -52,6 +52,10 @@
       <Project>{F47DFD3B-E570-4AB8-B871-0ED6A31E072B}</Project>
       <Name>OpenRastaSwagger.SampleApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenRastaSwagger\OpenRastaSwagger.csproj">
+      <Project>{070F1E20-9589-4A5C-B276-5B8728F4934E}</Project>
+      <Name>OpenRastaSwagger</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

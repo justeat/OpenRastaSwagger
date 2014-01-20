@@ -25,7 +25,14 @@ namespace OpenRastaSwagger.SampleApi
 
                 ResourceSpace.Has.ResourcesOfType<Home>()
                     .AtUri("/home")
+                    .And.AtUri("/home-again")
                     .HandledBy<HomeHandler>()
+                    .AsJsonDataContract();
+
+                ResourceSpace.Has.ResourcesOfType<Home>()
+                    .AtUri("/home2")
+                    .And.AtUri("/home-again2")
+                    .HandledBy<HomeHandler2>()
                     .AsJsonDataContract();
 
                 ResourceSpace.Has.ResourcesOfType<Home>()

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
 using OpenRasta.Web;
+using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
 using Api = OpenRastaSwagger.Model.ResourceListing.Api;
@@ -40,77 +42,55 @@ namespace OpenRastaSwagger
         public ResourceDetails DiscoverSingle(IMetaModelRepository metaModelRepository, string path)
         {
             UriModel discoveredUri = null;
-            ResourceModel discoveredResource = null;
-
-            foreach (var reg in metaModelRepository.ResourceRegistrations)
-            {
-                foreach (var uri in reg.Uris.Where(x=>x.Uri == "/" + path))
-                {
-                    discoveredResource = reg;
-                    discoveredUri = uri;
-                }
-            }
-
-            var handlerName = discoveredResource.Handlers[0].Type.Name;
-            var handler = DependencyManager.GetService(discoveredResource.Handlers[0].Type.StaticType);
-
 
             var swaggerSpec = new ResourceDetails
             {
                 swaggerVersion = "1.2",
                 apiVersion = "???",
-                apis = new List<ApiDetails>
-                {
-                    new ApiDetails
-                    {
-                        description = discoveredUri.Name ?? handlerName,
-                        path = "/" + discoveredUri.Uri,
-                        operations = new List<Operation>()
-                    }
-                }
+                apis = new List<ApiDetails>()
             };
 
-            var exclusions = new List<string> { "ToString", "GetType", "GetHashCode", "Equals" };
+            var discoverer = new HandlerMetadataDiscoverer();
 
-            foreach (var publicMethod in handler.GetType().GetMethods().Where(x=>x.IsPublic && !exclusions.Contains(x.Name)))
+            foreach (var reg in metaModelRepository.ResourceRegistrations)
             {
-                var method = "GET";
-                var contentType = "";
-                var methodAttribute = publicMethod.GetCustomAttributes<HttpOperationAttribute>().FirstOrDefault();
-                if (methodAttribute != null)
-                {
-                    method = methodAttribute.Method;
-                    contentType = methodAttribute.ContentType.TopLevelMediaType;
-                }
-                else if (publicMethod.Name.ToUpper() == "GET")
-                {
-                    method = "GET";
-                }
+                var registrationMetadata = discoverer.Discover(reg);
                 
-                var op = new Operation
+                var apiDetails = new ApiDetails
                 {
-                    method = method,
-                    nickname = publicMethod.Name,
-                    notes = "notes",
-                    type = contentType,
-                    summary = "summary",
-                    parameters = new List<Parameter>
-                    {
-                        new Parameter
-                        {
-                            description = "desc",
-                            format = "format",
-                            maximum = 1,
-                            minimum = 1,
-                            name = "name",
-                            paramType = "paramType",
-                            required = false,
-                            type = "type"
-                        }
-                    }
+                    description = "",
+                    path = "/" + path,
+                    operations = new List<Operation>()
                 };
 
-                swaggerSpec.apis[0].operations.Add(op);
+                foreach (var operationMetadata in registrationMetadata)
+                {
+                    var op = new Operation
+                    {
+                        method = operationMetadata.HttpVerb,
+                        nickname = operationMetadata.Name,
+                        notes = operationMetadata.Notes,
+                        type = operationMetadata.ContentType,
+                        summary = operationMetadata.Summary,
+                        parameters = new List<Parameter>
+                        {
+                            new Parameter
+                            {
+                                description = "desc",
+                                format = "format",
+                                maximum = 1,
+                                minimum = 1,
+                                name = "name",
+                                paramType = "paramType",
+                                required = false,
+                                type = "type"
+                            }
+                        }
+                    };
+
+                    apiDetails.operations.Add(op);
+                    swaggerSpec.apis.Add(apiDetails);
+                }
             }
 
             return swaggerSpec;
