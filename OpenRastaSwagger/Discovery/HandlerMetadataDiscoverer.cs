@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using OpenRasta.Configuration.MetaModel;
+using OpenRastaSwagger.Discovery.Heuristics;
 
 namespace OpenRastaSwagger.Discovery
 {
