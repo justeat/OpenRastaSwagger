@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Discovery\Heuristics\DiscoverInputParameters.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverDescription.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverHttpMethodVerbs.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverReturnType.cs" />

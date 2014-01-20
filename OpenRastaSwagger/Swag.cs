@@ -81,26 +81,6 @@ namespace OpenRastaSwagger
                 
                 foreach (var operationMetadata in registrationMetadata)
                 {
-                    var apiDetails = new ApiDetails
-                    {
-                        description = operationMetadata.Summary,
-                        path = operationMetadata.Uri.Uri,
-                        operations = new List<Operation>()
-                    };
-
-                    if (!customTypesForSwagger.ContainsKey(operationMetadata.ReturnType))
-                    {
-                        var modelSpec = new ModelSpec {id = operationMetadata.ReturnType.Name};
-                        for (int index = 0; index < operationMetadata.ReturnType.GetProperties().Length; index++)
-                        {
-                            var prop = operationMetadata.ReturnType.GetProperties()[index];
-                            modelSpec.properties.Add(prop.Name, new PropertyType { type = prop.PropertyType.Name, description = "Fancy"});
-
-                            //modelSpec.properties = new { name = new PropertyType { type = prop.PropertyType.Name.ToLower() } };//.Add(prop.Name, new PropertyType{ description = "lol", type = prop.PropertyType.Name.ToLower()});
-                        }
-                        customTypesForSwagger.Add(operationMetadata.ReturnType, modelSpec);
-                    }
-
                     var op = new Operation
                     {
                         method = operationMetadata.HttpVerb,
@@ -108,24 +88,17 @@ namespace OpenRastaSwagger
                         notes = operationMetadata.Notes ?? "",
                         type = operationMetadata.ReturnType.Name,
                         summary = operationMetadata.Summary ?? "",
-                        parameters = new List<Parameter>
-                        {
-                            new Parameter
-                            {
-                                description = "desc",
-                                format = "format",
-                                maximum = 1,
-                                minimum = 1,
-                                name = "name",
-                                paramType = "paramType",
-                                required = false,
-                                type = "type"
-                            }
-                        }
+                        parameters = operationMetadata.InputParameters.Select(MapInputParameter).ToList()
                     };
 
-                    apiDetails.operations.Add(op);
-                    swaggerSpec.apis.Add(apiDetails);
+                    RegisterCustomReturnType(customTypesForSwagger, operationMetadata);
+
+                    swaggerSpec.apis.Add(new ApiDetails
+                    {
+                        description = operationMetadata.Summary,
+                        path = operationMetadata.Uri.Uri,
+                        operations = new List<Operation> {op}
+                    });
                 }
             }
 
@@ -135,6 +108,30 @@ namespace OpenRastaSwagger
                 swaggerSpec.models.Add(item.Key.Name, item.Value);
             }
             return swaggerSpec;
+        }
+
+        private Parameter MapInputParameter(InputParameter param)
+        {
+            return new Parameter()
+            {
+                paramType = "path",
+                type = param.Type.Name,
+                name = param.Name
+            };
+        }
+
+
+        private static void RegisterCustomReturnType(IDictionary<Type, ModelSpec> customTypesForSwagger, OperationMetadata operationMetadata)
+        {
+            if (!customTypesForSwagger.ContainsKey(operationMetadata.ReturnType))
+            {
+                var modelSpec = new ModelSpec { id = operationMetadata.ReturnType.Name };
+                foreach (var prop in operationMetadata.ReturnType.GetProperties())
+                {
+                    modelSpec.properties.Add(prop.Name, new PropertyType {type = prop.PropertyType.Name, description = "Fancy"});
+                }
+                customTypesForSwagger.Add(operationMetadata.ReturnType, modelSpec);
+            }
         }
     }
 }
