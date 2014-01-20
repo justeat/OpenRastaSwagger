@@ -7,7 +7,7 @@ using OpenRastaSwagger.Discovery.Heuristics;
 
 namespace OpenRastaSwagger.Discovery
 {
-    public class HandlerMetadataDiscoverer : IDiscoverHandlerMetadata
+    public class ResourceMetadataDiscoverer : IDiscoverHandlerMetadata
     {
         public List<IDiscoveryHeuristic> DiscoveryRules = new List<IDiscoveryHeuristic>
         {

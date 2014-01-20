@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Discovery\Heuristics\DiscoverHttpMethodVerbs.cs" />
-    <Compile Include="Discovery\HandlerMetadataDiscoverer.cs" />
+    <Compile Include="Discovery\ResourceMetadataDiscoverer.cs" />
     <Compile Include="Discovery\IDiscoverHandlerMetadata.cs" />
     <Compile Include="Discovery\IDiscoveryHeuristic.cs" />
     <Compile Include="Discovery\OperationMetadata.cs" />

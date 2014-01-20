@@ -50,7 +50,7 @@ namespace OpenRastaSwagger
                 apis = new List<ApiDetails>()
             };
 
-            var discoverer = new HandlerMetadataDiscoverer();
+            var discoverer = new ResourceMetadataDiscoverer();
 
             foreach (var reg in metaModelRepository.ResourceRegistrations)
             {
