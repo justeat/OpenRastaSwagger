@@ -26,12 +26,12 @@ namespace OpenRastaSwagger.SampleApi
                 ResourceSpace.Has.ResourcesOfType<Home>()
                     .AtUri("/home")
                     .HandledBy<HomeHandler>()
-                    .AsXmlSerializer();
+                    .AsJsonDataContract();
 
                 ResourceSpace.Has.ResourcesOfType<Home>()
                     .AtUri("/getAndPost")
                     .HandledBy<MultiMethodHandler>()
-                    .AsXmlSerializer();
+                    .AsJsonDataContract();
             }
         }
     }
