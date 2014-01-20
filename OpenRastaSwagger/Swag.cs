@@ -120,7 +120,7 @@ namespace OpenRastaSwagger
                     swaggerSpec.apis.Add(new ApiDetails
                     {
                         description = operationMetadata.Summary,
-                        path = operationMetadata.Uri.Uri,
+                        path = paramParser.Path, //operationMetadata.Uri.Uri,
                         operations = new List<Operation> {op}
                     });
                 }

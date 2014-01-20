@@ -11,18 +11,24 @@ namespace OpenRastaSwagger
         public UriParameterParser(string uri)
         {
             var index = uri.IndexOf('?');
-
             if (index > -1)
             {
-                _pathParams=ParseParams(uri.Substring(0, index));
-                _queryParams=ParseParams(uri.Substring(index));
+                Path = uri.Substring(0, index);
+                Query = uri.Substring(index);
             }
             else
             {
-                _pathParams=ParseParams(uri);
+                Path = uri;
+                Query = "";
             }
+
+            _pathParams = ParseParams(Path);
+            _queryParams = ParseParams(Query);
                 
         }
+
+        public string Path { get; private set; }
+        public string Query { get; private set; }
 
         private List<string> ParseParams(string s)
         {

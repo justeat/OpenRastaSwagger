@@ -26,6 +26,7 @@ namespace OpenRastaSwagger.SampleApi
 
                 ResourceSpace.Has.ResourcesOfType<SimpleResource>()
                     .AtUri("/simple/{message}")
+                    .And.AtUri("/simple?message={message}")
                     .HandledBy<SimpleHandler>()
                     .AsJsonDataContract();
 
