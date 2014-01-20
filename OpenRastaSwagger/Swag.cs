@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using OpenRasta.Configuration;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
 using OpenRasta.TypeSystem;
@@ -51,10 +54,10 @@ namespace OpenRastaSwagger
             return apiResourceRegistrations;
         }
 
-        public ResourceDetails DiscoverSingle(string path)
+        public ResourceDetails DiscoverSingle(string resourceTypeName)
         {
             var mmr = DependencyManager.GetService<IMetaModelRepository>();
-            return DiscoverSingle(mmr, path);
+            return DiscoverSingle(mmr, resourceTypeName);
         }
 
         public ResourceDetails DiscoverSingle(IMetaModelRepository metaModelRepository, string resourceTypeName)
@@ -175,6 +178,22 @@ namespace OpenRastaSwagger
             }
 
             customTypesForSwagger.Add(returnType, modelSpec);
+        }
+
+        public static string Root = "api-docs";
+
+        public static void Configure()
+        {
+            ResourceSpace.Has.ResourcesOfType<ResourceList>()
+                .AtUri("/" + Root)
+                .HandledBy<ResourceListingHandler>()
+                .AsJsonDataContract();
+
+            ResourceSpace.Has.ResourcesOfType<ResourceDetails>()
+                .AtUri("/" + Root + "/{resourceTypeName}")
+                .HandledBy<ResourceDetailsHandler>()
+                .AsJsonDataContract();
+            
         }
 
     }

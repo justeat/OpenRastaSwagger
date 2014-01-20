@@ -14,15 +14,7 @@ namespace OpenRastaSwagger.SampleApi
         {
             using (OpenRastaConfiguration.Manual)
             {
-                ResourceSpace.Has.ResourcesOfType<ResourceList>()
-                    .AtUri("/api-docs")
-                    .HandledBy<ResourceListingHandler>()
-                    .AsJsonDataContract();
-
-                ResourceSpace.Has.ResourcesOfType<ResourceDetails>()
-                    .AtUri("/api-docs/{uri}")
-                    .HandledBy<ResourceDetailsHandler>()
-                    .AsJsonDataContract();
+                Swag.Configure();
 
                 ResourceSpace.Has.ResourcesOfType<SimpleResource>()
                     .AtUri("/simple/{message}")

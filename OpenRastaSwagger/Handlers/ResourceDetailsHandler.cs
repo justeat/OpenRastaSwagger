@@ -4,10 +4,10 @@ namespace OpenRastaSwagger.Handlers
 {
     public class ResourceDetailsHandler
     {
-        public ResourceDetails Get(string uri)
+        public ResourceDetails Get(string resourceTypeName)
         {
             var swag = new Swag();
-            return swag.DiscoverSingle(uri);
+            return swag.DiscoverSingle(resourceTypeName);
         }
     }
 }
