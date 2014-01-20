@@ -39,6 +39,12 @@ namespace OpenRastaSwagger.SampleApi
                     .AtUri("/getAndPost")
                     .HandledBy<MultiMethodHandler>()
                     .AsJsonDataContract();
+
+                ResourceSpace.Has.ResourcesOfType<Bounce>()
+                    .AtUri("/bounce/{message}")
+                    .HandledBy<BounceHandler>()
+                    .AsJsonDataContract();
+
             }
         }
     }

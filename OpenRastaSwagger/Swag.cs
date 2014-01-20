@@ -63,6 +63,8 @@ namespace OpenRastaSwagger
                 swaggerVersion = "1.2",
                 apiVersion = Assembly.GetCallingAssembly().GetName().Version.ToString(),
                 apis = new List<ApiDetails>(),
+                resourcePath = "/",
+                basePath = "/"
             };
 
             var discoverer = new ResourceMetadataDiscoverer();
