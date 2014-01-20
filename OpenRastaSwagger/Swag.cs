@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
 using OpenRasta.TypeSystem;
@@ -88,10 +90,18 @@ namespace OpenRastaSwagger
                         notes = operationMetadata.Notes ?? "",
                         type = operationMetadata.ReturnType.Name,
                         summary = operationMetadata.Summary ?? "",
-                        parameters = operationMetadata.InputParameters.Select(MapInputParameter).ToList()
+                        parameters = new List<Parameter>()
                     };
 
-                    RegisterCustomReturnType(customTypesForSwagger, operationMetadata);
+                    foreach (var param in operationMetadata.InputParameters)
+                    {
+                        var swagParam = MapInputParameter(param, operationMetadata);
+                        op.parameters.Add(swagParam);
+
+                        RegisterCustomType(customTypesForSwagger, param.Type);
+                    }
+
+                    RegisterCustomType(customTypesForSwagger, operationMetadata.ReturnType);
 
                     swaggerSpec.apis.Add(new ApiDetails
                     {
@@ -110,28 +120,67 @@ namespace OpenRastaSwagger
             return swaggerSpec;
         }
 
-        private Parameter MapInputParameter(InputParameter param)
+        private Parameter MapInputParameter(InputParameter param, OperationMetadata operationMetadata)
         {
-            return new Parameter()
+            string paramType = "query";
+            var indexOfPath = operationMetadata.Uri.Uri.ToLower().IndexOf(param.Name.ToLower());
+            
+            if (indexOfPath > -1)
             {
-                paramType = "path",
+                var indexOfQuestion = operationMetadata.Uri.Uri.IndexOf('?');
+                paramType = indexOfQuestion == -1 ? "path" : (indexOfQuestion > indexOfPath ? "path" : "query");
+            }
+
+            if (!param.Type.IsPrimitive && !_primitiveMappings.ContainsKey(param.Type))
+            {
+                paramType = "body";
+            }
+
+            return new Parameter
+            {
+                paramType = paramType,
                 type = param.Type.Name,
                 name = param.Name
             };
         }
 
-
-        private static void RegisterCustomReturnType(IDictionary<Type, ModelSpec> customTypesForSwagger, OperationMetadata operationMetadata)
+        private static Dictionary<Type, string> _primitiveMappings = new Dictionary<Type, string>
         {
-            if (!customTypesForSwagger.ContainsKey(operationMetadata.ReturnType))
+            {typeof (int), "int32"},
+            {typeof (long), "int64"},
+            {typeof (float), "float"},
+            {typeof (double), "double"},
+            {typeof (string), "string"},
+            {typeof (byte), "byte"},
+            {typeof (bool), "boolean"},
+            {typeof (DateTime), "date-time"},
+        };
+
+        private static void RegisterCustomType(IDictionary<Type, ModelSpec> customTypesForSwagger, Type returnType)
+        {
+            if (customTypesForSwagger.ContainsKey(returnType))
             {
-                var modelSpec = new ModelSpec { id = operationMetadata.ReturnType.Name };
-                foreach (var prop in operationMetadata.ReturnType.GetProperties())
-                {
-                    modelSpec.properties.Add(prop.Name, new PropertyType {type = prop.PropertyType.Name, description = "Fancy"});
-                }
-                customTypesForSwagger.Add(operationMetadata.ReturnType, modelSpec);
+                return;
             }
+
+            var modelSpec = new ModelSpec { id = returnType.Name };
+
+            foreach (var prop in returnType.GetProperties())
+            {
+                var name = _primitiveMappings.ContainsKey(prop.PropertyType)
+                    ? _primitiveMappings[prop.PropertyType]
+                    : prop.PropertyType.Name;
+
+                modelSpec.properties.Add(prop.Name, new PropertyType { type = name, description = "Fancy" });
+                    
+                if (!prop.PropertyType.IsPrimitive && !_primitiveMappings.ContainsKey(prop.PropertyType))
+                {
+                    RegisterCustomType(customTypesForSwagger, prop.PropertyType);
+                }
+            }
+
+            customTypesForSwagger.Add(returnType, modelSpec);
         }
+
     }
 }

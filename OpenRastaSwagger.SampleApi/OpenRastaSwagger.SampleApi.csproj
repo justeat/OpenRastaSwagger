@@ -96,6 +96,7 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Handlers\BounceHandler.cs" />
+    <Compile Include="Handlers\ComplexHandler.cs" />
     <Compile Include="Handlers\HomeHandler.cs" />
     <Compile Include="Handlers\HomeHandler2.cs" />
     <Compile Include="Handlers\MultiMethodHandler.cs" />

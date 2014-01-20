@@ -9,6 +9,12 @@ namespace OpenRastaSwagger.Discovery.Heuristics
         public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
         {
             methodMetdata.Summary = "Calls " + publicMethod.DeclaringType.Name + "." + publicMethod.Name;
+
+            methodMetdata.Name = "the name";
+            methodMetdata.Notes= "the notes";
+            methodMetdata.Summary = "the summary";
+
+
             return true;
         }
     }

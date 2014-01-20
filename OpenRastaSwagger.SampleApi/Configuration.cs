@@ -1,4 +1,5 @@
-﻿using OpenRasta.Configuration;
+﻿using OpenRasta.Codecs;
+using OpenRasta.Configuration;
 using OpenRastaSwagger.Handlers;
 using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
@@ -42,8 +43,15 @@ namespace OpenRastaSwagger.SampleApi
 
                 ResourceSpace.Has.ResourcesOfType<Bounce>()
                     .AtUri("/bounce/{message}")
+                    .And.AtUri("/bounce?message={message}")
                     .HandledBy<BounceHandler>()
                     .AsJsonDataContract();
+
+                ResourceSpace.Has.ResourcesOfType<ComplexResponse>()
+                    .AtUri("/complex")
+                    .HandledBy<ComplexHandler>()
+                    .AsJsonDataContract();
+                    
 
             }
         }
