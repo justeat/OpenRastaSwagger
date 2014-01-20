@@ -9,10 +9,12 @@ namespace OpenRastaSwagger.Model.ResourceDetails
         public string basePath { get; set; }
         public string resourcePath { get; set; }
         public List<Api> apis { get; set; }
+        public JsonDictionary<string, ModelSpec> models { get; set; }
 
         public ResourceDetails()
         {
             apis = new List<Api>();
+            models = new JsonDictionary<string, ModelSpec>();
         }
     }
 }

@@ -56,38 +56,55 @@ namespace OpenRastaSwagger
             return DiscoverSingle(mmr, path);
         }
 
-        public ResourceDetails DiscoverSingle(IMetaModelRepository metaModelRepository, string path)
+        public ResourceDetails DiscoverSingle(IMetaModelRepository metaModelRepository, string resourceTypeName)
         {
             var swaggerSpec = new ResourceDetails
             {
                 swaggerVersion = "1.2",
                 apiVersion = Assembly.GetCallingAssembly().GetName().Version.ToString(),
-                apis = new List<ApiDetails>()
+                apis = new List<ApiDetails>(),
             };
 
             var discoverer = new ResourceMetadataDiscoverer();
 
-            foreach (var reg in metaModelRepository.ResourceRegistrations)
+            var requestedResource =
+                metaModelRepository.ResourceRegistrations.Where(
+                    x => x.ResourceKey.ToString().ToUpper().Contains(resourceTypeName.ToUpper()));
+
+            var customTypesForSwagger = new Dictionary<Type, ModelSpec>();
+
+            foreach (var reg in requestedResource)
             {
                 var registrationMetadata = discoverer.Discover(reg);
                 
-
                 foreach (var operationMetadata in registrationMetadata)
                 {
-
                     var apiDetails = new ApiDetails
                     {
-                        description = "",
+                        description = operationMetadata.Summary,
                         path = operationMetadata.Uri.Uri,
                         operations = new List<Operation>()
                     };
+
+                    if (!customTypesForSwagger.ContainsKey(operationMetadata.ReturnType))
+                    {
+                        var modelSpec = new ModelSpec {id = operationMetadata.ReturnType.Name};
+                        for (int index = 0; index < operationMetadata.ReturnType.GetProperties().Length; index++)
+                        {
+                            var prop = operationMetadata.ReturnType.GetProperties()[index];
+                            modelSpec.properties.Add(prop.Name, new PropertyType { type = prop.PropertyType.Name, description = "Fancy"});
+
+                            //modelSpec.properties = new { name = new PropertyType { type = prop.PropertyType.Name.ToLower() } };//.Add(prop.Name, new PropertyType{ description = "lol", type = prop.PropertyType.Name.ToLower()});
+                        }
+                        customTypesForSwagger.Add(operationMetadata.ReturnType, modelSpec);
+                    }
 
                     var op = new Operation
                     {
                         method = operationMetadata.HttpVerb,
                         nickname = operationMetadata.Name ?? "",
                         notes = operationMetadata.Notes ?? "",
-                        type = operationMetadata.ContentType ?? "",
+                        type = operationMetadata.ReturnType.Name,
                         summary = operationMetadata.Summary ?? "",
                         parameters = new List<Parameter>
                         {
@@ -110,6 +127,11 @@ namespace OpenRastaSwagger
                 }
             }
 
+
+            foreach (var item in customTypesForSwagger)
+            {
+                swaggerSpec.models.Add(item.Key.Name, item.Value);
+            }
             return swaggerSpec;
         }
     }

@@ -35,6 +35,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Discovery\Heuristics\DiscoverDescription.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverHttpMethodVerbs.cs" />
+    <Compile Include="Discovery\Heuristics\DiscoverReturnType.cs" />
     <Compile Include="Discovery\ResourceMetadataDiscoverer.cs" />
     <Compile Include="Discovery\IDiscoverHandlerMetadata.cs" />
     <Compile Include="Discovery\IDiscoveryHeuristic.cs" />
@@ -52,6 +54,9 @@
     <Compile Include="Handlers\ResourceDetailsHandler.cs" />
     <Compile Include="Handlers\ResourceListingHandler.cs" />
     <Compile Include="Model\ResourceDetails\Api.cs" />
+    <Compile Include="Model\ResourceDetails\JsonDictionary.cs" />
+    <Compile Include="Model\ResourceDetails\ModelSpec.cs" />
+    <Compile Include="Model\ResourceDetails\PropertyType.cs" />
     <Compile Include="Model\ResourceDetails\Responsemessage.cs" />
     <Compile Include="Model\ResourceDetails\Operation.cs" />
     <Compile Include="Model\ResourceDetails\Parameter.cs" />

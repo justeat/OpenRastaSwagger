@@ -13,6 +13,7 @@ namespace OpenRastaSwagger.Discovery
         {
             new DiscoverHttpMethodVerbs(),
             new DiscoverDescription(),
+            new DiscoverReturnType(),
         };
 
         public ResourceMetadata Discover(ResourceModel resource)

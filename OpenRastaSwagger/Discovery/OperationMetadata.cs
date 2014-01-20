@@ -1,3 +1,4 @@
+using System;
 using OpenRasta.Configuration.MetaModel;
 
 namespace OpenRastaSwagger.Discovery
@@ -10,6 +11,8 @@ namespace OpenRastaSwagger.Discovery
         public string Notes { get; set; }
         public string ContentType { get; set; }
         public string Summary { get; set; }
+
+        public Type ReturnType { get; set; }
 
         public OperationMetadata(UriModel uri)
         {
