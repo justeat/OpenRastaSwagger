@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using OpenRasta.TypeSystem.ReflectionBased;
+using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Model.ResourceDetails;
 
@@ -121,6 +122,7 @@ namespace OpenRastaSwagger
             {typeof (DateTime), new PropertyTypeMapping("string", "date-time")},
             {typeof (TimeSpan), new PropertyTypeMapping("string", "time-span")},
             {typeof (DateTimeOffset), new PropertyTypeMapping("string", "time-span")},
+            {typeof (OperationResult), new PropertyTypeMapping("unknown")},
         };
     }
 
