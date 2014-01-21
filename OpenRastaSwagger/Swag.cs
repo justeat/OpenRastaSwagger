@@ -100,12 +100,10 @@ namespace OpenRastaSwagger
                     op.responseMessages.Add(new Responsemessage {code = code.StatusCode, message = code.Description});
                 }
 
-                var paramParser = new UriParameterParser(operationMetadata.Uri.Uri);
-
                 swaggerSpec.apis.Add(new ApiDetails
                 {
                     description = operationMetadata.Summary,
-                    path = paramParser.Path, 
+                    path = operationMetadata.UriParser.Path, 
                     operations = new List<Operation> {op}
                 });
             }

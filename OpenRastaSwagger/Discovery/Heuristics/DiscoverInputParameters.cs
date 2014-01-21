@@ -14,15 +14,13 @@ namespace OpenRastaSwagger.Discovery.Heuristics
 
             }).ToList();
 
-            var paramParser = new UriParameterParser(methodMetdata.Uri.Uri);
-
             foreach (var param in methodMetdata.InputParameters)
             {
                 param.LocationType = InputParameter.LocationTypes.Query;
 
-                if (paramParser.HasParam(param.Name))
+                if (methodMetdata.UriParser.HasParam(param.Name))
                 {
-                    param.LocationType = paramParser.HasPathParam(param.Name)? InputParameter.LocationTypes.Path : InputParameter.LocationTypes.Query;
+                    param.LocationType = methodMetdata.UriParser.HasPathParam(param.Name) ? InputParameter.LocationTypes.Path : InputParameter.LocationTypes.Query;
                     if (!param.Type.IsPrimitive)
                     {
                         param.Type = typeof(string);

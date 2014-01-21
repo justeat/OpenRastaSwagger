@@ -21,10 +21,13 @@ namespace OpenRastaSwagger.Discovery
         public OperationGroup Group { get; set; }
         public List<ResponseCode> ResponseCodes { get; set; }
 
+        public UriParameterParser UriParser { get; private set; }
+
         public OperationMetadata(UriModel uri)
         {
             Uri = uri;
             ResponseCodes = new List<ResponseCode>();
+            UriParser=new UriParameterParser(Uri.Uri);
         }
     }
 }
