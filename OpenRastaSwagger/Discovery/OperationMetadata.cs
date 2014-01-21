@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using OpenRasta.Configuration.MetaModel;
+using OpenRastaSwagger.DocumentationSupport;
 using OpenRastaSwagger.Grouping;
 
 namespace OpenRastaSwagger.Discovery
@@ -18,16 +19,12 @@ namespace OpenRastaSwagger.Discovery
         public List<InputParameter> InputParameters { get; set; }
 
         public OperationGroup Group { get; set; }
+        public List<ResponseCode> ResponseCodes { get; set; }
 
         public OperationMetadata(UriModel uri)
         {
             Uri = uri;
+            ResponseCodes = new List<ResponseCode>();
         }
-    }
-
-    public class InputParameter
-    {
-        public string Name { get; set; }
-        public Type Type { get; set; }
     }
 }

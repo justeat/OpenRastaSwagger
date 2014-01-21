@@ -28,6 +28,11 @@ namespace OpenRastaSwagger.SampleApi
                     .HandledBy<ComplexHandler>()
                     .AsJsonDataContract();
                     
+                ResourceSpace.Has.ResourcesOfType<ComplexResource>()
+                    .AtUri("/withAttributes")
+                    .HandledBy<HandlerWithAttributes>()
+                    .AsJsonDataContract();
+                    
 
             }
         }

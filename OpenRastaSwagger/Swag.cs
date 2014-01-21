@@ -74,36 +74,60 @@ namespace OpenRastaSwagger
 
             foreach (var operationMetadata in groupOperations)
             {
+
+                var mappedReturnType=typeMapper.Register(operationMetadata.ReturnType);
+              
+
+
+
                 var op = new Operation
                 {
                     method = operationMetadata.HttpVerb,
                     nickname = operationMetadata.Name ?? "",
                     notes = operationMetadata.Notes ?? "",
-                    type = operationMetadata.ReturnType.Name,
+                    type = mappedReturnType.type,
+                    items= mappedReturnType.items,
                     summary = operationMetadata.Summary ?? "",
-                    parameters = new List<Parameter>()
+                    parameters = new List<Parameter>(),
+                    responseMessages = new List<Responsemessage>()
                 };
 
                 var paramParser = new UriParameterParser(operationMetadata.Uri.Uri);
 
            
-
                 foreach (var param in operationMetadata.InputParameters)
                 {
-
-                    var swagParam = typeMapper.Map(param);
-
-                    swagParam.paramType = paramParser.HasPathParam(param.Name) ? "path" : "query";
-
-                    if (!TypeMapper.IsTypeSwaggerPrimitive(param.Type))
+                    if (!param.Type.IsPrimitive
+                        && (paramParser.HasPathParam(param.Name) || paramParser.HasQueryParam(param.Name)))
                     {
-                        swagParam.paramType = "body";
+                        op.parameters.Add(new Parameter()
+                        {
+                            type = "string",
+                            paramType = "query",
+                            name=param.Name
+                            
+                        });
                     }
+                    else
+                    {
 
-                    op.parameters.Add(swagParam);
+                        var swagParam = typeMapper.Map(param);
+
+                        swagParam.paramType = paramParser.HasPathParam(param.Name) ? "path" : "query";
+
+                        if (!TypeMapper.IsTypeSwaggerPrimitive(param.Type))
+                        {
+                            swagParam.paramType = "body";
+                        }
+
+                        op.parameters.Add(swagParam);
+                    }
                 }
 
-                typeMapper.Register(operationMetadata.ReturnType);
+                foreach (var code in operationMetadata.ResponseCodes)
+                {
+                    op.responseMessages.Add(new Responsemessage {code = code.StatusCode, message = code.Description});
+                }
 
                 swaggerSpec.apis.Add(new ApiDetails
                 {

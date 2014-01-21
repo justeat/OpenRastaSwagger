@@ -47,11 +47,16 @@
     <Compile Include="Discovery\Heuristics\DiscoverDescription.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverHttpMethodVerbs.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverReturnType.cs" />
+    <Compile Include="Discovery\InputParameter.cs" />
     <Compile Include="Discovery\ResourceMetadataDiscoverer.cs" />
     <Compile Include="Discovery\IDiscoverHandlerMetadata.cs" />
     <Compile Include="Discovery\IDiscoveryHeuristic.cs" />
     <Compile Include="Discovery\OperationMetadata.cs" />
     <Compile Include="Discovery\ResourceMetadata.cs" />
+    <Compile Include="Discovery\ResponseCode.cs" />
+    <Compile Include="DocumentationSupport\NotesAttribute.cs" />
+    <Compile Include="DocumentationSupport\PossibleResponseCodeAttribute.cs" />
+    <Compile Include="DocumentationSupport\ResponseTypeIsAttribute.cs" />
     <Compile Include="Grouping\IOperationGrouper.cs" />
     <Compile Include="Grouping\OperationGroup.cs" />
     <Compile Include="Grouping\OperationGrouperByResourceType.cs" />
