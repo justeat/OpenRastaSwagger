@@ -9,11 +9,17 @@ namespace OpenRastaSwagger.Grouping
     {
         public OperationGroup Group(ResourceModel resourceModel, UriModel uriModel, OperationMetadata operation)
         {
-            var resourceKey = resourceModel.ResourceKey as ReflectionBasedMember<ITypeBuilder>;
-            return new OperationGroup()
+            var key = operation.ReturnType.Name;
+
+            if (operation.ReturnType.IsGenericType)
             {
-                Name = resourceKey.Name,
-                Path = "/" + resourceKey.Name.ToLower()
+                key = key.Replace("`1", "-" + operation.ReturnType.GetGenericArguments()[0].Name);
+            }
+            
+            return new OperationGroup
+            {
+                Name = key,
+                Path = "/" + key.ToLower()
             };
         }
     }

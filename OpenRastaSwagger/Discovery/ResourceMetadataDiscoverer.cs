@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using OpenRasta.Configuration.MetaModel;
 using OpenRastaSwagger.Discovery.Heuristics;
+using OpenRastaSwagger.Grouping;
 
 namespace OpenRastaSwagger.Discovery
 {
