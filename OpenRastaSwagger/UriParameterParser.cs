@@ -49,5 +49,10 @@ namespace OpenRastaSwagger
             return (_queryParams!=null) && _queryParams.Contains(name.ToLower());
         }
 
+        public bool HasParam(string name)
+        {
+            return HasQueryParam(name) || HasPathParam(name);
+        }
+
     }
 }

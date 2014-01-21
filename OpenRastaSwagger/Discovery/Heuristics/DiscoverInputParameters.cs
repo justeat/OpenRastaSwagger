@@ -1,8 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using OpenRasta.Configuration.MetaModel;
-using OpenRasta.Web;
 
 namespace OpenRastaSwagger.Discovery.Heuristics
 {
@@ -14,10 +11,31 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             {
                 Name = param.Name,
                 Type = param.ParameterType
+
             }).ToList();
+
+            var paramParser = new UriParameterParser(methodMetdata.Uri.Uri);
+
+            foreach (var param in methodMetdata.InputParameters)
+            {
+                param.LocationType = InputParameter.LocationTypes.Query;
+
+                if (paramParser.HasParam(param.Name))
+                {
+                    param.LocationType = paramParser.HasPathParam(param.Name)? InputParameter.LocationTypes.Path : InputParameter.LocationTypes.Query;
+                    if (!param.Type.IsPrimitive)
+                    {
+                        param.Type = typeof(string);
+                    }
+                }
+
+                if (!TypeMapper.IsTypeSwaggerPrimitive(param.Type))
+                {
+                    param.LocationType =  InputParameter.LocationTypes.Body;
+                }
+            }
 
             return true;
         }
     }
-
 }

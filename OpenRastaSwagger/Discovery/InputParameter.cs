@@ -6,5 +6,9 @@ namespace OpenRastaSwagger.Discovery
     {
         public string Name { get; set; }
         public Type Type { get; set; }
+        public LocationTypes LocationType { get; set; }
+
+
+        public enum LocationTypes { Query, Path, Body }
     }
 }

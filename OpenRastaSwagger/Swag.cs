@@ -74,12 +74,8 @@ namespace OpenRastaSwagger
 
             foreach (var operationMetadata in groupOperations)
             {
-
                 var mappedReturnType=typeMapper.Register(operationMetadata.ReturnType);
               
-
-
-
                 var op = new Operation
                 {
                     method = operationMetadata.HttpVerb,
@@ -91,43 +87,20 @@ namespace OpenRastaSwagger
                     parameters = new List<Parameter>(),
                     responseMessages = new List<Responsemessage>()
                 };
-
-                var paramParser = new UriParameterParser(operationMetadata.Uri.Uri);
-
-           
+                
                 foreach (var param in operationMetadata.InputParameters)
                 {
-                    if (!param.Type.IsPrimitive
-                        && (paramParser.HasPathParam(param.Name) || paramParser.HasQueryParam(param.Name)))
-                    {
-                        op.parameters.Add(new Parameter()
-                        {
-                            type = "string",
-                            paramType = "query",
-                            name=param.Name
-                            
-                        });
-                    }
-                    else
-                    {
-
-                        var swagParam = typeMapper.Map(param);
-
-                        swagParam.paramType = paramParser.HasPathParam(param.Name) ? "path" : "query";
-
-                        if (!TypeMapper.IsTypeSwaggerPrimitive(param.Type))
-                        {
-                            swagParam.paramType = "body";
-                        }
-
-                        op.parameters.Add(swagParam);
-                    }
+                    var swagParam = typeMapper.Map(param);
+                    swagParam.paramType = param.LocationType.ToString().ToLower();
+                    op.parameters.Add(swagParam);
                 }
 
                 foreach (var code in operationMetadata.ResponseCodes)
                 {
                     op.responseMessages.Add(new Responsemessage {code = code.StatusCode, message = code.Description});
                 }
+
+                var paramParser = new UriParameterParser(operationMetadata.Uri.Uri);
 
                 swaggerSpec.apis.Add(new ApiDetails
                 {
