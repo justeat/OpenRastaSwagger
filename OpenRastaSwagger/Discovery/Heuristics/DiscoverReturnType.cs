@@ -1,5 +1,6 @@
 using System.Reflection;
 using OpenRasta.Configuration.MetaModel;
+using OpenRastaSwagger.DocumentationSupport;
 
 namespace OpenRastaSwagger.Discovery.Heuristics
 {
@@ -7,7 +8,11 @@ namespace OpenRastaSwagger.Discovery.Heuristics
     {
         public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
         {
-            methodMetdata.ReturnType = publicMethod.ReturnType;
+
+            var responseType = publicMethod.GetCustomAttribute<ResponseTypeIsAttribute>() ?? new ResponseTypeIsAttribute(publicMethod.ReturnType);
+
+            methodMetdata.ReturnType = responseType.ResponseType;
+
             return true;
         }
     }

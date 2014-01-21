@@ -46,6 +46,8 @@
     <Compile Include="Discovery\Heuristics\DiscoverInputParameters.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverDescription.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverHttpMethodVerbs.cs" />
+    <Compile Include="Discovery\Heuristics\DiscoverNotes.cs" />
+    <Compile Include="Discovery\Heuristics\DiscoverResponseCodes.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverReturnType.cs" />
     <Compile Include="Discovery\InputParameter.cs" />
     <Compile Include="Discovery\ResourceMetadataDiscoverer.cs" />
