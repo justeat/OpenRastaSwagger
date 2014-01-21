@@ -16,6 +16,8 @@ namespace OpenRastaSwagger.Discovery
         public Type ReturnType { get; set; }
         public List<InputParameter> InputParameters { get; set; }
 
+        public OperationGroup Group { get; set; }
+
         public OperationMetadata(UriModel uri)
         {
             Uri = uri;

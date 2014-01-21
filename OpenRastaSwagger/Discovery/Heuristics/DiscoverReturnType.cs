@@ -1,4 +1,5 @@
 using System.Reflection;
+using OpenRasta.Configuration.MetaModel;
 
 namespace OpenRastaSwagger.Discovery.Heuristics
 {
@@ -10,4 +11,5 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             return true;
         }
     }
+
 }

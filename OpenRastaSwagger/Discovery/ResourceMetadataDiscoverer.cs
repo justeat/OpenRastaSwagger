@@ -9,6 +9,13 @@ namespace OpenRastaSwagger.Discovery
 {
     public class ResourceMetadataDiscoverer : IDiscoverHandlerMetadata
     {
+        private readonly IOperationGrouper _grouper;
+
+        public ResourceMetadataDiscoverer(IOperationGrouper grouper)
+        {
+            _grouper = grouper;
+        }
+
         public List<IDiscoveryHeuristic> DiscoveryRules = new List<IDiscoveryHeuristic>
         {
             new DiscoverHttpMethodVerbs(),
@@ -23,13 +30,13 @@ namespace OpenRastaSwagger.Discovery
 
             foreach (var handler in resource.Handlers)
             {
-                IndexHandler(handler, metadata);
+                IndexHandler(resource, handler, metadata);
             }
 
             return metadata;
         }
 
-        private void IndexHandler(HandlerModel handler, ResourceMetadata metadata)
+        private void IndexHandler(ResourceModel resource, HandlerModel handler, ResourceMetadata metadata)
         {
             var handlerType = handler.Type.StaticType;
 
@@ -42,7 +49,8 @@ namespace OpenRastaSwagger.Discovery
 
                     if (DiscoveryRules.All(x => x.Discover(publicMethod, operation)))
                     {
-                        metadata.Add(operation);    
+                        metadata.Add(operation);
+                        operation.Group = _grouper.Group(resource, uri, operation);
                     }
                     
                 }

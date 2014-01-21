@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using OpenRasta.Collections.Specialized;
 using OpenRasta.Configuration;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
@@ -19,22 +21,70 @@ using ApiDetails = OpenRastaSwagger.Model.ResourceDetails.Api;
 
 namespace OpenRastaSwagger
 {
-    public class Swag
+
+    public interface IOperationGrouper
     {
-        public ResourceList Discover()
+        OperationGroup Group(ResourceModel resourceModel, UriModel uriModel, OperationMetadata operation);
+    }
+
+    public class OperationGroup
+    {
+        public string Name { get; set; }
+        public string Path { get; set; }
+
+        public override bool Equals(object obj)
         {
-            var mmr = DependencyManager.GetService<IMetaModelRepository>();
-            return Discover(mmr);
+            if (ReferenceEquals(obj, this)) return true;
+
+            var other = obj as OperationGroup;
+            if (other == null) return false;
+
+            return Name.Equals(other.Name);
         }
 
-        public ResourceList Discover(IMetaModelRepository metaModelRepository)
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+    }
+
+    public class OperationGrouperByResourceType : IOperationGrouper
+    {
+        public OperationGroup Group(ResourceModel resourceModel, UriModel uriModel, OperationMetadata operation)
+        {
+            var resourceKey = resourceModel.ResourceKey as ReflectionBasedMember<ITypeBuilder>;
+            return new OperationGroup()
+            {
+                Name=resourceKey.Name,
+                Path="/" + resourceKey.Name.ToLower()
+            };
+        }
+    }
+
+    public class Swag
+    {
+
+        private IOperationGrouper _grouper = new OperationGrouperByResourceType();
+     
+        private IEnumerable<OperationMetadata> Operations()
+        {
+            var mmr = DependencyManager.GetService<IMetaModelRepository>();
+            var apiResourceRegistrations = SelectRegistrationsThatArentSwaggerRoutes(mmr);
+
+            var discoverer = new ResourceMetadataDiscoverer(_grouper);
+            var operations = apiResourceRegistrations.SelectMany(discoverer.Discover);
+
+            return operations;
+        }
+
+        public ResourceList Discover()
         {
             var swaggerSpec = new ResourceList { swaggerVersion = "1.2", apiVersion = Assembly.GetCallingAssembly().GetName().Version.ToString() };
-            var apiResourceRegistrations = SelectRegistrationsThatArentSwaggerRoutes(metaModelRepository);
+            var groups = Operations().Select(x => x.Group).Distinct().OrderBy(x => x.Name);
 
-            foreach (var reg in apiResourceRegistrations.Select(x => x.ResourceKey as ReflectionBasedMember<ITypeBuilder>).Distinct())
+            foreach (var group in groups)
             {
-                swaggerSpec.apis.Add(new Api { description = reg.Name, path = "/" + reg.Name.ToLower() });
+                swaggerSpec.apis.Add(new Api { description = group.Name, path = group.Path });
             }
 
             return swaggerSpec;
@@ -48,13 +98,7 @@ namespace OpenRastaSwagger
             return apiResourceRegistrations;
         }
 
-        public ResourceDetails DiscoverSingle(string resourceTypeName)
-        {
-            var mmr = DependencyManager.GetService<IMetaModelRepository>();
-            return DiscoverSingle(mmr, resourceTypeName);
-        }
-
-        public ResourceDetails DiscoverSingle(IMetaModelRepository metaModelRepository, string resourceTypeName)
+        public ResourceDetails DiscoverSingle(string groupName)
         {
             var swaggerSpec = new ResourceDetails
             {
@@ -65,19 +109,12 @@ namespace OpenRastaSwagger
                 basePath = "/"
             };
 
-            var discoverer = new ResourceMetadataDiscoverer();
-
-            var requestedResource =
-                metaModelRepository.ResourceRegistrations.Where(
-                    x => x.ResourceKey.ToString().ToUpper().Contains(resourceTypeName.ToUpper()));
+            var groupOperations = Operations().Where(x => x.Group.Name.Equals(groupName, StringComparison.InvariantCultureIgnoreCase));
 
             var customTypesForSwagger = new Dictionary<Type, ModelSpec>();
 
-            foreach (var reg in requestedResource)
-            {
-                var registrationMetadata = discoverer.Discover(reg);
                 
-                foreach (var operationMetadata in registrationMetadata)
+                foreach (var operationMetadata in groupOperations)
                 {
                     var op = new Operation
                     {
@@ -121,7 +158,7 @@ namespace OpenRastaSwagger
                         operations = new List<Operation> {op}
                     });
                 }
-            }
+            
 
 
             foreach (var item in customTypesForSwagger)
@@ -175,6 +212,7 @@ namespace OpenRastaSwagger
         }
 
         public static string Root = "api-docs";
+    
 
         public static void Configure()
         {
