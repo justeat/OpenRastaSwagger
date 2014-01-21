@@ -16,6 +16,9 @@ namespace OpenRastaSwagger.Model.ResourceDetails
         [DataMember(Name = "$ref")]
         public string Ref { get; set; }
 
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
+
     }
 
 

@@ -66,12 +66,15 @@ namespace OpenRastaSwagger
 
                 var colMapping = Register(collectionType, depth++);
 
+                bool isComplex = _models.ContainsKey(collectionType);
+
                 return new PropertyType()
                 {
                     type = "array",
                     items = new Items()
                     {
-                        Ref = colMapping.type
+                        Ref = (isComplex)? colMapping.type : "",
+                        Type = (!isComplex)? colMapping.type : ""
                     }
                 };
             }

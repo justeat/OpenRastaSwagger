@@ -67,7 +67,7 @@ namespace OpenRastaSwagger.Test.Unit
             var param = mapper.Register(collectionType);
 
             Assert.AreEqual("array", param.type);
-            Assert.AreEqual("string", param.items.Ref);
+            Assert.AreEqual("string", param.items.Type);
 
             Assert.IsEmpty(mapper.Models);
         }
@@ -85,7 +85,7 @@ namespace OpenRastaSwagger.Test.Unit
             var param = mapper.Register(collectionType);
 
             Assert.AreEqual("array", param.type);
-            Assert.AreEqual("integer", param.items.Ref);
+            Assert.AreEqual("integer", param.items.Type);
 
             Assert.IsEmpty(mapper.Models);
         }
