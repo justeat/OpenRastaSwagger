@@ -14,6 +14,7 @@ namespace OpenRastaSwagger.Test.Unit
     {
         [TestCase(typeof(string), "string")]
         [TestCase(typeof(String), "string")]
+        [TestCase(typeof(Int32), "integer", "int32")]
         [TestCase(typeof(int), "integer", "int32")]
         [TestCase(typeof(long), "integer", "int64")]
         [TestCase(typeof(float), "number", "float")]

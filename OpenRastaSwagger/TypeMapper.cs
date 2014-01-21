@@ -105,6 +105,7 @@ namespace OpenRastaSwagger
 
         public static bool IsTypeSwaggerPrimitive(Type type)
         {
+            type = Nullable.GetUnderlyingType(type) ?? type;
             return type.IsPrimitive || PrimitiveMappings.ContainsKey(type);
         }
 

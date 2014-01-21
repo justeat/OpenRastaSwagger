@@ -18,6 +18,14 @@ namespace OpenRastaSwagger.Test.Unit
         }
 
         [Test]
+        public void CanParseMultipleQueryParams()
+        {
+            var parser = new UriParameterParser("simple?name={Name}&something={someThing}");
+            Assert.IsTrue(parser.HasQueryParam("name"));
+            Assert.IsTrue(parser.HasQueryParam("something"));
+        }
+
+        [Test]
         public void CanParsePathParam()
         {
             var parser = new UriParameterParser("simple/{Name}");
