@@ -17,7 +17,7 @@ namespace OpenRastaSwagger.Grouping
                 return new OperationGroup
                 {
                     Name = "Unknown",
-                    Path = "/unknown"
+                    Path = "unknown"
                 };                
             }
 
@@ -33,7 +33,7 @@ namespace OpenRastaSwagger.Grouping
                 return new OperationGroup
                 {
                     Name = "Collection of " + collectionType.Name,
-                    Path = "/coll-" + collectionType.Name.ToLower()
+                    Path = collectionType.Name.ToLower()+"[]"
                 };                
 
             }
@@ -42,7 +42,7 @@ namespace OpenRastaSwagger.Grouping
             return new OperationGroup
             {
                 Name = operation.ReturnType.Name,
-                Path = "/" + operation.ReturnType.Name.ToLower()
+                Path = operation.ReturnType.Name.ToLower()
             };
         }
 

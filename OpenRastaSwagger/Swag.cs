@@ -41,7 +41,7 @@ namespace OpenRastaSwagger
 
             foreach (var group in groups)
             {
-                swaggerSpec.apis.Add(new Api {description = group.Name, path = group.Path});
+                swaggerSpec.apis.Add(new Api {description = group.Name, path = "/"+group.Path});
             }
 
             return swaggerSpec;
@@ -56,7 +56,7 @@ namespace OpenRastaSwagger
             return apiResourceRegistrations;
         }
 
-        public ResourceDetails DiscoverSingle(string groupName)
+        public ResourceDetails DiscoverSingle(string groupPath)
         {
             var swaggerSpec = new ResourceDetails
             {
@@ -68,7 +68,7 @@ namespace OpenRastaSwagger
             };
 
             var groupOperations =
-                Operations().Where(x => x.Group.Name.Equals(groupName, StringComparison.InvariantCultureIgnoreCase));
+                Operations().Where(x => x.Group.Path.Equals(groupPath, StringComparison.InvariantCultureIgnoreCase));
             
             var typeMapper = new TypeMapper();
 
