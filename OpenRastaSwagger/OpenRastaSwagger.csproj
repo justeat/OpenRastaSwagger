@@ -52,8 +52,7 @@
     <Compile Include="Discovery\IDiscoveryHeuristic.cs" />
     <Compile Include="Discovery\OperationMetadata.cs" />
     <Compile Include="Discovery\ResourceMetadata.cs" />
-    <Compile Include="Handlers\ResourceDetailsHandler.cs" />
-    <Compile Include="Handlers\ResourceListingHandler.cs" />
+    <Compile Include="Handlers\SwaggerHandler.cs" />
     <Compile Include="Model\ResourceDetails\Api.cs" />
     <Compile Include="Model\ResourceDetails\JsonDictionary.cs" />
     <Compile Include="Model\ResourceDetails\ModelSpec.cs" />

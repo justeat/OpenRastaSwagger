@@ -1,9 +1,16 @@
 ﻿using OpenRastaSwagger.Model.ResourceDetails;
+using OpenRastaSwagger.Model.ResourceListing;
 
 namespace OpenRastaSwagger.Handlers
 {
-    public class ResourceDetailsHandler
+    public class SwaggerHandler
     {
+        public ResourceList Get()
+        {
+            var swag = new Swag();
+            return swag.Discover();
+        }
+
         public ResourceDetails Get(string resourceTypeName)
         {
             var swag = new Swag();
@@ -11,3 +18,4 @@ namespace OpenRastaSwagger.Handlers
         }
     }
 }
+

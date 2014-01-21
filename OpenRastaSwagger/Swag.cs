@@ -42,15 +42,9 @@ namespace OpenRastaSwagger
 
         private static IEnumerable<ResourceModel> SelectRegistrationsThatArentSwaggerRoutes(IMetaModelRepository metaModelRepository)
         {
-            var excludedHandlers = new List<Type>
-            {
-                typeof (ResourceDetailsHandler),
-                typeof (ResourceListingHandler)
-            }; 
-            
             var apiResourceRegistrations =
                 metaModelRepository.ResourceRegistrations.Where(
-                    x => x.Handlers.All(h => !excludedHandlers.Contains(h.Type.StaticType)));
+                    x => x.Handlers.All(h => h.Type.StaticType != typeof (SwaggerHandler)));
             return apiResourceRegistrations;
         }
 
@@ -186,12 +180,12 @@ namespace OpenRastaSwagger
         {
             ResourceSpace.Has.ResourcesOfType<ResourceList>()
                 .AtUri("/" + Root)
-                .HandledBy<ResourceListingHandler>()
+                .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
 
             ResourceSpace.Has.ResourcesOfType<ResourceDetails>()
                 .AtUri("/" + Root + "/{resourceTypeName}")
-                .HandledBy<ResourceDetailsHandler>()
+                .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
             
         }
