@@ -57,12 +57,21 @@ namespace OpenRastaSwagger
 
             if (returnType.Implements<IEnumerable>())
             {
+                Type collectionType = returnType.GetElementType();
+
+                if (returnType.IsGenericType)
+                {
+                    collectionType = returnType.GetGenericArguments()[0];
+                }
+
+                var colMapping = Register(collectionType, depth++);
+
                 return new PropertyType()
                 {
                     type = "array",
                     items = new Items()
                     {
-                        Ref = "TODO"
+                        Ref = colMapping.type
                     }
                 };
             }
