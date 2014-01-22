@@ -105,7 +105,7 @@ namespace OpenRastaSwagger.Test.Unit
             var param = mapper.Register(collectionOfComplexType);
 
             Assert.AreEqual("array", param.type);
-            Assert.AreEqual("ComplexObject", param.items.Ref);
+            Assert.IsTrue(param.items.Ref.EndsWith("ComplexObject"));
 
             Assert.AreEqual(1, mapper.Models.Count());
             var model = mapper.Models.First();

@@ -16,8 +16,8 @@ namespace OpenRastaSwagger.Grouping
         {
             var group = new OperationGroup
             {
-                Name = "Ungrouped",
-                Path = "ungrouped"
+                Name = "everything else",
+                Path = "misc"
             };                
 
             var match=_groupRegex.Match(uriModel.Uri);
