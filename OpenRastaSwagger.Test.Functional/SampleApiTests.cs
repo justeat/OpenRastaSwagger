@@ -22,7 +22,7 @@ namespace OpenRastaSwagger.Test.Functional
         [Test]
         public void CanRetrieveSimpleResourceDetails()
         {
-            using (var host = new InMemoryHost(new Configuration()))
+            using (var host = new InMemoryHost(new OpenRastaSwagger.SampleApi.Configuration()))
             {
                 var request = new InMemoryRequest
                 {

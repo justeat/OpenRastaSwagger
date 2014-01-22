@@ -8,14 +8,14 @@ namespace OpenRastaSwagger.Handlers
     {
         public ResourceList Get()
         {
-            var swag = new Swag();
-            return swag.Discover();
+            var swag = new SwaggerDiscoverer();
+            return swag.GetResourceList();
         }
 
-        public ResourceDetails Get(string resourceTypeName)
+        public ResourceDetails Get(string groupPath)
         {
-            var swag = new Swag();
-            return swag.DiscoverSingle(resourceTypeName);
+            var swag = new SwaggerDiscoverer();
+            return swag.GetResouceDetails(groupPath);
         }
 
     }

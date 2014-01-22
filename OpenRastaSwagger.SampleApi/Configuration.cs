@@ -1,5 +1,6 @@
 ﻿using OpenRasta.Codecs;
 using OpenRasta.Configuration;
+using OpenRastaSwagger.Config;
 using OpenRastaSwagger.Handlers;
 using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
@@ -14,10 +15,12 @@ namespace OpenRastaSwagger.SampleApi
         {
             using (OpenRastaConfiguration.Manual)
             {
-                Swag.RegisterSwagger();
-                Swag.RegisterContract();
-                Swag.RequiredHeaders.Add(new RequiredHeader { Name = "X-JE-Feature", SuggestedValue = "Your-Feature-Name" });
-                Swag.RequiredHeaders.Add(new RequiredHeader { Name = "Accept-Charset", SuggestedValue = "utf-8" });
+                SwaggerConfiguration.WithHeader("X-JE-Feature", "Your-Feature-Name");
+                SwaggerConfiguration.WithHeader("Accept-Charset", "utf-8");
+
+                SwaggerConfiguration.RegisterSwagger();
+                SwaggerConfiguration.RegisterContract();
+
 
                 ResourceSpace.Has.ResourcesOfType<SimpleResource>()
                     .AtUri("/simple/{message}")

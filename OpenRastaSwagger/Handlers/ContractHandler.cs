@@ -8,8 +8,8 @@ namespace OpenRastaSwagger.Handlers
     {
         public Contract Get()
         {
-            var swag = new Swag();
-            return swag.DiscoverContract();
+            var swag = new ContractDiscoverer();
+            return swag.GetContract();
         }
     }
 }
