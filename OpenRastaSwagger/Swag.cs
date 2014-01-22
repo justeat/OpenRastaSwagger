@@ -8,10 +8,14 @@ using OpenRasta.DI;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Grouping;
 using OpenRastaSwagger.Handlers;
+using OpenRastaSwagger.Model;
+using OpenRastaSwagger.Model.Contracts;
 using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
 using Api = OpenRastaSwagger.Model.ResourceListing.Api;
 using ApiDetails = OpenRastaSwagger.Model.ResourceDetails.Api;
+using Operation = OpenRastaSwagger.Model.ResourceDetails.Operation;
+using Parameter = OpenRastaSwagger.Model.ResourceDetails.Parameter;
 
 namespace OpenRastaSwagger
 {
@@ -82,12 +86,26 @@ namespace OpenRastaSwagger
                     method = operationMetadata.HttpVerb,
                     nickname = operationMetadata.Name ?? "",
                     notes = operationMetadata.Notes ?? "",
-                    type = mappedReturnType.type,
-                    items= mappedReturnType.items,
+                    type = mappedReturnType.Type,
+                    items= mappedReturnType.Items,
                     summary = operationMetadata.Summary ?? "",
                     parameters = new List<Parameter>(),
                     responseMessages = new List<Responsemessage>()
                 };
+
+                foreach (var header in RequiredHeaders)
+                {
+                    op.parameters.Add(new Parameter
+                    {
+                        paramType = "header",
+                        name = header.Name,
+                        required = true,
+                        description = header.SuggestedValue,
+                        type = "string",
+                        minimum = 1,
+                        maximum = 1
+                    });
+                }
                 
                 foreach (var param in operationMetadata.InputParameters)
                 {
@@ -117,20 +135,98 @@ namespace OpenRastaSwagger
             return swaggerSpec;
         }
 
+        public Contract DiscoverContract()
+        {
+            var contract = new Contract()
+            {
+                api = "sample",
+                description = "sample API",
+                version =  Assembly.GetCallingAssembly().GetName().Version.ToString()
+            };
+
+             foreach (var header in RequiredHeaders)
+                {
+                   contract.commonRequestHeaders.Add(header.Name, new HttpHeader
+                    {
+                        type =  "string",
+                        required = true,
+                        description = header.SuggestedValue,
+                    });
+                }
+            var opId = 0;
+            foreach (var operationMetadata in Operations())
+            {
+                var typeMapper = new TypeMapper();
+
+                var mappedReturnType = typeMapper.Register(operationMetadata.ReturnType);
+
+                var op = new Model.Contracts.Operation
+                {
+                    method = operationMetadata.HttpVerb,
+                    urlFormat = operationMetadata.Uri.Uri,
+                    description = operationMetadata.Summary,
+                    
+                    returns = new Returns()
+                    {
+                        description =operationMetadata.Notes,
+                        schema = new Schema()
+                        {
+                            type = operationMetadata.ReturnType.FriendlyName()
+                        }
+                    }
+                };
+
+   
+
+                foreach (var param in operationMetadata.InputParameters)
+                {
+                    op.parameters.Add(param.Name, new Model.Contracts.Parameter()
+                    {
+                        description = param.Type.FriendlyName()
+                    });
+                }
+
+                op.maxResponseTime.percentiles.Add("_90.0", new Time() { milliseconds = 100 });
+                op.maxResponseTime.percentiles.Add("_99.0", new Time() { milliseconds = 125 });
+                op.maxResponseTime.percentiles.Add("_99.9", new Time() { milliseconds = 150 });
+
+                contract.operations.Add(string.Format("{0}{1}", operationMetadata.HandlerType.FriendlyName()+operationMetadata.Name, opId), op);
+
+                opId++;
+            }
+
+            return contract;
+        }
+
         public static string Root = "api-docs";
 
-
-        public static void Configure()
+        public static List<RequiredHeader> RequiredHeaders = new List<RequiredHeader>();
+        
+        public static void RegisterSwagger()
         {
             ResourceSpace.Has.ResourcesOfType<ResourceList>()
-                .AtUri("/" + Root)
+                .AtUri("/" + Root + "/swagger")
                 .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
 
             ResourceSpace.Has.ResourcesOfType<ResourceDetails>()
-                .AtUri("/" + Root + "/{resourceTypeName}")
+                .AtUri("/" + Root + "/swagger/{resourceTypeName}")
                 .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
         }
+
+        public static void RegisterContract()
+        {
+            ResourceSpace.Has.ResourcesOfType<Contract>()
+                    .AtUri("/" + Root + "/contract")
+                   .HandledBy<ContractHandler>()
+                   .AsJsonDataContract();            
+        }
+    }
+
+    public class RequiredHeader
+    {
+        public string Name { get; set; }
+        public string SuggestedValue { get; set; }
     }
 }

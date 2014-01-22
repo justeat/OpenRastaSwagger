@@ -1,13 +1,26 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Dynamic;
+using System.Runtime.Serialization;
 
 namespace OpenRastaSwagger.Model.ResourceDetails
 {
+    [DataContract]
     public class PropertyType
     {
-        public string type { get; set; }
-        public string description { get; set; }
-        public string format { get; set; }
-        public Items items { get; set; }
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
+
+        [DataMember(Name = "description")]
+        public string Description { get; set; }
+
+        [DataMember(Name = "format")]
+        public string Format { get; set; }
+
+        [DataMember(Name = "items")]
+        public Items Items { get; set; }
+
+        [DataMember(Name = "enum")]
+        public string[] Enum { get; set; }
     }
 
     [DataContract]

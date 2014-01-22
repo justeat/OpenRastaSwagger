@@ -23,6 +23,8 @@ namespace OpenRastaSwagger.Discovery
 
         public UriParameterParser UriParser { get; private set; }
 
+        public Type HandlerType { get; set; }
+
         public OperationMetadata(UriModel uri)
         {
             Uri = uri;

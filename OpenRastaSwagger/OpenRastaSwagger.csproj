@@ -63,9 +63,11 @@
     <Compile Include="Grouping\OperationGroup.cs" />
     <Compile Include="Grouping\OperationGrouperByResourceType.cs" />
     <Compile Include="Grouping\OperationGrouperByUri.cs" />
+    <Compile Include="Handlers\ContractHandler.cs" />
     <Compile Include="Handlers\SwaggerHandler.cs" />
+    <Compile Include="Model\Contracts\Contract.cs" />
+    <Compile Include="Model\JsonDictionary.cs" />
     <Compile Include="Model\ResourceDetails\Api.cs" />
-    <Compile Include="Model\ResourceDetails\JsonDictionary.cs" />
     <Compile Include="Model\ResourceDetails\ModelSpec.cs" />
     <Compile Include="Model\ResourceDetails\PropertyType.cs" />
     <Compile Include="Model\ResourceDetails\Responsemessage.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Swag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\ResourceListing\ResourceList.cs" />
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="TypeMapper.cs" />
     <Compile Include="UriParameterParser.cs" />
   </ItemGroup>

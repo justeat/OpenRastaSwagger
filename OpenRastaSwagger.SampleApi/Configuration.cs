@@ -14,7 +14,10 @@ namespace OpenRastaSwagger.SampleApi
         {
             using (OpenRastaConfiguration.Manual)
             {
-                Swag.Configure();
+                Swag.RegisterSwagger();
+                Swag.RegisterContract();
+                Swag.RequiredHeaders.Add(new RequiredHeader { Name = "X-JE-Feature", SuggestedValue = "Your-Feature-Name" });
+                Swag.RequiredHeaders.Add(new RequiredHeader { Name = "Accept-Charset", SuggestedValue = "utf-8" });
 
                 ResourceSpace.Has.ResourcesOfType<SimpleResource>()
                     .AtUri("/simple/{message}")

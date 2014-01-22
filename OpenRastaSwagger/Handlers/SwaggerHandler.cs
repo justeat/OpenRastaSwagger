@@ -1,4 +1,5 @@
-﻿using OpenRastaSwagger.Model.ResourceDetails;
+﻿using OpenRastaSwagger.Model.Contracts;
+using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
 
 namespace OpenRastaSwagger.Handlers
@@ -16,6 +17,7 @@ namespace OpenRastaSwagger.Handlers
             var swag = new Swag();
             return swag.DiscoverSingle(resourceTypeName);
         }
+
     }
 }
 

@@ -5,11 +5,11 @@ namespace OpenRastaSwagger.Discovery.Heuristics
 {
     public class DiscoverNotes : IDiscoveryHeuristic
     {
-        public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
+        public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetadata)
         {
             var notes = publicMethod.GetCustomAttribute<NotesAttribute>() ?? new NotesAttribute("");
-            methodMetdata.Notes = notes.Notes;
-            methodMetdata.Notes += "Returns " + publicMethod.ReturnType.FullName;
+            methodMetadata.Notes = notes.Notes;
+            methodMetadata.Notes += "Uri template " + methodMetadata.Uri.Uri;
 
             return true;
         }

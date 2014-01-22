@@ -12,6 +12,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             var responseType = publicMethod.GetCustomAttribute<ResponseTypeIsAttribute>() ?? new ResponseTypeIsAttribute(publicMethod.ReturnType);
 
             methodMetdata.ReturnType = responseType.ResponseType;
+            methodMetdata.HandlerType = publicMethod.DeclaringType;
 
             return true;
         }

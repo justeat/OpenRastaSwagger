@@ -23,8 +23,8 @@ namespace OpenRastaSwagger
 
             return new Parameter
             {
-                type = mapping.type,
-                format = mapping.format,
+                type = mapping.Type,
+                format = mapping.Format,
                 name = param.Name
             };
         }
@@ -37,8 +37,9 @@ namespace OpenRastaSwagger
             {
                 return new PropertyType()
                 {
-                    type = _models[returnType].id,
-                    items = new Items()
+                    Type = _models[returnType].id,
+                    Description = returnType.FriendlyName(),
+                    Items = new Items()
                     {
                         Ref = _models[returnType].id
                     }
@@ -50,9 +51,20 @@ namespace OpenRastaSwagger
                 var mapping = PrimitiveMappings[returnType];
                 return new PropertyType()
                 {
+                    Description = returnType.FriendlyName(),
+                    Type = mapping.Type,
+                    Format = mapping.Format
+                };
+            }
 
-                    type = mapping.Type,
-                    format = mapping.Format
+            if (returnType.IsEnum)
+            {
+                
+                return new PropertyType()
+                {
+                    Description = returnType.FriendlyName(),
+                    Type = "string",
+                    Enum = Enum.GetNames(returnType)
                 };
             }
 
@@ -69,22 +81,24 @@ namespace OpenRastaSwagger
 
                 bool isComplex = _models.ContainsKey(collectionType);
 
-                return new PropertyType()
+                return new PropertyType
                 {
-                    type = "array",
-                    items = new Items()
+                    Description = returnType.FriendlyName(),
+                    Type = "array",
+                    Items = new Items
                     {
-                        Ref = (isComplex)? colMapping.type : "",
-                        Type = (!isComplex)? colMapping.type : ""
+                        Ref = (isComplex)? colMapping.Type : "",
+                        Type = (!isComplex)? colMapping.Type : ""
                     }
                 };
             }
 
             if (returnType.IsPrimitive)
             {
-                return new PropertyType()
+                return new PropertyType
                 {
-                    type = returnType.Name
+                    Description = returnType.FriendlyName(),
+                    Type = returnType.Name
                 };
             }
 
@@ -98,9 +112,10 @@ namespace OpenRastaSwagger
                 modelSpec.properties.Add(prop.Name, mapping);
             }
 
-            return new PropertyType()
+            return new PropertyType
             {
-                type = modelSpec.id,
+                Description = returnType.FriendlyName(),
+                Type = modelSpec.id,
             };
         }
 

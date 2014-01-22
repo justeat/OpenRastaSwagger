@@ -67,8 +67,8 @@ namespace OpenRastaSwagger.Test.Unit
 
             var param = mapper.Register(collectionType);
 
-            Assert.AreEqual("array", param.type);
-            Assert.AreEqual("string", param.items.Type);
+            Assert.AreEqual("array", param.Type);
+            Assert.AreEqual("string", param.Items.Type);
 
             Assert.IsEmpty(mapper.Models);
         }
@@ -85,8 +85,8 @@ namespace OpenRastaSwagger.Test.Unit
 
             var param = mapper.Register(collectionType);
 
-            Assert.AreEqual("array", param.type);
-            Assert.AreEqual("integer", param.items.Type);
+            Assert.AreEqual("array", param.Type);
+            Assert.AreEqual("integer", param.Items.Type);
 
             Assert.IsEmpty(mapper.Models);
         }
@@ -104,8 +104,8 @@ namespace OpenRastaSwagger.Test.Unit
 
             var param = mapper.Register(collectionOfComplexType);
 
-            Assert.AreEqual("array", param.type);
-            Assert.IsTrue(param.items.Ref.EndsWith("ComplexObject"));
+            Assert.AreEqual("array", param.Type);
+            Assert.IsTrue(param.Items.Ref.EndsWith("ComplexObject"));
 
             Assert.AreEqual(1, mapper.Models.Count());
             var model = mapper.Models.First();

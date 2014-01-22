@@ -63,6 +63,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="contract-ui\apidocs.css" />
+    <Content Include="contract-ui\apidocs.js" />
+    <Content Include="contract-ui\index.html" />
+    <Content Include="contract-ui\reset.css" />
     <Content Include="Default.aspx" />
     <Content Include="swagger-ui\css\highlight.default.css" />
     <Content Include="swagger-ui\css\screen.css" />

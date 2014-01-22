@@ -26,7 +26,7 @@ namespace OpenRastaSwagger.Test.Functional
             {
                 var request = new InMemoryRequest
                 {
-                    Uri = new Uri("http://localhost/api-docs/simple"),
+                    Uri = new Uri("http://localhost/api-docs/swagger/simple"),
                     HttpMethod = "GET",
                     Entity = {ContentType = MediaType.Json}
                 };

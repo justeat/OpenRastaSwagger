@@ -1,0 +1,155 @@
+body {
+	font-family: helvetica neue, tahoma, arial, sans-serif;
+  	font-size: 82%;
+  	line-height: 2.0em;
+	height:100%;
+}
+
+pre {
+	padding-left:5px;
+	padding-right:5px;
+	background-color:whitesmoke;
+	border:dashed 1px #CCC;
+	font-family:Courier;
+	font-size:1em;
+	line-height:1.8em;
+	color: #3F3F3F;
+}
+
+table td, table th {
+	border:solid 1px #CCC;
+	padding:5px;
+	color:#151515;
+}
+
+th {
+	font-weight:bold;
+	background-color:whitesmoke;
+}
+
+a, a:hover, a:visited, a:active {
+	text-decoration:none;
+	color:#1564C2;
+}
+
+a:hover {
+	text-decoration:underline;
+}	
+
+#header {
+	padding:10px;
+}
+
+#header h1 {
+	font-size:1.5em;
+	font-weight:bold;
+}
+
+#toc {
+	float:left;
+	padding-left:10px;
+}
+
+#toc ul li {
+	padding-left:5px;
+	padding-right:10px;
+	border-top-left-radius:5px;
+	border-bottom-left-radius:5px;
+	border-left:solid 5px #F2F3F5;
+}
+
+#toc ul li a {
+	width:100%;
+	display:block;
+}
+
+#apis {
+	border-left:solid 5px #F2F3F5;
+	padding-left:20px;
+	float:left;
+	height:100%;
+}
+
+
+#apis h2 {
+	border-bottom:solid 1px #CECECE;
+	margin-bottom:5px;
+	padding-bottom:3px;
+	font-weight:bold;
+	font-size:1.3em;
+	padding-top:10px;
+}
+
+#apis h3 {
+	border-bottom:dashed 1px #CECECE;
+	margin-bottom:5px;
+	margin-top:10px;
+	padding-bottom:3px;
+	font-weight:bold;
+	font-size:1.2em;
+	margin-top:15px;
+}
+
+#apis h4 {
+	border-bottom:dashed 1px #CECECE;
+	font-size:1.1em;
+	margin-bottom:5px;
+	padding-bottom:3px;
+	margin-top:10px;
+	font-weight:bold;
+	font-size:1.1em;
+	margin-top:20px;
+}
+
+#apis h5 {
+	border-bottom:dashed 1px #CECECE;
+	font-size:1.0em;
+	margin-bottom:5px;
+	margin-top:10px;
+	font-weight:bold;
+	margin-top:10px;
+}
+
+.api {
+	margin-bottom:20px;
+	height:100%;
+	overflow:scroll;
+}
+
+.description h1, .description h2, .description h3, .description h4, .description h5 {
+	border-bottom:dashed 1px #CECECE;
+	font-size:1.0em;
+	margin-bottom:5px;
+	margin-top:10px;
+	font-weight:bold;
+	margin-top:10px;
+}
+
+.description ul {
+	list-style:disc inside;
+}
+
+.description ul li {
+	margin-left:10px;
+	padding-left:5px;
+}
+
+.description .detail {
+	display:none;
+}
+
+b {
+	font-weight:bold;
+}
+
+.ready {
+	background-color: #32cd32;
+}
+
+.inProgress {
+	background-color: #ffd700;
+}
+
+.notStarted {
+	background-color: #dcdcdc;
+}
