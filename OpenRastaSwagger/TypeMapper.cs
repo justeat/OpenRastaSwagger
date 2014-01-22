@@ -88,7 +88,7 @@ namespace OpenRastaSwagger
                 };
             }
 
-            var modelSpec = new ModelSpec {id = returnType.Name};
+            var modelSpec = new ModelSpec { id = ModelIdFromType(returnType) };
             _models.Add(returnType, modelSpec);
 
 
@@ -103,6 +103,12 @@ namespace OpenRastaSwagger
                 type = modelSpec.id,
             };
         }
+
+        private string ModelIdFromType(Type type)
+        {
+            return type.FullName;
+        }
+
 
         public static bool IsTypeSwaggerPrimitive(Type type)
         {

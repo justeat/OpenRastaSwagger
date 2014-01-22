@@ -62,6 +62,7 @@
     <Compile Include="Grouping\IOperationGrouper.cs" />
     <Compile Include="Grouping\OperationGroup.cs" />
     <Compile Include="Grouping\OperationGrouperByResourceType.cs" />
+    <Compile Include="Grouping\OperationGrouperByUri.cs" />
     <Compile Include="Handlers\SwaggerHandler.cs" />
     <Compile Include="Model\ResourceDetails\Api.cs" />
     <Compile Include="Model\ResourceDetails\JsonDictionary.cs" />

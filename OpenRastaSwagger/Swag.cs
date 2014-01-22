@@ -17,7 +17,8 @@ namespace OpenRastaSwagger
 {
     public class Swag
     {
-        private readonly IOperationGrouper _grouper = new OperationGrouperByResourceType();
+        //private readonly IOperationGrouper _grouper = new OperationGrouperByResourceType();
+        private readonly IOperationGrouper _grouper = new OperationGrouperByUri();
 
         private IEnumerable<OperationMetadata> Operations()
         {
