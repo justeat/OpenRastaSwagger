@@ -49,7 +49,7 @@ You need to use the static configuration methods provided in the package, modify
 			}
 		}
 		
-You then need to grab the latest version of Swagger-UI from https://github.com/wordnik/swagger-ui and extract it into your OpenRasta application into a directory in the root called "swagger-ui". Open up the default index.html and make sure the Url set in the JavaScript bootstrapping code is pointing to "/api-docs/swagger" like so:
+You then need to grab the latest version of Swagger-UI from https://github.com/wordnik/swagger-ui and extract the /dist folder into your OpenRasta application into a directory in the root called "swagger-ui". Open up the default index.html and make sure the Url set in the JavaScript bootstrapping code is pointing to "/api-docs/swagger" like so:
 
 		 $(function () {
 			  window.swaggerUi = new SwaggerUi({
