@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using System.Text.RegularExpressions;
 using OpenRasta.Configuration.MetaModel;
-using OpenRasta.TypeSystem.ReflectionBased;
-using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
 
 namespace OpenRastaSwagger.Grouping
@@ -14,21 +10,18 @@ namespace OpenRastaSwagger.Grouping
 
         public OperationGroup Group(ResourceModel resourceModel, UriModel uriModel, OperationMetadata operation)
         {
-            var group = new OperationGroup
-            {
-                Name = "everything else",
-                Path = "misc"
-            };                
+            var match = _groupRegex.Match(uriModel.Uri);
 
-            var match=_groupRegex.Match(uriModel.Uri);
-
-            if (match.Success)
+            if (!match.Success)
             {
-                group.Name = match.Groups[1].Value.ToLower();
-                group.Path = match.Groups[1].Value;
+                return new OperationGroup { Name = "everything else", Path = "misc" };
             }
 
-            return group;
+            return new OperationGroup
+            {
+                Name = match.Groups[1].Value.ToLower(),
+                Path =  match.Groups[1].Value
+            };
         }
 
     }

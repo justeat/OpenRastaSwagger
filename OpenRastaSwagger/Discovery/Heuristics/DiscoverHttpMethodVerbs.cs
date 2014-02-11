@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using OpenRasta.Configuration.MetaModel;
 using OpenRasta.Web;
 
 namespace OpenRastaSwagger.Discovery.Heuristics
@@ -10,8 +10,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
         public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
         {
             var exclusions = new List<string> {"ToString", "GetType", "GetHashCode", "Equals"};
-
-            var allowedVerbs= new List<string> { "GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS" };
+            var allowedVerbs = new List<string> {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"};
 
             if (exclusions.Contains(publicMethod.Name))
             {
@@ -33,13 +32,10 @@ namespace OpenRastaSwagger.Discovery.Heuristics
                 return true;
             }
 
-            foreach (var verb in allowedVerbs)
+            foreach (var verb in allowedVerbs.Where(nameUpper.StartsWith))
             {
-                if (nameUpper.StartsWith(verb))
-                {
-                    methodMetdata.HttpVerb = verb;
-                    return true;
-                }
+                methodMetdata.HttpVerb = verb;
+                return true;
             }
 
             return false;

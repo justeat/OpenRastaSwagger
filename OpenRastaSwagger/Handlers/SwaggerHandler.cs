@@ -1,5 +1,4 @@
-﻿using OpenRastaSwagger.Model.Contracts;
-using OpenRastaSwagger.Model.ResourceDetails;
+﻿using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
 
 namespace OpenRastaSwagger.Handlers
@@ -8,16 +7,13 @@ namespace OpenRastaSwagger.Handlers
     {
         public ResourceList Get()
         {
-            var swag = new SwaggerDiscoverer();
-            return swag.GetResourceList();
+            return new SwaggerDiscoverer().GetResourceList();
         }
 
         public ResourceDetails Get(string groupPath)
         {
-            var swag = new SwaggerDiscoverer();
-            return swag.GetResouceDetails(groupPath);
+            return new SwaggerDiscoverer().GetResouceDetails(groupPath);
         }
-
     }
 }
 

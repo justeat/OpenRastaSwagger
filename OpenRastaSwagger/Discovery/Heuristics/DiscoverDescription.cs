@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using OpenRastaSwagger.DocumentationSupport;
 
 namespace OpenRastaSwagger.Discovery.Heuristics
 {

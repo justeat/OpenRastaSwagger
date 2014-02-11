@@ -1,6 +1,4 @@
 ﻿using OpenRastaSwagger.Model.Contracts;
-using OpenRastaSwagger.Model.ResourceDetails;
-using OpenRastaSwagger.Model.ResourceListing;
 
 namespace OpenRastaSwagger.Handlers
 {
@@ -8,8 +6,7 @@ namespace OpenRastaSwagger.Handlers
     {
         public Contract Get()
         {
-            var swag = new ContractDiscoverer();
-            return swag.GetContract();
+            return new ContractDiscoverer().GetContract();
         }
     }
 }

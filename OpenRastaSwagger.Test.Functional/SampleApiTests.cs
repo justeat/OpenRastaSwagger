@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Json;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenRasta.Hosting.InMemory;
 using OpenRasta.Web;
 using OpenRastaSwagger.Model.ResourceDetails;
-using OpenRastaSwagger.SampleApi;
-using OpenRastaSwagger.SampleApi.Resources;
 
 namespace OpenRastaSwagger.Test.Functional
 {
-
     [TestFixture]
     public class SampleApiTests
     {
-
         [Test]
         public void CanRetrieveSimpleResourceDetails()
         {
-            using (var host = new InMemoryHost(new OpenRastaSwagger.SampleApi.Configuration()))
+            using (var host = new InMemoryHost(new SampleApi.Configuration()))
             {
                 var request = new InMemoryRequest
                 {
@@ -45,9 +37,7 @@ namespace OpenRastaSwagger.Test.Functional
                 var resourceDetails = (ResourceDetails) serializer.ReadObject(response.Entity.Stream);
 
                 Assert.IsNotNull(resourceDetails);
-            }            
-
+            }
         }
-
     }
 }

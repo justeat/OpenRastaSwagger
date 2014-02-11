@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace OpenRastaSwagger.Test.Unit
 {
@@ -39,6 +34,5 @@ namespace OpenRastaSwagger.Test.Unit
             Assert.IsTrue(parser.HasPathParam("name"));
             Assert.IsTrue(parser.HasQueryParam("id"));
         }
-
     }
 }

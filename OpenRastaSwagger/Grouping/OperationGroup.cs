@@ -7,10 +7,16 @@
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(obj, this)) return true;
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
 
             var other = obj as OperationGroup;
-            if (other == null) return false;
+            if (other == null)
+            {
+                return false;
+            }
 
             return Name.Equals(other.Name);
         }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenRastaSwagger.Discovery;
 
@@ -32,7 +30,6 @@ namespace OpenRastaSwagger.Test.Unit
             Assert.AreEqual(expectedFormat, param.format);
 
             Assert.IsEmpty(mapper.Models);
-
         }
 
         [TestCase(typeof(int?), "integer", "int32")]
@@ -52,7 +49,6 @@ namespace OpenRastaSwagger.Test.Unit
             Assert.AreEqual(expectedFormat, param.format);
 
             Assert.IsEmpty(mapper.Models);
-
         }
 
         [TestCase(typeof(IEnumerable<string>))]
@@ -109,9 +105,6 @@ namespace OpenRastaSwagger.Test.Unit
 
             Assert.AreEqual(1, mapper.Models.Count());
             var model = mapper.Models.First();
-
-            
-
         }
 
         public class ComplexObject
@@ -120,6 +113,5 @@ namespace OpenRastaSwagger.Test.Unit
             public string Name { get; set; }
             public ComplexObject Parent { get; set; }
         }
-
     }
 }

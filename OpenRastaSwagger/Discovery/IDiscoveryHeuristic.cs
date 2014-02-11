@@ -1,6 +1,4 @@
-using System;
 using System.Reflection;
-using OpenRasta.Configuration.MetaModel;
 
 namespace OpenRastaSwagger.Discovery
 {

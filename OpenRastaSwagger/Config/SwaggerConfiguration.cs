@@ -55,12 +55,10 @@ namespace OpenRastaSwagger.Config
 
         public static void WithHeader(string name, string suggestedValue)
         {
-            _requiredHeaders.Add(new RequiredHeader() { Name = name, SuggestedValue = suggestedValue });
+            RequiredHeaders.Add(new RequiredHeader {Name = name, SuggestedValue = suggestedValue});
         }
 
-        public static IEnumerable<RequiredHeader> Headers { get { return _requiredHeaders; } }
-
-        private static readonly List<RequiredHeader> _requiredHeaders = new List<RequiredHeader>();
-
+        public static IEnumerable<RequiredHeader> Headers { get { return RequiredHeaders; } }
+        private static readonly List<RequiredHeader> RequiredHeaders = new List<RequiredHeader>();
     }
 }

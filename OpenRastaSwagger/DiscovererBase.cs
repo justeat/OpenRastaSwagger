@@ -11,7 +11,7 @@ namespace OpenRastaSwagger
 {
     public class DiscovererBase
     {
-        private static readonly IList<Type> ExcludedHandlers = new Type[] { typeof(SwaggerHandler), typeof(ContractHandler)};
+        private static readonly IList<Type> ExcludedHandlers = new[] { typeof(SwaggerHandler), typeof(ContractHandler)};
 
 
         protected IEnumerable<OperationMetadata> Operations()

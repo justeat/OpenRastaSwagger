@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenRasta.Configuration.MetaModel;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Discovery.Heuristics;
@@ -51,17 +46,9 @@ namespace OpenRastaSwagger.Test.Unit
 
             [ResponseTypeIs(typeof(PostResponse))]
             public void Post() { }
-            
         }
-
 
         public class GetResponse {}
         public class PostResponse { }
-
-
     }
-
-    
-
-
 }

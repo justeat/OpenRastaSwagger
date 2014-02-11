@@ -1,9 +1,5 @@
-﻿using OpenRasta.Codecs;
-using OpenRasta.Configuration;
+﻿using OpenRasta.Configuration;
 using OpenRastaSwagger.Config;
-using OpenRastaSwagger.Handlers;
-using OpenRastaSwagger.Model.ResourceDetails;
-using OpenRastaSwagger.Model.ResourceListing;
 using OpenRastaSwagger.SampleApi.Handlers;
 using OpenRastaSwagger.SampleApi.Resources;
 

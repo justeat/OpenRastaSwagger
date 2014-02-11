@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using OpenRasta.Configuration.MetaModel;
-using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
@@ -14,16 +13,13 @@ namespace OpenRastaSwagger.Grouping
         {
             if (IsUnknownReturnType(operation.ReturnType))
             {
-                return new OperationGroup
-                {
-                    Name = "Unknown",
-                    Path = "unknown"
-                };                
+                return new OperationGroup { Name = "Unknown", Path = "unknown" };                
             }
 
-            if ((operation.ReturnType!=typeof(string)) && operation.ReturnType.Implements<IEnumerable>())
+            if ((operation.ReturnType != typeof(string)) 
+                && operation.ReturnType.Implements<IEnumerable>())
             {
-                Type collectionType = operation.ReturnType.GetElementType();
+                var collectionType = operation.ReturnType.GetElementType();
 
                 if (operation.ReturnType.IsGenericType)
                 {
@@ -34,10 +30,8 @@ namespace OpenRastaSwagger.Grouping
                 {
                     Name = "Collection of " + collectionType.Name,
                     Path = collectionType.Name.ToLower()+"[]"
-                };                
-
+                };
             }
-
 
             return new OperationGroup
             {
@@ -46,10 +40,9 @@ namespace OpenRastaSwagger.Grouping
             };
         }
 
-        private bool IsUnknownReturnType(Type type)
+        private static bool IsUnknownReturnType(Type type)
         {
             return (type == typeof (OperationResult));
-
         }
     }
 }
