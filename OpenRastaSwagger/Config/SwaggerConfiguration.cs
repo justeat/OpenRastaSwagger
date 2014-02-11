@@ -36,14 +36,13 @@ namespace OpenRastaSwagger.Config
 
         public static void GroupByUri()
         {
-            _grouper=new OperationGrouperByUri();
+            _grouper = new OperationGrouperByUri();
         }
 
         public static void GroupByResource()
         {
             _grouper = new OperationGrouperByResourceType();
         }
-
 
         public static void RegisterContract()
         {

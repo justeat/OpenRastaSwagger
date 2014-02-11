@@ -59,8 +59,7 @@ namespace OpenRastaSwagger
 
             if (returnType.IsEnum)
             {
-                
-                return new PropertyType()
+                return new PropertyType
                 {
                     Description = returnType.FriendlyName(),
                     Type = "string",
@@ -70,7 +69,7 @@ namespace OpenRastaSwagger
 
             if (returnType.Implements<IEnumerable>())
             {
-                Type collectionType = returnType.GetElementType();
+                var collectionType = returnType.GetElementType();
 
                 if (returnType.IsGenericType)
                 {
@@ -79,7 +78,7 @@ namespace OpenRastaSwagger
 
                 var colMapping = Register(collectionType, depth++);
 
-                bool isComplex = _models.ContainsKey(collectionType);
+                var isComplex = _models.ContainsKey(collectionType);
 
                 return new PropertyType
                 {
@@ -104,8 +103,7 @@ namespace OpenRastaSwagger
 
             var modelSpec = new ModelSpec { id = ModelIdFromType(returnType) };
             _models.Add(returnType, modelSpec);
-
-
+            
             foreach (var prop in returnType.GetProperties())
             {
                 var mapping = Register(prop.PropertyType, depth++);
@@ -119,11 +117,10 @@ namespace OpenRastaSwagger
             };
         }
 
-        private string ModelIdFromType(Type type)
+        private static string ModelIdFromType(Type type)
         {
             return type.FullName;
         }
-
 
         public static bool IsTypeSwaggerPrimitive(Type type)
         {
@@ -146,19 +143,4 @@ namespace OpenRastaSwagger
             {typeof (OperationResult), new PropertyTypeMapping("unknown")},
         };
     }
-
-    public class PropertyTypeMapping
-    {
-        public string Type { get; set; }
-        public string Format { get; set; }
-
-        public PropertyTypeMapping(string type, string format="")
-        {
-            Type = type;
-            Format = format;
-        }
-
-    }
-
-
 }

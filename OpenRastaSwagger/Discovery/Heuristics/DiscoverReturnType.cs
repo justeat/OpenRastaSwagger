@@ -15,5 +15,4 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             return true;
         }
     }
-
 }

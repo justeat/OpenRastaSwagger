@@ -10,14 +10,14 @@ namespace OpenRastaSwagger.Test.Unit
     [TestFixture]
     public class TypeMapperFixture
     {
-        [TestCase(typeof(string), "string")]
-        [TestCase(typeof(String), "string")]
+        [TestCase(typeof(string), "string", "")]
+        [TestCase(typeof(String), "string", "")]
         [TestCase(typeof(Int32), "integer", "int32")]
         [TestCase(typeof(int), "integer", "int32")]
         [TestCase(typeof(long), "integer", "int64")]
         [TestCase(typeof(float), "number", "float")]
         [TestCase(typeof(double), "number", "double")]
-        [TestCase(typeof(bool), "boolean")]
+        [TestCase(typeof(bool), "boolean", "")]
         [TestCase(typeof(byte), "string", "byte")]
         [TestCase(typeof(DateTime), "string", "date-time")]
         public void CanMapSimpleTypes(Type type, string expectedParamType, string expectedFormat="")
@@ -36,7 +36,7 @@ namespace OpenRastaSwagger.Test.Unit
         [TestCase(typeof(long?), "integer", "int64")]
         [TestCase(typeof(float?), "number", "float")]
         [TestCase(typeof(double?), "number", "double")]
-        [TestCase(typeof(bool?), "boolean")]
+        [TestCase(typeof(bool?), "boolean", "")]
         [TestCase(typeof(byte?), "string", "byte")]
         [TestCase(typeof(DateTime?), "string", "date-time")]
         public void CanMapSimpleNullableTypes(Type type, string expectedParamType, string expectedFormat = "")

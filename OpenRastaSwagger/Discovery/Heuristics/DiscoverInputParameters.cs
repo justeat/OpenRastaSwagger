@@ -7,7 +7,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
     {
         public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
         {
-            methodMetdata.InputParameters = publicMethod.GetParameters().Select(param => new InputParameter()
+            methodMetdata.InputParameters = publicMethod.GetParameters().Select(param => new InputParameter
             {
                 Name = param.Name,
                 Type = param.ParameterType
@@ -20,7 +20,10 @@ namespace OpenRastaSwagger.Discovery.Heuristics
 
                 if (methodMetdata.UriParser.HasParam(param.Name))
                 {
-                    param.LocationType = methodMetdata.UriParser.HasPathParam(param.Name) ? InputParameter.LocationTypes.Path : InputParameter.LocationTypes.Query;
+                    param.LocationType = methodMetdata.UriParser.HasPathParam(param.Name)
+                        ? InputParameter.LocationTypes.Path
+                        : InputParameter.LocationTypes.Query;
+
                     if (!param.Type.IsPrimitive)
                     {
                         param.Type = typeof(string);
