@@ -10,19 +10,18 @@ namespace OpenRastaSwagger.Grouping
 
         public OperationGroup Group(ResourceModel resourceModel, UriModel uriModel, OperationMetadata operation)
         {
-            var match = _groupRegex.Match(uriModel.Uri);
+            var operationCanBeGroupedByUri = _groupRegex.Match(uriModel.Uri);
 
-            if (!match.Success)
+            if (!operationCanBeGroupedByUri.Success)
             {
                 return new OperationGroup { Name = "everything else", Path = "misc" };
             }
 
             return new OperationGroup
             {
-                Name = match.Groups[1].Value.ToLower(),
-                Path =  match.Groups[1].Value
+                Name = operationCanBeGroupedByUri.Groups[1].Value.ToLower(),
+                Path =  operationCanBeGroupedByUri.Groups[1].Value
             };
         }
-
     }
 }

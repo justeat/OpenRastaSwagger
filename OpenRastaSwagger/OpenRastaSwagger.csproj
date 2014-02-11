@@ -87,6 +87,7 @@
     <Compile Include="Model\Contracts\Time.cs" />
     <Compile Include="Model\JsonDictionary.cs" />
     <Compile Include="Model\ResourceDetails\Api.cs" />
+    <Compile Include="Model\ResourceDetails\Items.cs" />
     <Compile Include="Model\ResourceDetails\ModelSpec.cs" />
     <Compile Include="Model\ResourceDetails\PropertyType.cs" />
     <Compile Include="Model\ResourceDetails\Responsemessage.cs" />

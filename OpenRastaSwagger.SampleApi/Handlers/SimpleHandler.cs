@@ -8,6 +8,5 @@ namespace OpenRastaSwagger.SampleApi.Handlers
         {
             return new SimpleResource{ Name = message };
         }
-
     }
 }

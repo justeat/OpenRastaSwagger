@@ -28,7 +28,6 @@ namespace OpenRastaSwagger.Discovery
         public ResourceMetadata Discover(ResourceModel resource)
         {
             var metadata = new ResourceMetadata {Uris = resource.Uris};
-
             foreach (var handler in resource.Handlers)
             {
                 IndexHandler(resource, handler, metadata);
@@ -39,12 +38,11 @@ namespace OpenRastaSwagger.Discovery
 
         private void IndexHandler(ResourceModel resource, HandlerModel handler, ResourceMetadata metadata)
         {
-            var handlerType = handler.Type.StaticType;
+            var exclusions = new List<string> { "ToString", "GetType", "GetHashCode", "Equals" };
 
             foreach (var uri in metadata.Uris)
             {
-                var exclusions = new List<string> { "ToString", "GetType", "GetHashCode", "Equals" };
-                foreach (var publicMethod in handlerType.GetMethods().Where(x=>x.IsPublic && !exclusions.Contains(x.Name)))
+                foreach (var publicMethod in handler.Type.StaticType.GetMethods().Where(x=>x.IsPublic && !exclusions.Contains(x.Name)))
                 {
                     var operation = new OperationMetadata(uri);
 
@@ -53,7 +51,6 @@ namespace OpenRastaSwagger.Discovery
                         metadata.Add(operation);
                         operation.Group = _grouper.Group(resource, uri, operation);
                     }
-                    
                 }
             }
         }

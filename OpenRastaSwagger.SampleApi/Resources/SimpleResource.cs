@@ -1,6 +1,4 @@
-﻿using OpenRasta.Binding;
-
-namespace OpenRastaSwagger.SampleApi.Resources
+﻿namespace OpenRastaSwagger.SampleApi.Resources
 {
     public class SimpleResource
     {

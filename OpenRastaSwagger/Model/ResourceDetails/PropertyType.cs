@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace OpenRastaSwagger.Model.ResourceDetails
 {
@@ -22,17 +20,4 @@ namespace OpenRastaSwagger.Model.ResourceDetails
         [DataMember(Name = "enum")]
         public string[] Enum { get; set; }
     }
-
-    [DataContract]
-    public class Items
-    {
-        [DataMember(Name = "$ref")]
-        public string Ref { get; set; }
-
-        [DataMember(Name = "type")]
-        public string Type { get; set; }
-
-    }
-
-
 }

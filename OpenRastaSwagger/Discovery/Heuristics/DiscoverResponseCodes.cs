@@ -8,7 +8,8 @@ namespace OpenRastaSwagger.Discovery.Heuristics
     {
         public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
         {
-            var possibleResponseCodes = publicMethod.GetCustomAttributes<PossibleResponseCodeAttribute>() ?? new List<PossibleResponseCodeAttribute>();
+            var possibleResponseCodes = publicMethod.GetCustomAttributes<PossibleResponseCodeAttribute>() ??
+                                        new List<PossibleResponseCodeAttribute>();
 
             foreach (var code in possibleResponseCodes)
             {

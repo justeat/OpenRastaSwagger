@@ -16,11 +16,9 @@ namespace OpenRastaSwagger.Grouping
                 return new OperationGroup { Name = "Unknown", Path = "unknown" };                
             }
 
-            if ((operation.ReturnType != typeof(string)) 
-                && operation.ReturnType.Implements<IEnumerable>())
+            if (IsEnumerableButNotAString(operation))
             {
                 var collectionType = operation.ReturnType.GetElementType();
-
                 if (operation.ReturnType.IsGenericType)
                 {
                     collectionType = operation.ReturnType.GetGenericArguments()[0];
@@ -29,15 +27,16 @@ namespace OpenRastaSwagger.Grouping
                 return new OperationGroup
                 {
                     Name = "Collection of " + collectionType.Name,
-                    Path = collectionType.Name.ToLower()+"[]"
+                    Path = collectionType.Name.ToLower() + "[]"
                 };
             }
 
-            return new OperationGroup
-            {
-                Name = operation.ReturnType.Name,
-                Path = operation.ReturnType.Name.ToLower()
-            };
+            return new OperationGroup {Name = operation.ReturnType.Name, Path = operation.ReturnType.Name.ToLower()};
+        }
+
+        private static bool IsEnumerableButNotAString(OperationMetadata operation)
+        {
+            return (operation.ReturnType != typeof(string)) && operation.ReturnType.Implements<IEnumerable>();
         }
 
         private static bool IsUnknownReturnType(Type type)

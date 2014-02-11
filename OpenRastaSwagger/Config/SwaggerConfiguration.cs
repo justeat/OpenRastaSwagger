@@ -8,14 +8,18 @@ using OpenRastaSwagger.Model.ResourceListing;
 
 namespace OpenRastaSwagger.Config
 {
-    public static class SwaggerConfiguration
+    public class SwaggerConfiguration
     {
-        private static string _root = "api-docs";
+        private static IOperationGrouper _grouper = new OperationGrouperByUri();
+        private static readonly List<RequiredHeader> RequiredHeaders = new List<RequiredHeader>();
+        
+        public static string Root { get; set; }
+        public static IOperationGrouper Grouper { get { return _grouper; } }
+        public static IEnumerable<RequiredHeader> Headers { get { return RequiredHeaders; } }
 
-        public static string Root
+        static SwaggerConfiguration()
         {
-            get { return _root; }
-            set { _root = value; }
+            Root = "api-docs";
         }
 
         public static void RegisterSwagger()
@@ -31,8 +35,10 @@ namespace OpenRastaSwagger.Config
                 .AsJsonDataContract();
         }
 
-        private static IOperationGrouper _grouper=new OperationGrouperByUri();
-        public static IOperationGrouper Grouper { get { return _grouper; } }
+        public static void WithHeader(string name, string suggestedValue)
+        {
+            RequiredHeaders.Add(new RequiredHeader {Name = name, SuggestedValue = suggestedValue});
+        }
 
         public static void GroupByUri()
         {
@@ -44,20 +50,17 @@ namespace OpenRastaSwagger.Config
             _grouper = new OperationGrouperByResourceType();
         }
 
-        public static void RegisterContract()
+        public static void RegisterContract(string root = "")
         {
+            if (root == "")
+            {
+                root = Root;
+            }
+
             ResourceSpace.Has.ResourcesOfType<Contract>()
-                .AtUri("/" + Root + "/contract")
+                .AtUri("/" + root + "/contract")
                 .HandledBy<ContractHandler>()
                 .AsJsonDataContract();
         }
-
-        public static void WithHeader(string name, string suggestedValue)
-        {
-            RequiredHeaders.Add(new RequiredHeader {Name = name, SuggestedValue = suggestedValue});
-        }
-
-        public static IEnumerable<RequiredHeader> Headers { get { return RequiredHeaders; } }
-        private static readonly List<RequiredHeader> RequiredHeaders = new List<RequiredHeader>();
     }
 }

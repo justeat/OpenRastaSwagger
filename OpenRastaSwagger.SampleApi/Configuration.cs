@@ -33,11 +33,7 @@ namespace OpenRastaSwagger.SampleApi
                     .AtUri("/withAttributes")
                     .HandledBy<HandlerWithAttributes>()
                     .AsJsonDataContract();
-                    
-
             }
         }
     }
 }
-
-

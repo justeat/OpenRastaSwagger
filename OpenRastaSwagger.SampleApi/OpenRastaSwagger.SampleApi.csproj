@@ -99,6 +99,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\HandlerWithAttributes.cs" />
     <Compile Include="Handlers\SimpleHandler.cs" />
     <Compile Include="Handlers\ComplexHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

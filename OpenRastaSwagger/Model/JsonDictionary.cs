@@ -8,10 +8,10 @@ namespace OpenRastaSwagger.Model
     [Serializable]
     [KnownType(typeof(PropertyType))]
     [KnownType(typeof(ModelSpec))]
-    [KnownType(typeof(Model.Contracts.Operation))]
-    [KnownType(typeof(Model.Contracts.HttpHeader))]
-    [KnownType(typeof(Model.Contracts.Parameter))]
-    [KnownType(typeof(Model.Contracts.Time))]
+    [KnownType(typeof(Contracts.Operation))]
+    [KnownType(typeof(Contracts.HttpHeader))]
+    [KnownType(typeof(Contracts.Parameter))]
+    [KnownType(typeof(Contracts.Time))]
     public class JsonDictionary<TKey, TValue> : ISerializable
     {
         private readonly Dictionary<TKey, TValue> _dict = new Dictionary<TKey, TValue>();
