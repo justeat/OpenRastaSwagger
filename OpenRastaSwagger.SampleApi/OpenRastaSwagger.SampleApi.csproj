@@ -45,6 +45,7 @@
     <Reference Include="OpenRasta.Hosting.AspNet">
       <HintPath>..\References\openrasta-hosting-aspnet-2.1.0.80252216\bin-net35\OpenRasta.Hosting.AspNet.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -68,6 +69,7 @@
     <Content Include="contract-ui\index.html" />
     <Content Include="contract-ui\reset.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="swagger-ui\css\highlight.default.css" />
     <Content Include="swagger-ui\css\screen.css" />
     <Content Include="swagger-ui\images\logo_small.png" />
@@ -88,6 +90,7 @@
     <Content Include="swagger-ui\lib\underscore-min.js" />
     <Content Include="swagger-ui\swagger-ui.js" />
     <Content Include="swagger-ui\swagger-ui.min.js" />
+    <Content Include="swagger.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +101,9 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\HandlerWithAttributes.cs" />
     <Compile Include="Handlers\SimpleHandler.cs" />
@@ -137,7 +143,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>57207</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:59522/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

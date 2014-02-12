@@ -9,15 +9,14 @@ using OpenRastaSwagger.Handlers;
 
 namespace OpenRastaSwagger
 {
-    public class DiscovererBase
+    public abstract class DiscovererBase
     {
         private static readonly IList<Type> ExcludedHandlers = new[] { typeof(SwaggerHandler), typeof(ContractHandler)};
 
 
         protected IEnumerable<OperationMetadata> Operations()
         {
-            var mmr = DependencyManager.GetService<IMetaModelRepository>();
-            var apiResourceRegistrations = SelectRegistrationsThatArentSwaggerRoutes(mmr);
+            var apiResourceRegistrations = SelectRegistrationsThatArentSwaggerRoutes(SwaggerConfiguration.MetaModelRepository);
 
             var discoverer = new ResourceMetadataDiscoverer(SwaggerConfiguration.Grouper);
             var operations = apiResourceRegistrations.SelectMany(discoverer.Discover);

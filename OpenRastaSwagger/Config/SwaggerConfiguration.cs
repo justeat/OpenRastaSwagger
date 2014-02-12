@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using OpenRasta.Configuration;
+using OpenRasta.Configuration.MetaModel;
+using OpenRasta.DI;
 using OpenRastaSwagger.Grouping;
 using OpenRastaSwagger.Handlers;
 using OpenRastaSwagger.Model.Contracts;
@@ -20,6 +22,21 @@ namespace OpenRastaSwagger.Config
         static SwaggerConfiguration()
         {
             Root = "api-docs";
+        }
+
+        private static IMetaModelRepository _metaModelRepository;
+
+        public static IMetaModelRepository MetaModelRepository
+        {
+            get { return _metaModelRepository ?? DependencyManager.GetService<IMetaModelRepository>(); }
+        }
+
+        public static void FromConfiguration(IConfigurationSource config)
+        {
+            using (var host = new NullHost(config))
+            {
+                _metaModelRepository = host.Resolver.Resolve(typeof(IMetaModelRepository)) as IMetaModelRepository;
+            }
         }
 
         public static void RegisterSwagger()

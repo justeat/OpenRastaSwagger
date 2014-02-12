@@ -95,6 +95,7 @@
     <Compile Include="Model\ResourceDetails\Parameter.cs" />
     <Compile Include="Model\ResourceDetails\ResourceDetails.cs" />
     <Compile Include="Model\ResourceListing\Api.cs" />
+    <Compile Include="NullHost.cs" />
     <Compile Include="PropertyTypeMapping.cs" />
     <Compile Include="SwaggerDiscoverer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

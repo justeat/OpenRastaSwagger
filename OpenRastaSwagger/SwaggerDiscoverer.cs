@@ -2,27 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using OpenRasta.Configuration.Fluent;
-using OpenRasta.Configuration.MetaModel;
-using OpenRasta.DI;
 using OpenRastaSwagger.Config;
-using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Grouping;
-using OpenRastaSwagger.Handlers;
-using OpenRastaSwagger.Model;
-using OpenRastaSwagger.Model.Contracts;
 using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
 using Api = OpenRastaSwagger.Model.ResourceListing.Api;
 using ApiDetails = OpenRastaSwagger.Model.ResourceDetails.Api;
-using Operation = OpenRastaSwagger.Model.ResourceDetails.Operation;
-using Parameter = OpenRastaSwagger.Model.ResourceDetails.Parameter;
 
 namespace OpenRastaSwagger
 {
     public class SwaggerDiscoverer : DiscovererBase
     {
         public ResourceList GetResourceList()
+        {
+            return GetResourceList(group => "/" + group.Path);
+        }
+
+        public ResourceList GetResourceList(Func<OperationGroup, string> groupToPath)
         {
             var swaggerSpec = new ResourceList
             {
@@ -33,7 +29,7 @@ namespace OpenRastaSwagger
 
             foreach (var group in groups)
             {
-                swaggerSpec.apis.Add(new Api {description = group.Name, path = "/"+group.Path});
+                swaggerSpec.apis.Add(new Api {description = group.Name, path = groupToPath(group)});
             }
 
             return swaggerSpec;
@@ -52,20 +48,20 @@ namespace OpenRastaSwagger
 
             var groupOperations =
                 Operations().Where(x => x.Group.Path.Equals(groupPath, StringComparison.InvariantCultureIgnoreCase));
-            
+
             var typeMapper = new TypeMapper();
 
             foreach (var operationMetadata in groupOperations)
             {
-                var mappedReturnType=typeMapper.Register(operationMetadata.ReturnType);
-              
+                var mappedReturnType = typeMapper.Register(operationMetadata.ReturnType);
+
                 var op = new Operation
                 {
                     method = operationMetadata.HttpVerb,
                     nickname = operationMetadata.Name ?? "",
                     notes = operationMetadata.Notes ?? "",
                     type = mappedReturnType.Type,
-                    items= mappedReturnType.Items,
+                    items = mappedReturnType.Items,
                     summary = operationMetadata.Summary ?? "",
                     parameters = new List<Parameter>(),
                     responseMessages = new List<Responsemessage>()
@@ -84,7 +80,7 @@ namespace OpenRastaSwagger
                         maximum = 1
                     });
                 }
-                
+
                 foreach (var param in operationMetadata.InputParameters)
                 {
                     var swagParam = typeMapper.Map(param);
@@ -100,7 +96,7 @@ namespace OpenRastaSwagger
                 swaggerSpec.apis.Add(new ApiDetails
                 {
                     description = operationMetadata.Summary,
-                    path = operationMetadata.UriParser.Path, 
+                    path = operationMetadata.UriParser.Path,
                     operations = new List<Operation> {op}
                 });
             }
@@ -112,7 +108,5 @@ namespace OpenRastaSwagger
 
             return swaggerSpec;
         }
-
-     
     }
 }
