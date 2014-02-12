@@ -9,7 +9,11 @@ Swagger and the Swagger-UI is a nice, pretty and standardised way to express pub
 
 ## Configuration
 
-To enable OpenRastaSwagger you need to add a couple of lines to your IConfigurationSource.
+To enable OpenRastaSwagger you need to add the endpoints to your service that will provide the Swagger JSON - these can be either OpenRasta routes, or an .aspx file.
+
+### Configuration - OpenRasta Routing 
+
+To enable the OpenRasta routes, add a couple of lines to your IConfigurationSource.
 
 Given a configuration source that looks like this:
 
@@ -49,11 +53,20 @@ You need to use the static configuration methods provided in the package, modify
 			}
 		}
 		
+### Configuration - OpenRasta Routing 		
+
+Copy swagger.aspx from OpenRastaSwagger.SampleApi/swagger.aspx into your web application.
+
+If you're using a custom IDependencyResolver, then set that to the SwaggerConfiguration.Resolver static property in your Application_Start.
+
+
+## Add UI
+
 You then need to grab the latest version of Swagger-UI from https://github.com/wordnik/swagger-ui and extract the /dist folder into your OpenRasta application into a directory in the root called "swagger-ui". Open up the default index.html and make sure the Url set in the JavaScript bootstrapping code is pointing to "/api-docs/swagger" like so:
 
 		 $(function () {
 			  window.swaggerUi = new SwaggerUi({
-			  url: "/api-docs/swagger",
+			  url: "/api-docs/swagger"  //or "swagger.aspx" for aspx routing,
 			  dom_id: "swagger-ui-container",
 			  supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
 			  onComplete: function(swaggerApi, swaggerUi){
@@ -71,6 +84,8 @@ You then need to grab the latest version of Swagger-UI from https://github.com/w
 			  docExpansion: "none"
 			});
 			
+For the aspx routing method, change the url to be "swagger.aspx".
+
 At this point, visiting http://your-api.com/swagger-ui should load up an interactive set of documentation for your application.
 
 ## Conventions
