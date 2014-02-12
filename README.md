@@ -53,7 +53,7 @@ You need to use the static configuration methods provided in the package, modify
 			}
 		}
 		
-### Configuration - OpenRasta Routing 		
+### Configuration - ASP.NET 
 
 Copy swagger.aspx from OpenRastaSwagger.SampleApi/swagger.aspx into your web application.
 
