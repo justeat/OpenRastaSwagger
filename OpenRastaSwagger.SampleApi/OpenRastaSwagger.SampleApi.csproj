@@ -68,6 +68,7 @@
     <Content Include="contract-ui\apidocs.js" />
     <Content Include="contract-ui\index.html" />
     <Content Include="contract-ui\reset.css" />
+    <Content Include="contract.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="swagger-ui\css\highlight.default.css" />

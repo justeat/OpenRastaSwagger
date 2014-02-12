@@ -5,17 +5,9 @@
 
     private void Page_Load(object sender, System.EventArgs e)
     {
-        var swagger = new SwaggerDiscoverer();
+        var contract = new ContractDiscoverer();
 
-        var group = Request.QueryString.ToString();
-            
-        if (!string.IsNullOrEmpty(group))
-        {
-            ToJson(swagger.GetResouceDetails(group));
-            return;
-        }
-
-        ToJson(swagger.GetResourceList(x => string.Format("{0}?{1}#!/{1}", Request.ServerVariables["URL"], x.Path)));
+        ToJson(contract.GetContract());
     }
 
     public void ToJson<T>(T obj)
