@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using OpenRasta.Configuration;
 using OpenRasta.Configuration.MetaModel;
@@ -28,7 +29,21 @@ namespace OpenRastaSwagger.Config
 
         public static IMetaModelRepository MetaModelRepository
         {
-            get { return _metaModelRepository ?? DependencyManager.GetService<IMetaModelRepository>(); }
+            get
+            {
+                if (_metaModelRepository != null)
+                {
+                    return _metaModelRepository;
+                }
+                if (Resolver != null)
+                {
+                    return Resolver.Resolve<IMetaModelRepository>();
+                }
+
+                return DependencyManager.GetService<IMetaModelRepository>();
+
+            }
+            set { _metaModelRepository = value; }
         }
 
         public static void FromConfiguration(IConfigurationSource config)
@@ -38,6 +53,8 @@ namespace OpenRastaSwagger.Config
                 _metaModelRepository = host.Resolver.Resolve(typeof(IMetaModelRepository)) as IMetaModelRepository;
             }
         }
+
+        public static IDependencyResolver Resolver { get; set; }
 
         public static void RegisterSwagger()
         {
