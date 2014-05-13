@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using OpenRastaSwagger.Model.ResourceDetails;
 
-namespace OpenRastaSwagger.Model
+namespace OpenRastaSwagger.ContractJsonGeneration.Contracts
 {
     [Serializable]
     [KnownType(typeof(PropertyType))]
     [KnownType(typeof(ModelSpec))]
+    [KnownType(typeof(Operation))]
+    [KnownType(typeof(HttpHeader))]
+    [KnownType(typeof(Parameter))]
+    [KnownType(typeof(Time))]
     public class JsonDictionary<TKey, TValue> : ISerializable
     {
         private readonly Dictionary<TKey, TValue> _dict = new Dictionary<TKey, TValue>();

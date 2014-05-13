@@ -67,7 +67,7 @@ namespace OpenRastaSwagger
                     responseMessages = new List<Responsemessage>()
                 };
 
-                foreach (var header in SwaggerConfiguration.Headers)
+                foreach (var header in SwaggerGenerator.Configuration.Headers)
                 {
                     op.parameters.Add(new Parameter
                     {

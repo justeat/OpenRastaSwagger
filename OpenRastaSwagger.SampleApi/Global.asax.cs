@@ -9,7 +9,7 @@ namespace OpenRastaSwagger.SampleApi
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            SwaggerConfiguration.FromConfiguration(new SampleApi.Configuration());
+            SwaggerGenerator.Configuration.FromConfiguration(new SampleApi.Configuration());
         }
 
         protected void Session_Start(object sender, EventArgs e)

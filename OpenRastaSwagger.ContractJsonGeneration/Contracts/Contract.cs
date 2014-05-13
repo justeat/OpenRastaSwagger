@@ -1,4 +1,4 @@
-﻿namespace OpenRastaSwagger.Model.Contracts
+﻿namespace OpenRastaSwagger.ContractJsonGeneration.Contracts
 {
     public class Contract
     {

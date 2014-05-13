@@ -6,6 +6,11 @@ namespace OpenRastaSwagger
 {
     public class UriParameterParser
     {
+        public string Path { get; private set; }
+        public string Query { get; private set; }
+        
+        private readonly List<string> _pathParams;
+        private readonly List<string> _queryParams;
         private readonly Regex _paramRegex=new Regex(@"\{(\w+)\}");
 
         public UriParameterParser(string uri)
@@ -24,20 +29,13 @@ namespace OpenRastaSwagger
 
             _pathParams = ParseParams(Path);
             _queryParams = ParseParams(Query);
-                
         }
-
-        public string Path { get; private set; }
-        public string Query { get; private set; }
 
         private List<string> ParseParams(string s)
         {
             var matches = _paramRegex.Matches(s);
             return (from Match match in matches select match.Groups[1].Value.ToLower()).ToList();
         }
-
-        private readonly List<string> _pathParams;
-        private readonly List<string> _queryParams;
 
         public bool HasPathParam(string name)
         {
@@ -53,6 +51,5 @@ namespace OpenRastaSwagger
         {
             return HasQueryParam(name) || HasPathParam(name);
         }
-
     }
 }

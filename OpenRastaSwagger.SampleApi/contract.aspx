@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" %>
 <%@ Import Namespace="System.Runtime.Serialization.Json" %>
 <%@ Import Namespace="OpenRastaSwagger" %>
+<%@ Import Namespace="OpenRastaSwagger.ContractJsonGeneration" %>
 <script runat="server" language="C#">
 
     private void Page_Load(object sender, System.EventArgs e)

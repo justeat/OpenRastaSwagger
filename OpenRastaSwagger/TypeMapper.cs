@@ -20,13 +20,7 @@ namespace OpenRastaSwagger
         public Parameter Map(InputParameter param)
         {
             var mapping = Register(param.Type);
-
-            return new Parameter
-            {
-                type = mapping.Type,
-                format = mapping.Format,
-                name = param.Name
-            };
+            return new Parameter { type = mapping.Type, format = mapping.Format, name = param.Name };
         }
 
         public PropertyType Register(Type returnType, int depth = 0)
@@ -35,11 +29,11 @@ namespace OpenRastaSwagger
 
             if (_models.ContainsKey(returnType))
             {
-                return new PropertyType()
+                return new PropertyType
                 {
                     Type = _models[returnType].id,
                     Description = returnType.FriendlyName(),
-                    Items = new Items()
+                    Items = new Items
                     {
                         Ref = _models[returnType].id
                     }
@@ -49,7 +43,7 @@ namespace OpenRastaSwagger
             if (PrimitiveMappings.ContainsKey(returnType))
             {
                 var mapping = PrimitiveMappings[returnType];
-                return new PropertyType()
+                return new PropertyType
                 {
                     Description = returnType.FriendlyName(),
                     Type = mapping.Type,
@@ -70,14 +64,12 @@ namespace OpenRastaSwagger
             if (returnType.Implements<IEnumerable>())
             {
                 var collectionType = returnType.GetElementType();
-
                 if (returnType.IsGenericType)
                 {
                     collectionType = returnType.GetGenericArguments()[0];
                 }
 
                 var colMapping = Register(collectionType, depth++);
-
                 var isComplex = _models.ContainsKey(collectionType);
 
                 return new PropertyType

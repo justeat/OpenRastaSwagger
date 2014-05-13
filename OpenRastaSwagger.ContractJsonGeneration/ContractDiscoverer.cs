@@ -1,11 +1,17 @@
 ﻿using System.Reflection;
 using OpenRastaSwagger.Config;
-using OpenRastaSwagger.Model.Contracts;
+using OpenRastaSwagger.ContractJsonGeneration.Contracts;
+using OpenRastaSwagger.ContractJsonGeneration.Handlers;
 
-namespace OpenRastaSwagger
+namespace OpenRastaSwagger.ContractJsonGeneration
 {
     public class ContractDiscoverer : DiscovererBase
     {
+        public ContractDiscoverer()
+        {
+            ExcludedHandlers.Add(typeof(ContractHandler));
+        }
+
         public Contract GetContract()
         {
             var contract = new Contract
@@ -15,7 +21,7 @@ namespace OpenRastaSwagger
                 version =  Assembly.GetCallingAssembly().GetName().Version.ToString()
             };
 
-            foreach (var header in SwaggerConfiguration.Headers)
+            foreach (var header in SwaggerGenerator.Configuration.Headers)
             {
                 contract.commonRequestHeaders.Add(header.Name, new HttpHeader
                 {
@@ -24,6 +30,7 @@ namespace OpenRastaSwagger
                     description = header.SuggestedValue,
                 });
             }
+
             var opId = 0;
             foreach (var operationMetadata in Operations())
             {

@@ -1,32 +1,39 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenRasta.Configuration;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
 using OpenRastaSwagger.Grouping;
 using OpenRastaSwagger.Handlers;
-using OpenRastaSwagger.Model.Contracts;
 using OpenRastaSwagger.Model.ResourceDetails;
 using OpenRastaSwagger.Model.ResourceListing;
 
 namespace OpenRastaSwagger.Config
 {
-    public class SwaggerConfiguration
+    public class SwaggerGenerator
     {
-        private static IOperationGrouper _grouper = new OperationGrouperByUri();
-        private static readonly List<RequiredHeader> RequiredHeaders = new List<RequiredHeader>();
-        
-        public static string Root { get; set; }
-        public static IOperationGrouper Grouper { get { return _grouper; } }
-        public static IEnumerable<RequiredHeader> Headers { get { return RequiredHeaders; } }
+        private static readonly Lazy<SwaggerGenerator> LazyInstance = new Lazy<SwaggerGenerator>(()=> new SwaggerGenerator()); 
+        public static SwaggerGenerator Configuration
+        {
+            get { return LazyInstance.Value; }
+        }
 
-        static SwaggerConfiguration()
+        private IOperationGrouper _grouper = new OperationGrouperByUri();
+        private readonly List<RequiredHeader> _requiredHeaders = new List<RequiredHeader>();
+        
+        public string Root { get; set; }
+        public IOperationGrouper Grouper { get { return _grouper; } }
+        public IEnumerable<RequiredHeader> Headers { get { return _requiredHeaders; } }
+
+        private SwaggerGenerator()
         {
             Root = "api-docs";
         }
 
-        private static IMetaModelRepository _metaModelRepository;
+        private IMetaModelRepository _metaModelRepository;
 
-        public static IMetaModelRepository MetaModelRepository
+        public IMetaModelRepository MetaModelRepository
         {
             get
             {
@@ -45,7 +52,7 @@ namespace OpenRastaSwagger.Config
             set { _metaModelRepository = value; }
         }
 
-        public static void FromConfiguration(IConfigurationSource config)
+        public void FromConfiguration(IConfigurationSource config)
         {
             using (var host = new NullHost(config))
             {
@@ -53,9 +60,9 @@ namespace OpenRastaSwagger.Config
             }
         }
 
-        public static IDependencyResolver Resolver { get; set; }
+        public IDependencyResolver Resolver { get; set; }
 
-        public static void RegisterSwagger()
+        public void RegisterSwagger()
         {
             ResourceSpace.Has.ResourcesOfType<ResourceList>()
                 .AtUri(string.Format("/{0}/swagger", Root))
@@ -68,32 +75,24 @@ namespace OpenRastaSwagger.Config
                 .AsJsonDataContract();
         }
 
-        public static void WithHeader(string name, string suggestedValue)
+        public void WithHeader(string name, string suggestedValue)
         {
-            RequiredHeaders.Add(new RequiredHeader {Name = name, SuggestedValue = suggestedValue});
+            if (_requiredHeaders.Any(x => x.Name == name))
+            {
+                _requiredHeaders.RemoveAll(x => x.Name == name);
+            }
+
+            _requiredHeaders.Add(new RequiredHeader {Name = name, SuggestedValue = suggestedValue});
         }
 
-        public static void GroupByUri()
+        public void GroupByUri()
         {
             _grouper = new OperationGrouperByUri();
         }
 
-        public static void GroupByResource()
+        public void GroupByResource()
         {
             _grouper = new OperationGrouperByResourceType();
-        }
-
-        public static void RegisterContract(string root = "")
-        {
-            if (root == "")
-            {
-                root = Root;
-            }
-
-            ResourceSpace.Has.ResourcesOfType<Contract>()
-                .AtUri(string.Format("/{0}/contract", root))
-                .HandledBy<ContractHandler>()
-                .AsJsonDataContract();
         }
     }
 }

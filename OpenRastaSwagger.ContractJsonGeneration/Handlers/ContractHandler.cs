@@ -1,6 +1,6 @@
-﻿using OpenRastaSwagger.Model.Contracts;
+﻿using OpenRastaSwagger.ContractJsonGeneration.Contracts;
 
-namespace OpenRastaSwagger.Handlers
+namespace OpenRastaSwagger.ContractJsonGeneration.Handlers
 {
     public class ContractHandler
     {

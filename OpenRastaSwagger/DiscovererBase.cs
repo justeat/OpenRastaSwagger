@@ -10,18 +10,17 @@ namespace OpenRastaSwagger
 {
     public abstract class DiscovererBase
     {
-        private static readonly IList<Type> ExcludedHandlers = new[] { typeof(SwaggerHandler), typeof(ContractHandler)};
+        protected static IList<Type> ExcludedHandlers = new List<Type> { typeof(SwaggerHandler)};
 
         protected IEnumerable<OperationMetadata> Operations()
         {
-            var apiResourceRegistrations = SelectRegistrationsThatArentSwaggerRoutes(SwaggerConfiguration.MetaModelRepository);
+            var apiResourceRegistrations = SelectRegistrationsThatArentSwaggerRoutes(SwaggerGenerator.Configuration.MetaModelRepository);
 
-            var discoverer = new ResourceMetadataDiscoverer(SwaggerConfiguration.Grouper);
+            var discoverer = new ResourceMetadataDiscoverer(SwaggerGenerator.Configuration.Grouper);
             var operations = apiResourceRegistrations.SelectMany(discoverer.Discover);
 
             return operations;
         }
-
 
         private static IEnumerable<ResourceModel> SelectRegistrationsThatArentSwaggerRoutes(IMetaModelRepository metaModelRepository)
         {
