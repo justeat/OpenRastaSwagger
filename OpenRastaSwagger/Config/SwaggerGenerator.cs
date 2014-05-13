@@ -62,7 +62,7 @@ namespace OpenRastaSwagger.Config
 
         public IDependencyResolver Resolver { get; set; }
 
-        public void RegisterSwaggerHandler()
+        public SwaggerGenerator RegisterSwaggerHandler()
         {
             ResourceSpace.Has.ResourcesOfType<ResourceList>()
                 .AtUri(string.Format("/{0}/swagger", Root))
@@ -73,9 +73,11 @@ namespace OpenRastaSwagger.Config
                 .AtUri(string.Format("/{0}/swagger/{{groupPath}}", Root))
                 .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
+
+            return this;
         }
 
-        public void AddRequiredHeader(string name, string suggestedValue)
+        public SwaggerGenerator AddRequiredHeader(string name, string suggestedValue)
         {
             if (_requiredHeaders.Any(x => x.Name == name))
             {
@@ -83,16 +85,19 @@ namespace OpenRastaSwagger.Config
             }
 
             _requiredHeaders.Add(new RequiredHeader {Name = name, SuggestedValue = suggestedValue});
+            return this;
         }
 
-        public void GroupByUri()
+        public SwaggerGenerator GroupByUri()
         {
             _grouper = new OperationGrouperByUri();
+            return this;
         }
 
-        public void GroupByResource()
+        public SwaggerGenerator GroupByResource()
         {
             _grouper = new OperationGrouperByResourceType();
+            return this;
         }
     }
 }

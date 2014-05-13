@@ -7,7 +7,7 @@ namespace OpenRastaSwagger.ContractJsonGeneration.Config
 {
     public static class SwaggerConfigurationExtensions
     {
-        public static void RegisterContractJsonHandler(this SwaggerGenerator cfg, string root = "")
+        public static SwaggerGenerator RegisterContractJsonHandler(this SwaggerGenerator cfg, string root = "")
         {
             if (root == "")
             {
@@ -18,6 +18,8 @@ namespace OpenRastaSwagger.ContractJsonGeneration.Config
                 .AtUri(string.Format("/{0}/contract", root))
                 .HandledBy<ContractHandler>()
                 .AsJsonDataContract();
+
+            return cfg;
         }
     }
 }

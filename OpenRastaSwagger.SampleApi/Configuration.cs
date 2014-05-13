@@ -12,11 +12,11 @@ namespace OpenRastaSwagger.SampleApi
         {
             using (OpenRastaConfiguration.Manual)
             {
-                SwaggerGenerator.Configuration.AddRequiredHeader("X-JE-Feature", "Your-Feature-Name");
-                SwaggerGenerator.Configuration.AddRequiredHeader("Accept-Charset", "utf-8");
-
-                SwaggerGenerator.Configuration.RegisterSwaggerHandler();
-                SwaggerGenerator.Configuration.RegisterContractJsonHandler();
+                SwaggerGenerator.Configuration
+                                .AddRequiredHeader("X-JE-Feature", "Your-Feature-Name")
+                                .AddRequiredHeader("Accept-Charset", "utf-8")
+                                .RegisterSwaggerHandler()
+                                .RegisterContractJsonHandler();
 
                 ResourceSpace.Has.ResourcesOfType<SimpleResource>()
                     .AtUri("/simple/{message}")
