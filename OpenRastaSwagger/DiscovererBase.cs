@@ -10,7 +10,7 @@ namespace OpenRastaSwagger
 {
     public abstract class DiscovererBase
     {
-        protected static IList<Type> ExcludedHandlers = new List<Type> { typeof(SwaggerHandler)};
+        protected static IList<Type> ExcludedHandlers = new List<Type> {typeof (SwaggerHandler)};
 
         protected IEnumerable<OperationMetadata> Operations()
         {

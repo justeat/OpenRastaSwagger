@@ -57,6 +57,7 @@
     <Compile Include="Discovery\Heuristics\DiscoverHttpMethodVerbsFixture.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverInputParametersFixture.cs" />
     <Compile Include="Discovery\Heuristics\DiscoverReturnTypeFixture.cs" />
+    <Compile Include="Discovery\ResourceMetadataDiscovererFixture.cs" />
     <Compile Include="Handlers\SwaggerHandlerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeMapperFixture.cs" />
