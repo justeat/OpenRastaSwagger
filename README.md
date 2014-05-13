@@ -41,8 +41,8 @@ You need to use the static configuration methods provided in the package, modify
 			{
 				using (OpenRastaConfiguration.Manual)
 				{
-					SwaggerConfiguration.WithHeader("Some-Default-Header-For-Swagger-UI", "Some-Value");
-					SwaggerConfiguration.RegisterSwagger();
+					SwaggerGenerator.Configuration.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value");
+					SwaggerGenerator.Configuration.RegisterSwaggerHandler();
 
 					ResourceSpace.Has.ResourcesOfType<SimpleResource>()
 						.AtUri("/simple/{message}")
@@ -104,7 +104,7 @@ Usage:
 
 You can specify required headers in your `IConfigurationSource` by calling 
 
-	SwaggerConfiguration.WithHeader("Some-Default-Header-For-Swagger-UI", "Some-Value");
+	SwaggerGenerator.Configuration.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value");
 	
 ## Alternative root paths
 
