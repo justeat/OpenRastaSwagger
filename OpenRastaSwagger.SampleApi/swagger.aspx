@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" %>
+﻿<%--<%@ Page Language="C#" %>--%>
 <%@ Import Namespace="System.Runtime.Serialization.Json" %>
 <%@ Import Namespace="OpenRastaSwagger" %>
 <script runat="server" language="C#">

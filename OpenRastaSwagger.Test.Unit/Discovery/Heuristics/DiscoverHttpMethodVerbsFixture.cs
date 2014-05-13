@@ -4,7 +4,7 @@ using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Discovery.Heuristics;
 
-namespace OpenRastaSwagger.Test.Unit
+namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
 {
     [TestFixture]
     public class DiscoverHttpMethodVerbsFixture

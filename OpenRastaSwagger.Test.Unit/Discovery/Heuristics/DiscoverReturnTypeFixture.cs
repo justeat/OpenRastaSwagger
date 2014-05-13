@@ -4,7 +4,7 @@ using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Discovery.Heuristics;
 using OpenRastaSwagger.DocumentationSupport;
 
-namespace OpenRastaSwagger.Test.Unit
+namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
 {
     [TestFixture]
     class DiscoverReturnTypeFixture

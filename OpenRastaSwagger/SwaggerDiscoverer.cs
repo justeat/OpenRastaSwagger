@@ -11,14 +11,14 @@ using ApiDetails = OpenRastaSwagger.Model.ResourceDetails.Api;
 
 namespace OpenRastaSwagger
 {
-    public class SwaggerDiscoverer : DiscovererBase
+    public class SwaggerDiscoverer : DiscovererBase, ISwaggerDiscoverer
     {
         public ResourceList GetResourceList()
         {
             return GetResourceList(group => "/" + group.Path);
         }
 
-        public ResourceList GetResourceList(Func<OperationGroup, string> groupToPath)
+        public ResourceList GetResourceList(Func<OperationGroup, string> groupingOperation)
         {
             var swaggerSpec = new ResourceList
             {
@@ -29,7 +29,7 @@ namespace OpenRastaSwagger
 
             foreach (var group in groups)
             {
-                swaggerSpec.apis.Add(new Api {description = group.Name, path = groupToPath(group)});
+                swaggerSpec.apis.Add(new Api {description = group.Name, path = groupingOperation(group)});
             }
 
             return swaggerSpec;

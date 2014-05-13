@@ -3,7 +3,7 @@ using OpenRasta.Configuration.MetaModel;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Discovery.Heuristics;
 
-namespace OpenRastaSwagger.Test.Unit
+namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
 {
     [TestFixture]
     class DiscoverInputParametersFixture
