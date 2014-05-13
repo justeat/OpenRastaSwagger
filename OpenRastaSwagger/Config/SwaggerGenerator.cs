@@ -62,7 +62,7 @@ namespace OpenRastaSwagger.Config
 
         public IDependencyResolver Resolver { get; set; }
 
-        public void RegisterSwagger()
+        public void RegisterSwaggerHandler()
         {
             ResourceSpace.Has.ResourcesOfType<ResourceList>()
                 .AtUri(string.Format("/{0}/swagger", Root))
@@ -75,7 +75,7 @@ namespace OpenRastaSwagger.Config
                 .AsJsonDataContract();
         }
 
-        public void WithHeader(string name, string suggestedValue)
+        public void AddRequiredHeader(string name, string suggestedValue)
         {
             if (_requiredHeaders.Any(x => x.Name == name))
             {
