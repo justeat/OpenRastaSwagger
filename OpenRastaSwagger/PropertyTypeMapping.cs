@@ -5,11 +5,10 @@ namespace OpenRastaSwagger
         public string Type { get; set; }
         public string Format { get; set; }
 
-        public PropertyTypeMapping(string type, string format="")
+        public PropertyTypeMapping(string type, string format = "")
         {
             Type = type;
             Format = format;
         }
-
     }
 }

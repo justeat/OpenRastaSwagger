@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenRasta.Configuration.MetaModel;
-using OpenRasta.DI;
 using OpenRastaSwagger.Config;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Handlers;
@@ -12,7 +11,6 @@ namespace OpenRastaSwagger
     public abstract class DiscovererBase
     {
         private static readonly IList<Type> ExcludedHandlers = new[] { typeof(SwaggerHandler), typeof(ContractHandler)};
-
 
         protected IEnumerable<OperationMetadata> Operations()
         {

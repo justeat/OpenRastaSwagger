@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using OpenRasta.Configuration;
 using OpenRasta.Configuration.MetaModel;
@@ -59,12 +58,12 @@ namespace OpenRastaSwagger.Config
         public static void RegisterSwagger()
         {
             ResourceSpace.Has.ResourcesOfType<ResourceList>()
-                .AtUri("/" + Root + "/swagger")
+                .AtUri(string.Format("/{0}/swagger", Root))
                 .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
 
             ResourceSpace.Has.ResourcesOfType<ResourceDetails>()
-                .AtUri("/" + Root + "/swagger/{groupPath}")
+                .AtUri(string.Format("/{0}/swagger/{{groupPath}}", Root))
                 .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
         }
@@ -92,7 +91,7 @@ namespace OpenRastaSwagger.Config
             }
 
             ResourceSpace.Has.ResourcesOfType<Contract>()
-                .AtUri("/" + root + "/contract")
+                .AtUri(string.Format("/{0}/contract", root))
                 .HandledBy<ContractHandler>()
                 .AsJsonDataContract();
         }
