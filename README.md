@@ -5,14 +5,14 @@ _Swagger and Swagger ui for OpenRasta cooked up by JUST EAT_
 ---
 
 * Configuration
-** OpenRasta Routing
-** ASP.NET
+  + OpenRasta Routing
+  + ASP.NET
 * Installing and configuring Swagger UI
 * Conventions
 * Extensibility
-** Required headers
-** Alternative root paths
-** Grouping
+  + Required headers
+  + Alternative root paths
+  + Grouping
 * Contributing
 * Copyright
 
