@@ -13,14 +13,15 @@ namespace OpenRastaSwagger.Config
 
         IDependencyResolver Resolver { get; set; }
         IOperationGrouper Grouper { get; }
-        List<RequiredHeader> Headers { get; }
-        List<Type> ExcludedHandlers { get; }
+        IList<RequiredHeader> Headers { get; }
+        IList<Type> ExcludedHandlers { get; }
         IMetaModelRepository MetaModelRepository { get; set; }
 
-        SwaggerGenerator RegisterSwaggerHandler();
-        SwaggerGenerator AddRequiredHeader(string name, string suggestedValue);
-        SwaggerGenerator GroupByUri();
-        SwaggerGenerator GroupByResource();
+        ISwaggerGenerator RegisterSwaggerHandler();
+        ISwaggerGenerator AddRequiredHeader(string name, string suggestedValue);
+        ISwaggerGenerator GroupByUri();
+        ISwaggerGenerator GroupByResource();
+
         void FromConfiguration(IConfigurationSource config);
     }
 }

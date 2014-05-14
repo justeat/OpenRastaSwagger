@@ -16,8 +16,8 @@ namespace OpenRastaSwagger.Config
         public string Root { get; set; }
         public IDependencyResolver Resolver { get; set; }
         public IOperationGrouper Grouper { get; private set; }
-        public List<RequiredHeader> Headers { get; private set; }
-        public List<Type> ExcludedHandlers { get; private set; }
+        public IList<RequiredHeader> Headers { get; private set; }
+        public IList<Type> ExcludedHandlers { get; private set; }
         
         private IMetaModelRepository _metaModelRepository;
 
@@ -31,8 +31,8 @@ namespace OpenRastaSwagger.Config
             ExcludedHandlers = new List<Type>();
             Headers = new List<RequiredHeader>();
         }
-        
-        public SwaggerGenerator RegisterSwaggerHandler()
+
+        public ISwaggerGenerator RegisterSwaggerHandler()
         {
             ExcludedHandlers.Add(typeof(SwaggerHandler));
 
@@ -49,24 +49,24 @@ namespace OpenRastaSwagger.Config
             return this;
         }
 
-        public SwaggerGenerator AddRequiredHeader(string name, string suggestedValue)
+        public ISwaggerGenerator AddRequiredHeader(string name, string suggestedValue)
         {
             if (Headers.Any(x => x.Name == name))
             {
-                Headers.RemoveAll(x => x.Name == name);
+                ((List<RequiredHeader>)Headers).RemoveAll(x => x.Name == name);
             }
 
             Headers.Add(new RequiredHeader { Name = name, SuggestedValue = suggestedValue });
             return this;
         }
 
-        public SwaggerGenerator GroupByUri()
+        public ISwaggerGenerator GroupByUri()
         {
             Grouper = new OperationGrouperByUri();
             return this;
         }
 
-        public SwaggerGenerator GroupByResource()
+        public ISwaggerGenerator GroupByResource()
         {
             Grouper = new OperationGrouperByResourceType();
             return this;

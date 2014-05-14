@@ -7,7 +7,7 @@ namespace OpenRastaSwagger.ContractJsonGeneration.Config
 {
     public static class SwaggerConfigurationExtensions
     {
-        public static SwaggerGenerator RegisterContractJsonHandler(this SwaggerGenerator cfg, string root = "")
+        public static ISwaggerGenerator RegisterContractJsonHandler(this ISwaggerGenerator cfg, string root = "")
         {
             if (root == "")
             {
