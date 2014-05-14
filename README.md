@@ -1,11 +1,23 @@
 OpenRastaSwagger
 ================
+_Swagger and Swagger ui for OpenRasta cooked up by JUST EAT_
 
-Implementation of swagger / swagger ui for OpenRasta
+---
 
-## Why do I need it?
+* Configuration
+** OpenRasta Routing
+** ASP.NET
+* Installing and configuring Swagger UI
+* Conventions
+* Extensibility
+** Required headers
+** Alternative root paths
+** Grouping
+* Contributing
+* Copyright
 
-Swagger and the Swagger-UI is a nice, pretty and standardised way to express public meta-data over your RESTful API. Instead of hand-cranking documentation that rapidly gets out of data, why not let the code you execute document itself.
+Swagger and the Swagger-UI are a nice, pretty and standardised way to express public meta-data over your RESTful API. 
+Instead of hand-cranking documentation that rapidly gets out of data, let the code you execute document itself.
 
 ## Configuration
 
@@ -68,7 +80,7 @@ Copy swagger.aspx from OpenRastaSwagger.SampleApi/swagger.aspx into your web app
 If you're using a custom IDependencyResolver, then set that to the SwaggerConfiguration.Resolver static property in your Application_Start.
 
 
-## Add UI
+## Installing and configuring Swagger UI
 
 You then need to grab the latest version of Swagger-UI from https://github.com/wordnik/swagger-ui and extract the /dist folder into your OpenRasta application into a directory in the root called "swagger-ui". Open up the default index.html and make sure the Url set in the JavaScript bootstrapping code is pointing to "/api-docs/swagger" like so:
 
@@ -119,13 +131,30 @@ You can specify required headers in your `IConfigurationSource` by calling
 
 	SwaggerGenerator.Configuration.AddRequiredHeader("Some-Name", "Some-Value");
 	
-## Alternative root paths
+### Alternative root paths
 
 You can change the uri that the swagger-ui metamodel is generated at by modifying the static property `SwaggerGenerator.Configuration.Root` before calling RegisterSwagger();
 
-## Grouping
+### Grouping
 
 Two grouping methods for your resources are provided
 
 	* GroupByUri - the default, configured by calling SwaggerGenerator.Configuration.GroupByUri();
 	* GroupByResource - configured by calling SwaggerGenerator.Configuration.GroupByResource();
+	
+## Contributing
+
+If you find a bug, have a feature request or even want to contribute an enhancement or fix, please follow the contributing guidelines included in the repository.
+
+## Copyright
+
+Copyright 2014 Just Eat, Inc. or its affiliates. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License"). You
+may not use this file except in compliance with the License. A copy of
+the License is located in the LICENSE file in this repository. 
+
+This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License 
+for the specific language governing permissions and limitations under 
+the License.
