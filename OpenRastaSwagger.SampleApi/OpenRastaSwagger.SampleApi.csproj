@@ -127,10 +127,6 @@
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenRastaSwagger.ContractJsonGeneration\OpenRastaSwagger.ContractJsonGeneration.csproj">
-      <Project>{F9B4485A-8A28-43CC-863E-C24FF62D7463}</Project>
-      <Name>OpenRastaSwagger.ContractJsonGeneration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenRastaSwagger\OpenRastaSwagger.csproj">
       <Project>{070F1E20-9589-4A5C-B276-5B8728F4934E}</Project>
       <Name>OpenRastaSwagger</Name>
