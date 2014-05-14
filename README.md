@@ -16,7 +16,7 @@ To enable OpenRastaSwagger you need to add the endpoints to your service that wi
 To enable the OpenRasta routes, add a couple of lines to your IConfigurationSource.
 
 Given a configuration source that looks like this:
-
+```c#
 		public class Configuration : IConfigurationSource
 		{
 			public void Configure()
@@ -31,10 +31,10 @@ Given a configuration source that looks like this:
 				}
 			}
 		}
-		
+```	
 You need to use the static configuration methods provided in the package, modifying your configuration to look like this:
 
-
+```c#
 		public class Configuration : IConfigurationSource
 		{
 			public void Configure()
@@ -52,7 +52,18 @@ You need to use the static configuration methods provided in the package, modify
 				}
 			}
 		}
+```	
+
+Calls can also be chained:
+
+```c#
+		...
+		SwaggerGenerator.Configuration
+						.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value")
+						.RegisterSwaggerHandler();
+		...
 		
+```		
 ### Configuration - ASP.NET 
 
 Copy swagger.aspx from OpenRastaSwagger.SampleApi/swagger.aspx into your web application.
@@ -64,25 +75,30 @@ If you're using a custom IDependencyResolver, then set that to the SwaggerConfig
 
 You then need to grab the latest version of Swagger-UI from https://github.com/wordnik/swagger-ui and extract the /dist folder into your OpenRasta application into a directory in the root called "swagger-ui". Open up the default index.html and make sure the Url set in the JavaScript bootstrapping code is pointing to "/api-docs/swagger" like so:
 
-		 $(function () {
-			  window.swaggerUi = new SwaggerUi({
-			  url: "/api-docs/swagger"  //or "swagger.aspx" for aspx routing,
-			  dom_id: "swagger-ui-container",
-			  supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
-			  onComplete: function(swaggerApi, swaggerUi){
-				if(console) {
-				  console.log("Loaded SwaggerUI")
-				}
-				$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-			  },
-			  onFailure: function(data) {
-				if(console) {
-				  console.log("Unable to Load SwaggerUI");
-				  console.log(data);
-				}
-			  },
-			  docExpansion: "none"
-			});
+```javascript
+
+	 $(function () {
+		  window.swaggerUi = new SwaggerUi({
+		  url: "/api-docs/swagger"  //or "swagger.aspx" for aspx routing,
+		  dom_id: "swagger-ui-container",
+		  supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+		  onComplete: function(swaggerApi, swaggerUi){
+			if(console) {
+			  console.log("Loaded SwaggerUI")
+			}
+			$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+		  },
+		  onFailure: function(data) {
+			if(console) {
+			  console.log("Unable to Load SwaggerUI");
+			  console.log(data);
+			}
+		  },
+		  docExpansion: "none"
+		});
+
+```
+
 			
 For the aspx routing method, change the url to be "swagger.aspx".
 
@@ -104,15 +120,15 @@ Usage:
 
 You can specify required headers in your `IConfigurationSource` by calling 
 
-	SwaggerGenerator.Configuration.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value");
+	SwaggerGenerator.Configuration.AddRequiredHeader("Some-Name", "Some-Value");
 	
 ## Alternative root paths
 
-You can change the uri that the swagger-ui metamodel is generated at by modifying the static property `SwaggerConfiguration.Root` before calling RegisterSwagger();
+You can change the uri that the swagger-ui metamodel is generated at by modifying the static property `SwaggerGenerator.Configuration.Root` before calling RegisterSwagger();
 
 ## Grouping
 
 Two grouping methods for your resources are provided
 
-	* GroupByUri - the default, configured by calling SwaggerConfiguration.GroupByUri();
-	* GroupByResource - configured by calling SwaggerConfiguration.GroupByResource();
+	* GroupByUri - the default, configured by calling SwaggerGenerator.Configuration.GroupByUri();
+	* GroupByResource - configured by calling SwaggerGenerator.Configuration.GroupByResource();
