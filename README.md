@@ -17,52 +17,49 @@ To enable the OpenRasta routes, add a couple of lines to your IConfigurationSour
 
 Given a configuration source that looks like this:
 ```c#
-		public class Configuration : IConfigurationSource
+public class Configuration : IConfigurationSource
+{
+	public void Configure()
+	{
+		using (OpenRastaConfiguration.Manual)
 		{
-			public void Configure()
-			{
-				using (OpenRastaConfiguration.Manual)
-				{
-					ResourceSpace.Has.ResourcesOfType<SimpleResource>()
-						.AtUri("/simple/{message}")
-						.And.AtUri("/simple/?message={message}&pageNumber={pageNumber}")
-						.HandledBy<SimpleHandler>()
-						.AsJsonDataContract();
-				}
-			}
+			ResourceSpace.Has.ResourcesOfType<SimpleResource>()
+				.AtUri("/simple/{message}")
+				.And.AtUri("/simple/?message={message}&pageNumber={pageNumber}")
+				.HandledBy<SimpleHandler>()
+				.AsJsonDataContract();
 		}
+	}
+}
 ```	
 You need to use the static configuration methods provided in the package, modifying your configuration to look like this:
 
 ```c#
-		public class Configuration : IConfigurationSource
+public class Configuration : IConfigurationSource
+{
+	public void Configure()
+	{
+		using (OpenRastaConfiguration.Manual)
 		{
-			public void Configure()
-			{
-				using (OpenRastaConfiguration.Manual)
-				{
-					SwaggerGenerator.Configuration.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value");
-					SwaggerGenerator.Configuration.RegisterSwaggerHandler();
+			SwaggerGenerator.Configuration.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value");
+			SwaggerGenerator.Configuration.RegisterSwaggerHandler();
 
-					ResourceSpace.Has.ResourcesOfType<SimpleResource>()
-						.AtUri("/simple/{message}")
-						.And.AtUri("/simple/?message={message}&pageNumber={pageNumber}")
-						.HandledBy<SimpleHandler>()
-						.AsJsonDataContract();
-				}
-			}
+			ResourceSpace.Has.ResourcesOfType<SimpleResource>()
+				.AtUri("/simple/{message}")
+				.And.AtUri("/simple/?message={message}&pageNumber={pageNumber}")
+				.HandledBy<SimpleHandler>()
+				.AsJsonDataContract();
 		}
+	}
+}
 ```	
 
 Calls can also be chained:
 
 ```c#
-		...
-		SwaggerGenerator.Configuration
-						.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value")
-						.RegisterSwaggerHandler();
-		...
-		
+SwaggerGenerator.Configuration
+				.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value")
+				.RegisterSwaggerHandler();		
 ```		
 ### Configuration - ASP.NET 
 
