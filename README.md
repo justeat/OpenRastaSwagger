@@ -158,3 +158,9 @@ This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License 
 for the specific language governing permissions and limitations under 
 the License.
+
+OpenRasta is licensed under the MIT license: http://opensource.org/licenses/MIT
+and compiled binaries are included in this repository for build purposes.
+OpenRasta is Copyright Sebastien Lambla 2007-2014.
+
+The OpenRasta project wiki is available here: https://github.com/openrasta/openrasta/wiki
