@@ -9,27 +9,23 @@ namespace OpenRastaSwagger.Handlers
 {
     public class SwaggerHandler
     {
-        private readonly ISwaggerDiscoverer _discoverer;
+        public ISwaggerDiscoverer Discoverer { get; set; }
+        public IEnumerable<Type> ExcludedHandlers { get; set; }
 
         public SwaggerHandler()
-            : this(new SwaggerDiscoverer(), SwaggerGenerator.Configuration.ExcludedHandlers)
         {
-        }
-
-        public SwaggerHandler(ISwaggerDiscoverer discoverer, IEnumerable<Type> excludedHandlers)
-        {
-            _discoverer = discoverer;
-            _discoverer.ExcludedHandlers.AddRange(excludedHandlers);
+            Discoverer = new SwaggerDiscoverer();
+            Discoverer.ExcludedHandlers.AddRange(SwaggerGenerator.Configuration.ExcludedHandlers);
         }
 
         public ResourceList Get()
         {
-            return _discoverer.GetResourceList();
+            return Discoverer.GetResourceList();
         }
 
         public ResourceDetails Get(string groupPath)
         {
-            return _discoverer.GetResouceDetails(groupPath);
+            return Discoverer.GetResouceDetails(groupPath);
         }
     }
 }

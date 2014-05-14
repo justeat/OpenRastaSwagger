@@ -19,7 +19,7 @@ namespace OpenRastaSwagger.Test.Unit.Handlers
         {
             _mockDiscoverer = new Mock<ISwaggerDiscoverer>();
             _mockDiscoverer.Setup(x => x.ExcludedHandlers).Returns(new List<Type>());
-            _handler = new SwaggerHandler(_mockDiscoverer.Object, new List<Type>());
+            _handler = new SwaggerHandler {Discoverer = _mockDiscoverer.Object, ExcludedHandlers = new List<Type>()};
         }
 
         [Test]
