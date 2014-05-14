@@ -28,7 +28,9 @@ namespace OpenRastaSwagger.Discovery
         public ResourceMetadata Discover(ResourceModel resource)
         {
             var metadata = new ResourceMetadata {Uris = resource.Uris};
-            foreach (var handler in resource.Handlers)
+
+            var filteredHandlers = resource.Handlers.Where(x => !x.Type.StaticType.IsAbstract);
+            foreach (var handler in filteredHandlers)
             {
                 IndexHandler(resource, handler, metadata);
             }

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Reflection;
+using NUnit.Framework;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRasta.Web;
@@ -23,16 +24,43 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
         }
 
         [Test]
-        public void CanDiscoverMethodName()
+        public void TestHandlerProvided_DiscoveryRulesExecutedOnType()
         {
-            var metadata = _discoverer.Discover(_model);
+            var heuristic = new FakeDiscoveryHeuristic();
+            _discoverer.DiscoveryRules.Clear();
+            _discoverer.DiscoveryRules.Add(heuristic);
 
-            Assert.That(metadata[0].Name, Is.EqualTo("GetInt"));
+            _discoverer.Discover(_model);
+
+            Assert.That(heuristic.Called, Is.True);
+            Assert.That(heuristic.MethodInfo, Is.EqualTo(typeof(TestHandler).GetMethod("GetInt")));
         }
 
-        public class TestHandler
+        [Test]
+        public void AbstractHandlerProvided_DoesNotRecogniseAsAHandler()
         {
-            public OperationResult GetInt(int i) { return null; }
+            _model.Handlers.Clear();
+            _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(TestHandlerWithProperyThatShouldNotBeDiscovered))));
+
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.That(metadata, Is.Empty);
+        }
+
+        public class TestHandler { public OperationResult GetInt(int i) { return null; } }
+        public abstract class TestHandlerWithProperyThatShouldNotBeDiscovered { public string Something { get; set; } }
+
+        public class FakeDiscoveryHeuristic : IDiscoveryHeuristic
+        {
+            public bool Called { get; set; }
+            public MethodInfo MethodInfo { get; set; }
+
+            public bool Discover(MethodInfo method, OperationMetadata methodMetdata)
+            {
+                Called = true;
+                MethodInfo = method;
+                return true;
+            }
         }
     }
 }
