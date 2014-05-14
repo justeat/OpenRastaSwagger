@@ -14,6 +14,8 @@ namespace OpenRastaSwagger.ContractJsonGeneration.Config
                 root = cfg.Root;
             }
 
+            cfg.ExcludedHandlers.Add(typeof(ContractHandler));
+
             ResourceSpace.Has.ResourcesOfType<Contract>()
                 .AtUri(string.Format("/{0}/contract", root))
                 .HandledBy<ContractHandler>()

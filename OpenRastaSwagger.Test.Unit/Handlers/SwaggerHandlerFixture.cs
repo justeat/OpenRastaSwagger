@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using System;
+using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
 using OpenRastaSwagger.Handlers;
 using OpenRastaSwagger.Model.ResourceDetails;
@@ -16,7 +18,8 @@ namespace OpenRastaSwagger.Test.Unit.Handlers
         public void SetUp()
         {
             _mockDiscoverer = new Mock<ISwaggerDiscoverer>();
-            _handler = new SwaggerHandler(_mockDiscoverer.Object);
+            _mockDiscoverer.Setup(x => x.ExcludedHandlers).Returns(new List<Type>());
+            _handler = new SwaggerHandler(_mockDiscoverer.Object, new List<Type>());
         }
 
         [Test]

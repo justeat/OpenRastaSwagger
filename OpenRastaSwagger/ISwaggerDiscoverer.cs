@@ -5,7 +5,7 @@ using OpenRastaSwagger.Model.ResourceListing;
 
 namespace OpenRastaSwagger
 {
-    public interface ISwaggerDiscoverer
+    public interface ISwaggerDiscoverer : IDiscoverer
     {
         ResourceList GetResourceList();
         ResourceList GetResourceList(Func<OperationGroup, string> groupingOperation);

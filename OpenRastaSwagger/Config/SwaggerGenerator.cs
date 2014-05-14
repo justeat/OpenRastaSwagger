@@ -13,22 +13,24 @@ namespace OpenRastaSwagger.Config
 {
     public class SwaggerGenerator
     {
-        private static readonly Lazy<SwaggerGenerator> LazyInstance = new Lazy<SwaggerGenerator>(()=> new SwaggerGenerator()); 
-        public static SwaggerGenerator Configuration
-        {
-            get { return LazyInstance.Value; }
-        }
-
-        private IOperationGrouper _grouper = new OperationGrouperByUri();
-        private readonly List<RequiredHeader> _requiredHeaders = new List<RequiredHeader>();
-        
         public string Root { get; set; }
-        public IOperationGrouper Grouper { get { return _grouper; } }
+
+        public IOperationGrouper Grouper { get; private set; }
         public IEnumerable<RequiredHeader> Headers { get { return _requiredHeaders; } }
+        public IDependencyResolver Resolver { get; set; }
+        public IList<Type> ExcludedHandlers { get; private set; }
+
+        private readonly List<RequiredHeader> _requiredHeaders;
+
+        private static readonly Lazy<SwaggerGenerator> Singleton = new Lazy<SwaggerGenerator>(() => new SwaggerGenerator());
+        public static SwaggerGenerator Configuration { get { return Singleton.Value; } }
 
         private SwaggerGenerator()
         {
             Root = "api-docs";
+            Grouper = new OperationGrouperByUri();
+            ExcludedHandlers = new List<Type>();
+            _requiredHeaders = new List<RequiredHeader>();
         }
 
         private IMetaModelRepository _metaModelRepository;
@@ -60,10 +62,10 @@ namespace OpenRastaSwagger.Config
             }
         }
 
-        public IDependencyResolver Resolver { get; set; }
-
         public SwaggerGenerator RegisterSwaggerHandler()
         {
+            ExcludedHandlers.Add(typeof(SwaggerHandler));
+
             ResourceSpace.Has.ResourcesOfType<ResourceList>()
                 .AtUri(string.Format("/{0}/swagger", Root))
                 .HandledBy<SwaggerHandler>()
@@ -90,13 +92,13 @@ namespace OpenRastaSwagger.Config
 
         public SwaggerGenerator GroupByUri()
         {
-            _grouper = new OperationGrouperByUri();
+            Grouper = new OperationGrouperByUri();
             return this;
         }
 
         public SwaggerGenerator GroupByResource()
         {
-            _grouper = new OperationGrouperByResourceType();
+            Grouper = new OperationGrouperByResourceType();
             return this;
         }
     }

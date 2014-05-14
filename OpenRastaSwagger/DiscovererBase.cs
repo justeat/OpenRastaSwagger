@@ -4,13 +4,17 @@ using System.Linq;
 using OpenRasta.Configuration.MetaModel;
 using OpenRastaSwagger.Config;
 using OpenRastaSwagger.Discovery;
-using OpenRastaSwagger.Handlers;
 
 namespace OpenRastaSwagger
 {
-    public abstract class DiscovererBase
+    public abstract class DiscovererBase : IDiscoverer
     {
-        protected static IList<Type> ExcludedHandlers = new List<Type> {typeof (SwaggerHandler)};
+        public IList<Type> ExcludedHandlers { get; private set; }
+
+        protected DiscovererBase()
+        {
+            ExcludedHandlers = new List<Type>();
+        }
 
         protected IEnumerable<OperationMetadata> Operations()
         {
@@ -22,13 +26,12 @@ namespace OpenRastaSwagger
             return operations;
         }
 
-        private static IEnumerable<ResourceModel> SelectRegistrationsThatArentSwaggerRoutes(IMetaModelRepository metaModelRepository)
+        private IEnumerable<ResourceModel> SelectRegistrationsThatArentSwaggerRoutes(IMetaModelRepository metaModelRepository)
         {
             var apiResourceRegistrations =
                 metaModelRepository.ResourceRegistrations.Where(
                     x => !x.Handlers.Any(h => ExcludedHandlers.Contains(h.Type.StaticType)));
             return apiResourceRegistrations;
         }
-
     }
 }

@@ -1,17 +1,11 @@
 ﻿using System.Reflection;
 using OpenRastaSwagger.Config;
 using OpenRastaSwagger.ContractJsonGeneration.Contracts;
-using OpenRastaSwagger.ContractJsonGeneration.Handlers;
 
 namespace OpenRastaSwagger.ContractJsonGeneration
 {
     public class ContractDiscoverer : DiscovererBase
     {
-        public ContractDiscoverer()
-        {
-            ExcludedHandlers.Add(typeof(ContractHandler));
-        }
-
         public Contract GetContract()
         {
             var contract = new Contract
