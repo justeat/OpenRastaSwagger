@@ -41,7 +41,7 @@ public class Configuration : IConfigurationSource
 	{
 		using (OpenRastaConfiguration.Manual)
 		{
-			SwaggerGenerator.Configuration.AddRequiredHeader("Some-Default-Header-For-Swagger-UI", "Some-Value");
+			SwaggerGenerator.Configuration.AddRequiredHeader("Some-Header", "Some-Value");
 			SwaggerGenerator.Configuration.RegisterSwaggerHandler();
 
 			ResourceSpace.Has.ResourcesOfType<SimpleResource>()
