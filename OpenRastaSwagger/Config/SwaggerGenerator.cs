@@ -11,16 +11,15 @@ using OpenRastaSwagger.Model.ResourceListing;
 
 namespace OpenRastaSwagger.Config
 {
-    public class SwaggerGenerator
+    public class SwaggerGenerator : ISwaggerGenerator
     {
         public string Root { get; set; }
-
-        public IOperationGrouper Grouper { get; private set; }
-        public IEnumerable<RequiredHeader> Headers { get { return _requiredHeaders; } }
         public IDependencyResolver Resolver { get; set; }
-        public IList<Type> ExcludedHandlers { get; private set; }
-
-        private readonly List<RequiredHeader> _requiredHeaders;
+        public IOperationGrouper Grouper { get; private set; }
+        public List<RequiredHeader> Headers { get; private set; }
+        public List<Type> ExcludedHandlers { get; private set; }
+        
+        private IMetaModelRepository _metaModelRepository;
 
         private static readonly Lazy<SwaggerGenerator> Singleton = new Lazy<SwaggerGenerator>(() => new SwaggerGenerator());
         public static SwaggerGenerator Configuration { get { return Singleton.Value; } }
@@ -30,38 +29,9 @@ namespace OpenRastaSwagger.Config
             Root = "api-docs";
             Grouper = new OperationGrouperByUri();
             ExcludedHandlers = new List<Type>();
-            _requiredHeaders = new List<RequiredHeader>();
+            Headers = new List<RequiredHeader>();
         }
-
-        private IMetaModelRepository _metaModelRepository;
-
-        public IMetaModelRepository MetaModelRepository
-        {
-            get
-            {
-                if (_metaModelRepository != null)
-                {
-                    return _metaModelRepository;
-                }
-                if (Resolver != null)
-                {
-                    return Resolver.Resolve<IMetaModelRepository>();
-                }
-
-                return DependencyManager.GetService<IMetaModelRepository>();
-
-            }
-            set { _metaModelRepository = value; }
-        }
-
-        public void FromConfiguration(IConfigurationSource config)
-        {
-            using (var host = new NullHost(config))
-            {
-                _metaModelRepository = host.Resolver.Resolve(typeof(IMetaModelRepository)) as IMetaModelRepository;
-            }
-        }
-
+        
         public SwaggerGenerator RegisterSwaggerHandler()
         {
             ExcludedHandlers.Add(typeof(SwaggerHandler));
@@ -81,12 +51,12 @@ namespace OpenRastaSwagger.Config
 
         public SwaggerGenerator AddRequiredHeader(string name, string suggestedValue)
         {
-            if (_requiredHeaders.Any(x => x.Name == name))
+            if (Headers.Any(x => x.Name == name))
             {
-                _requiredHeaders.RemoveAll(x => x.Name == name);
+                Headers.RemoveAll(x => x.Name == name);
             }
 
-            _requiredHeaders.Add(new RequiredHeader {Name = name, SuggestedValue = suggestedValue});
+            Headers.Add(new RequiredHeader { Name = name, SuggestedValue = suggestedValue });
             return this;
         }
 
@@ -100,6 +70,37 @@ namespace OpenRastaSwagger.Config
         {
             Grouper = new OperationGrouperByResourceType();
             return this;
+        }
+
+        public void FromConfiguration(IConfigurationSource config)
+        {
+            using (var host = new NullHost(config))
+            {
+                _metaModelRepository = host.Resolver.Resolve(typeof(IMetaModelRepository)) as IMetaModelRepository;
+            }
+        }
+
+        public IMetaModelRepository MetaModelRepository
+        {
+            get
+            {
+                if (_metaModelRepository != null)
+                {
+                    return _metaModelRepository;
+                }
+
+                if (Resolver != null)
+                {
+                    return Resolver.Resolve<IMetaModelRepository>();
+                }
+
+                return DependencyManager.GetService<IMetaModelRepository>();
+            }
+
+            set
+            {
+                _metaModelRepository = value;
+            }
         }
     }
 }
