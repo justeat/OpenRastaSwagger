@@ -44,7 +44,10 @@ namespace OpenRastaSwagger.Discovery
 
             foreach (var uri in metadata.Uris)
             {
-                foreach (var publicMethod in handler.Type.StaticType.GetMethods().Where(x=>x.IsPublic && !exclusions.Contains(x.Name)))
+                var candidateMethods = handler.Type.StaticType.GetMethods()
+                    .Where(x => x.IsPublic && !exclusions.Contains(x.Name) && !x.IsSpecialName);
+
+                foreach (var publicMethod in candidateMethods)
                 {
                     var operation = new OperationMetadata(uri);
 

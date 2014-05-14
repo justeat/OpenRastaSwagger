@@ -47,8 +47,20 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
             Assert.That(metadata, Is.Empty);
         }
 
+        [Test]
+        public void HandlerThatDerivesFromAbstractHandlerProvided_WithNoSuitableMethodPresent_DoesNotRecogniseAsAHandler()
+        {
+            _model.Handlers.Clear();
+            _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(TestHandlerDerivedFromAbstract))));
+
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.That(metadata, Is.Empty);
+        }
+
         public class TestHandler { public OperationResult GetInt(int i) { return null; } }
         public abstract class TestHandlerWithProperyThatShouldNotBeDiscovered { public string Something { get; set; } }
+        public class TestHandlerDerivedFromAbstract : TestHandlerWithProperyThatShouldNotBeDiscovered { }
 
         public class FakeDiscoveryHeuristic : IDiscoveryHeuristic
         {
