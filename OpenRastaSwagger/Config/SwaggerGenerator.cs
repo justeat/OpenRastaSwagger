@@ -21,8 +21,8 @@ namespace OpenRastaSwagger.Config
         
         private IMetaModelRepository _metaModelRepository;
 
-        private static readonly Lazy<SwaggerGenerator> Singleton = new Lazy<SwaggerGenerator>(() => new SwaggerGenerator());
         public static SwaggerGenerator Configuration { get { return Singleton.Value; } }
+        private static readonly Lazy<SwaggerGenerator> Singleton = new Lazy<SwaggerGenerator>(() => new SwaggerGenerator());
 
         private SwaggerGenerator()
         {
