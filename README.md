@@ -17,7 +17,7 @@ _Swagger and Swagger ui for OpenRasta cooked up by JUST EAT_
 * Copyright
 
 Swagger and the Swagger-UI are a nice, pretty and standardised way to express public meta-data over your RESTful API. 
-Instead of hand-cranking documentation that rapidly gets out of data, let the code you execute document itself.
+Instead of hand-cranking documentation that rapidly gets out of date, let the code you execute document itself.
 
 ## Configuration
 
