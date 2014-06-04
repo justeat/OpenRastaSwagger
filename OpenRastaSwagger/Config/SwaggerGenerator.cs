@@ -37,12 +37,12 @@ namespace OpenRastaSwagger.Config
             ExcludedHandlers.Add(typeof(SwaggerHandler));
 
             ResourceSpace.Has.ResourcesOfType<ResourceList>()
-                .AtUri(string.Format("/{0}/swagger", Root))
+                .AtUri(string.Format("/{0}", Root))
                 .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
 
             ResourceSpace.Has.ResourcesOfType<ResourceDetails>()
-                .AtUri(string.Format("/{0}/swagger/{{groupPath}}", Root))
+                .AtUri(string.Format("/{0}/{{groupPath}}", Root))
                 .HandledBy<SwaggerHandler>()
                 .AsJsonDataContract();
 
