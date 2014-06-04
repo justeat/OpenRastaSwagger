@@ -14,5 +14,6 @@
   </metadata>
 	<files>
 	  <file src="bin\Release\*.pdb" target="lib\net45" />
+	  <file src="..\swagger-ui\" target="content\swagger-ui" />
 	</files> 
 </package>
