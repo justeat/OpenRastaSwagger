@@ -6,7 +6,7 @@ namespace OpenRastaSwagger.Grouping
 {
     public class OperationGrouperByUri : IOperationGrouper
     {
-        private readonly Regex _groupRegex = new Regex(@"\/?(\w+)\/");
+        private readonly Regex _groupRegex = new Regex(@"\/?(\w+)");
 
         public OperationGroup Group(ResourceModel resourceModel, UriModel uriModel, OperationMetadata operation)
         {
@@ -17,10 +17,12 @@ namespace OpenRastaSwagger.Grouping
                 return new OperationGroup { Name = "everything else", Path = "misc" };
             }
 
+            string resourceName = operationCanBeGroupedByUri.Groups[1].Value.ToLower();
+
             return new OperationGroup
             {
-                Name = operationCanBeGroupedByUri.Groups[1].Value.ToLower(),
-                Path =  operationCanBeGroupedByUri.Groups[1].Value
+                Name = string.Format("Operations about {0}", resourceName),
+                Path = resourceName
             };
         }
     }
