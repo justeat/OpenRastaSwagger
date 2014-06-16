@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Reflection;
 
 namespace OpenRastaSwagger.Discovery.Heuristics
@@ -6,14 +7,11 @@ namespace OpenRastaSwagger.Discovery.Heuristics
     {
         public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetdata)
         {
-            var declaringTypeName = "";
-            if (publicMethod.DeclaringType != null)
-            {
-                declaringTypeName = publicMethod.DeclaringType.Name + ".";
-            }
+            var descriptionAttribute = publicMethod.GetCustomAttribute<DescriptionAttribute>();
 
-            methodMetdata.Summary = "Calls " + declaringTypeName + publicMethod.Name;
-            methodMetdata.Name = publicMethod.Name;
+            methodMetdata.Summary = descriptionAttribute == null 
+                ? "" 
+                : descriptionAttribute.Description;
             
             return true;
         }
