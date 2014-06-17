@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Reflection;
+using OpenRastaSwagger.DocumentationSupport;
 
 namespace OpenRastaSwagger.Discovery.Heuristics
 {
@@ -34,6 +35,18 @@ namespace OpenRastaSwagger.Discovery.Heuristics
                 {
                     param.LocationType =  InputParameter.LocationTypes.Body;
                 }
+            }
+
+            var requiredHeaders = publicMethod.GetCustomAttributes<RequiredHeaderAttribute>();
+            foreach (var header in requiredHeaders)
+            {
+                methodMetdata.InputParameters.Add(new InputParameter()
+                {
+                    Name = header.Name,
+                    Type = header.Type, 
+                    LocationType = InputParameter.LocationTypes.Header, 
+                    IsRequired = true
+                });
             }
 
             return true;

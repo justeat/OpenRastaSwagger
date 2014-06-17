@@ -22,7 +22,7 @@ namespace OpenRastaSwagger
         public Parameter Map(InputParameter param)
         {
             var mapping = Register(param.Type);
-            return new Parameter { type = mapping.Type, format = mapping.Format, name = param.Name };
+            return new Parameter { type = mapping.Type, format = mapping.Format, name = param.Name, required = param.IsRequired };
         }
 
         public PropertyType Register(Type returnType, int depth = 0)
