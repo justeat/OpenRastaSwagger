@@ -119,9 +119,12 @@ We can only auto-discover so much from the reflected codebase, so in order to em
 
 Usage:
 
-* OpenRastaSwagger.DocumentationSupport.NotesAttribute - Add notes to your API docs
-* OpenRastaSwagger.DocumentationSupport.PossibleResponseCodeAttribute - Add status code / descriptions to the docs
-* OpenRastaSwagger.DocumentationSupport.ResponseTypeIsAttribute - To give the documentation a hint as to the actual DTO type returned by your handler, used when you're returning `OperationResult`s
+* <code>OpenRastaSwagger.DocumentationSupport.NotesAttribute</code> - Add notes to your API docs
+* <code>OpenRastaSwagger.DocumentationSupport.PossibleResponseCodeAttribute</code> - Add status code / descriptions to the docs
+* <code>OpenRastaSwagger.DocumentationSupport.ResponseTypeIsAttribute</code> - To give the documentation a hint as to the actual DTO type returned by your handler, used when you're returning an `OperationResult`
+* <code>OpenRastaSwagger.DocumentationSupport.InputHeaderAttribute</code> - Add optional or required header parameters for operations
+* <code>System.ComponentModel.Description</code> - Add a summary to an operation
+* <code>System.ComponentModel.Required</code> - Mark a property as required in the request/response type
 
 ## Extensibility
 
