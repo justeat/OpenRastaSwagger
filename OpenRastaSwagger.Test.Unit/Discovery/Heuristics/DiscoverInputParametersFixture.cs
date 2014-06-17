@@ -66,7 +66,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         }
 
         [Test]
-        public void CanFindHeaderParam()
+        public void CanFindHeaderParams()
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetString");
 
@@ -76,8 +76,13 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
 
             Assert.That(metadata.InputParameters[1].LocationType, Is.EqualTo(InputParameter.LocationTypes.Header));
             Assert.That(metadata.InputParameters[1].Name, Is.EqualTo("A required header name"));
-            Assert.That(metadata.InputParameters[1].Type, Is.EqualTo(typeof(string)));
+            Assert.That(metadata.InputParameters[1].Type, Is.EqualTo(typeof(int)));
             Assert.That(metadata.InputParameters[1].IsRequired, Is.EqualTo(true));
+
+            Assert.That(metadata.InputParameters[2].LocationType, Is.EqualTo(InputParameter.LocationTypes.Header));
+            Assert.That(metadata.InputParameters[2].Name, Is.EqualTo("A header name"));
+            Assert.That(metadata.InputParameters[2].Type, Is.EqualTo(typeof(string)));
+            Assert.That(metadata.InputParameters[2].IsRequired, Is.EqualTo(false));
         }
 
         [Test]
@@ -134,7 +139,8 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             public GetResponse GetInt(int i) { return null; }
 
-            [RequiredHeader("A required header name", typeof(string))]
+            [InputHeader("A header name", typeof(string))]
+            [InputHeader("A required header name", typeof(int), true)]
             public GetResponse GetString(string s) { return null; }
 
             public GetResponse GetRequest(ComplexRequest req) { return null; }

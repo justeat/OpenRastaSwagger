@@ -37,7 +37,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
                 }
             }
 
-            var requiredHeaders = publicMethod.GetCustomAttributes<RequiredHeaderAttribute>();
+            var requiredHeaders = publicMethod.GetCustomAttributes<InputHeaderAttribute>();
             foreach (var header in requiredHeaders)
             {
                 methodMetdata.InputParameters.Add(new InputParameter()
@@ -45,7 +45,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
                     Name = header.Name,
                     Type = header.Type, 
                     LocationType = InputParameter.LocationTypes.Header, 
-                    IsRequired = true
+                    IsRequired = header.IsRequired
                 });
             }
 
