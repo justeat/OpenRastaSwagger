@@ -9,7 +9,7 @@ namespace OpenRastaSwagger.Discovery
     {
         public UriModel Uri { get; set; }
         public string HttpVerb { get; set; }
-        public string Name { get; set; }
+        public string Nickname { get; set; }
         public string Notes { get; set; }
         public string ContentType { get; set; }
         public string Summary { get; set; }

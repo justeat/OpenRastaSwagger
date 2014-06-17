@@ -9,7 +9,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
         {
             var descriptionAttribute = publicMethod.GetCustomAttribute<DescriptionAttribute>();
 
-            methodMetdata.Name = publicMethod.Name;
+            methodMetdata.Nickname = publicMethod.Name;
             methodMetdata.Summary = descriptionAttribute == null 
                 ? "" 
                 : descriptionAttribute.Description;
