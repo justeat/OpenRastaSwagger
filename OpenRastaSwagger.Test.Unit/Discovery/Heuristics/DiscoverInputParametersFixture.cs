@@ -139,8 +139,8 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             public GetResponse GetInt(int i) { return null; }
 
-            [InputHeader("A header name", typeof(string))]
-            [InputHeader("A required header name", typeof(int), true)]
+            [RequestHeader("A header name", typeof(string))]
+            [RequestHeader("A required header name", typeof(int), true)]
             public GetResponse GetString(string s) { return null; }
 
             public GetResponse GetRequest(ComplexRequest req) { return null; }
