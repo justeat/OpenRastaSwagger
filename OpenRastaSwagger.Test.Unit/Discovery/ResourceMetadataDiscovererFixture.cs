@@ -67,7 +67,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
 
             var metadata = _discoverer.Discover(_model);
 
-            Assert.That(metadata[0].Summary, Is.EqualTo(""));
+            Assert.That(metadata[0].Summary, Is.EqualTo("SimpleHandler.Get"));
         }
 
         [Test]
