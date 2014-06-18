@@ -18,7 +18,7 @@ namespace OpenRastaSwagger
             var index = uri.IndexOf('?');
             if (index > -1)
             {
-                Path = uri.Substring(0, index);
+                Path = uri.Substring(0, index).TrimEnd('/');
                 Query = uri.Substring(index);
             }
             else

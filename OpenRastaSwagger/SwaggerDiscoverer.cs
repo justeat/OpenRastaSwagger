@@ -58,7 +58,7 @@ namespace OpenRastaSwagger
                 var op = new Operation
                 {
                     method = operationMetadata.HttpVerb,
-                    nickname = operationMetadata.Name ?? "",
+                    nickname = operationMetadata.Nickname ?? "",
                     notes = operationMetadata.Notes ?? "",
                     type = mappedReturnType.Type,
                     items = mappedReturnType.Items,

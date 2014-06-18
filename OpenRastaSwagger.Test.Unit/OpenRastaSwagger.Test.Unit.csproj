@@ -45,6 +45,7 @@
       <HintPath>..\References\openrasta-hosting-aspnet-2.1.0.80252216\bin-net35\OpenRasta.Hosting.AspNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />

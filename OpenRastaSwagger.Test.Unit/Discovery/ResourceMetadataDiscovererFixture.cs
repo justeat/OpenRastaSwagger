@@ -5,6 +5,7 @@ using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Grouping;
+using OpenRastaSwagger.SampleApi.Handlers;
 
 namespace OpenRastaSwagger.Test.Unit.Discovery
 {
@@ -56,6 +57,28 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
             var metadata = _discoverer.Discover(_model);
 
             Assert.That(metadata, Is.Empty);
+        }
+
+        [Test]
+        public void HandlerWithoutDescriptionAttribute_SetsTheSummaryToBlankString()
+        {
+            _model.Handlers.Clear();
+            _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(SimpleHandler))));
+
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.That(metadata[0].Summary, Is.EqualTo("SimpleHandler.Get"));
+        }
+
+        [Test]
+        public void HandlerWithDescriptionAttribute_SetsTheSummaryToTheValueProvidedInTheDescription()
+        {
+            _model.Handlers.Clear();
+            _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(HandlerWithAttributes))));
+
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.That(metadata[0].Summary, Is.EqualTo("The description for attribute handler"));
         }
 
         public class TestHandler { public OperationResult GetInt(int i) { return null; } }

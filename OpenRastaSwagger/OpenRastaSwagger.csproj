@@ -34,6 +34,7 @@
       <HintPath>..\References\openrasta-core-2.1.0.83282449\bin-net35\OpenRasta.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -62,6 +63,7 @@
     <Compile Include="Discovery\ResponseCode.cs" />
     <Compile Include="DocumentationSupport\NotesAttribute.cs" />
     <Compile Include="DocumentationSupport\PossibleResponseCodeAttribute.cs" />
+    <Compile Include="DocumentationSupport\RequestHeaderAttribute.cs" />
     <Compile Include="DocumentationSupport\ResponseTypeIsAttribute.cs" />
     <Compile Include="Grouping\IOperationGrouper.cs" />
     <Compile Include="Grouping\OperationGroup.cs" />

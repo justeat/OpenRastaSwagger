@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NUnit.Framework;
 using OpenRastaSwagger.Discovery;
@@ -102,13 +103,26 @@ namespace OpenRastaSwagger.Test.Unit
 
             Assert.AreEqual("array", param.Type);
             Assert.IsTrue(param.Items.Ref.EndsWith("ComplexObject"));
-
+            
             Assert.AreEqual(1, mapper.Models.Count());
-            var model = mapper.Models.First();
+        }
+
+        [TestCase(typeof(ComplexObject))]
+        public void CanMapComplexObjectTypes(Type complexType)
+        {
+            var mapper = new TypeMapper();
+
+            var param = mapper.Register(complexType);
+
+            Assert.IsTrue(param.Type.EndsWith("ComplexObject"));
+            Assert.AreEqual(mapper.Models.First().required.First(), "Id");
+            Assert.AreEqual(mapper.Models.First().properties["Id"].Type, "integer");
+            Assert.AreEqual(mapper.Models.First().properties["Name"].Type, "string");
         }
 
         public class ComplexObject
         {
+            [Required]
             public int Id { get; set; }
             public string Name { get; set; }
             public ComplexObject Parent { get; set; }

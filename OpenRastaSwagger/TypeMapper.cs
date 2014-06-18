@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
@@ -20,7 +22,7 @@ namespace OpenRastaSwagger
         public Parameter Map(InputParameter param)
         {
             var mapping = Register(param.Type);
-            return new Parameter { type = mapping.Type, format = mapping.Format, name = param.Name };
+            return new Parameter { type = mapping.Type, format = mapping.Format, name = param.Name, required = param.IsRequired };
         }
 
         public PropertyType Register(Type returnType, int depth = 0)
@@ -100,6 +102,9 @@ namespace OpenRastaSwagger
             {
                 var mapping = Register(prop.PropertyType, depth++);
                 modelSpec.properties.Add(prop.Name, mapping);
+
+                if(prop.GetCustomAttribute<RequiredAttribute>() != null)
+                    modelSpec.required.Add(prop.Name);
             }
 
             return new PropertyType
