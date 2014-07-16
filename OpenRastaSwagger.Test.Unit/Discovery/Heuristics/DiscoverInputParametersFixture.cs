@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using OpenRasta.Configuration.MetaModel;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Discovery.Heuristics;
@@ -28,6 +29,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
 
             Assert.That(metadata.InputParameters[0].LocationType, Is.EqualTo(InputParameter.LocationTypes.Path));
         }
+
 
         [Test]
         public void CanFindQueryParam()
@@ -74,15 +76,19 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
 
             _sut.Discover(methodToDetect, metadata);
 
-            Assert.That(metadata.InputParameters[1].LocationType, Is.EqualTo(InputParameter.LocationTypes.Header));
-            Assert.That(metadata.InputParameters[1].Name, Is.EqualTo("A required header name"));
-            Assert.That(metadata.InputParameters[1].Type, Is.EqualTo(typeof(int)));
-            Assert.That(metadata.InputParameters[1].IsRequired, Is.EqualTo(true));
+            var param1 = metadata.InputParameters.First(x => x.Name == "A header name");
+            var param2 = metadata.InputParameters.First(x => x.Name == "A required header name");
 
-            Assert.That(metadata.InputParameters[2].LocationType, Is.EqualTo(InputParameter.LocationTypes.Header));
-            Assert.That(metadata.InputParameters[2].Name, Is.EqualTo("A header name"));
-            Assert.That(metadata.InputParameters[2].Type, Is.EqualTo(typeof(string)));
-            Assert.That(metadata.InputParameters[2].IsRequired, Is.EqualTo(false));
+            Assert.That(param1.LocationType, Is.EqualTo(InputParameter.LocationTypes.Header));
+            Assert.That(param1.Name, Is.EqualTo("A header name"));
+            Assert.That(param1.Type, Is.EqualTo(typeof(string)));
+            Assert.That(param1.IsRequired, Is.EqualTo(false));
+
+            Assert.That(param2.LocationType, Is.EqualTo(InputParameter.LocationTypes.Header));
+            Assert.That(param2.Name, Is.EqualTo("A required header name"));
+            Assert.That(param2.Type, Is.EqualTo(typeof(int)));
+            Assert.That(param2.IsRequired, Is.EqualTo(true));
+
         }
 
         [Test]
@@ -138,6 +144,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         public class TestHandler
         {
             public GetResponse GetInt(int i) { return null; }
+
 
             [RequestHeader("A header name", typeof(string))]
             [RequestHeader("A required header name", typeof(int), true)]
