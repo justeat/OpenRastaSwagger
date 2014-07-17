@@ -20,7 +20,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
         {
             _discoverer = new ResourceMetadataDiscoverer(new OperationGrouperByUri());
             _model = new ResourceModel();
-            _model.Uris.Add(new UriModel{Name = "Test", Uri = "/test"});
+            _model.Uris.Add(new UriModel { Name = "Test", Uri = "/test-with-attributes" });
             _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(TestHandler))));
         }
 
@@ -79,6 +79,17 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
             var metadata = _discoverer.Discover(_model);
 
             Assert.That(metadata[0].Summary, Is.EqualTo("The description for attribute handler"));
+        }
+
+        [Test]
+        public void HandlerWithHyphenatedResource_SetsCorrectGroupPath()
+        {
+            _model.Handlers.Clear();
+            _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(HandlerWithAttributes))));
+
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.That(metadata[0].Group.Path, Is.EqualTo("test-with-attributes"));
         }
 
         public class TestHandler { public OperationResult GetInt(int i) { return null; } }
