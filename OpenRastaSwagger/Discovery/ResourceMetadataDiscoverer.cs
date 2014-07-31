@@ -46,7 +46,7 @@ namespace OpenRastaSwagger.Discovery
             foreach (var uri in metadata.Uris)
             {
                 var candidateMethods = handler.Type.StaticType.GetMethods()
-                    .Where(x => x.IsPublic && !exclusions.Contains(x.Name) && !x.IsSpecialName && "CLR Type: " + x.ReturnType.Name == resource.ResourceKey.ToString());
+                    .Where(x => x.IsPublic && !exclusions.Contains(x.Name) && !x.IsSpecialName && IsTypeMatch(resource, x.ReturnType));
 
                 foreach (var publicMethod in candidateMethods)
                 {
@@ -59,6 +59,11 @@ namespace OpenRastaSwagger.Discovery
                     }
                 }
             }
+        }
+
+        private static bool IsTypeMatch(ResourceModel resource, Type returnType)
+        {
+            return "CLR Type: " + returnType.Name == resource.ResourceKey.ToString();
         }
     }
 }
