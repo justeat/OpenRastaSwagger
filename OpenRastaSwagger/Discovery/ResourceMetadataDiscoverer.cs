@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenRasta.Configuration.MetaModel;
+using OpenRasta.TypeSystem;
+using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRastaSwagger.Discovery.Heuristics;
 using OpenRastaSwagger.Grouping;
 
@@ -63,7 +65,10 @@ namespace OpenRastaSwagger.Discovery
 
         private static bool IsTypeMatch(ResourceModel resource, Type returnType)
         {
-            return "CLR Type: " + returnType.Name == resource.ResourceKey.ToString();
+            var resourceKey = (IType) resource.ResourceKey;
+            var resourceType = resourceKey.StaticType;
+
+            return returnType == resourceType;
         }
     }
 }
