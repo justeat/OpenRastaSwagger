@@ -60,6 +60,15 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
         }
 
         [Test]
+        public void HandlerHasMoreResourcesThanRegistered_OnlyReturnsRegisteredResources()
+        {
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.AreEqual(1, metadata.Count);
+            Assert.That(typeof(int) == metadata[0].ReturnType);
+        }
+
+        [Test]
         public void HandlerWithoutDescriptionAttribute_SetsTheSummaryToBlankString()
         {
             _model.Handlers.Clear();
@@ -92,7 +101,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
             Assert.That(metadata[0].Group.Path, Is.EqualTo("test-with-attributes"));
         }
 
-        public class TestHandler { public OperationResult GetInt(int i) { return null; } }
+        public class TestHandler { public OperationResult GetInt(int i) { return null; } public int GetInt2(int i) { return 0; } }
         public abstract class TestHandlerWithProperyThatShouldNotBeDiscovered { public string Something { get; set; } }
         public class TestHandlerDerivedFromAbstract : TestHandlerWithProperyThatShouldNotBeDiscovered { }
 
