@@ -39,7 +39,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
             _discoverer.Discover(_model);
 
             Assert.That(heuristic.Called, Is.True);
-            Assert.That(heuristic.MethodInfo, Is.EqualTo(typeof(TestHandler).GetMethod("GetInt")));
+            Assert.That(heuristic.MethodInfo, Is.EqualTo(typeof(TestHandler).GetMethod("GetInt2")));
         }
 
         [Test]
@@ -103,6 +103,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
         public void HandlerWithDescriptionAttribute_SetsTheSummaryToTheValueProvidedInTheDescription()
         {
             _model.Handlers.Clear();
+            AddHandlerResourceType(typeof(string));
             _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(HandlerWithAttributes))));
 
             var metadata = _discoverer.Discover(_model);
@@ -114,6 +115,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
         public void HandlerWithHyphenatedResource_SetsCorrectGroupPath()
         {
             _model.Handlers.Clear();
+            AddHandlerResourceType(typeof(string));
             _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(HandlerWithAttributes))));
 
             var metadata = _discoverer.Discover(_model);

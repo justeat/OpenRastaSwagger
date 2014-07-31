@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using OpenRasta.Configuration.MetaModel;
+using OpenRasta.TypeSystem;
 using OpenRastaSwagger.Grouping;
 
 namespace OpenRastaSwagger.Discovery
@@ -24,9 +25,12 @@ namespace OpenRastaSwagger.Discovery
 
         public Type HandlerType { get; set; }
 
-        public OperationMetadata(UriModel uri)
+        public IMember DesiredReturnType { get; private set; }
+
+        public OperationMetadata(UriModel uri, IMember returnType)
         {
             Uri = uri;
+            DesiredReturnType = returnType;
             ResponseCodes = new List<ResponseCode>();
             UriParser=new UriParameterParser(Uri.Uri);
         }

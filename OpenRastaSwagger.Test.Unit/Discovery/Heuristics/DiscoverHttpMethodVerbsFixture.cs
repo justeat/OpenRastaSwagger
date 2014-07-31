@@ -16,7 +16,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         public void SetUp()
         {
             _sut = new DiscoverHttpMethodVerbs();
-            _metadata = new OperationMetadata(new UriModel { Uri = "/some/uri" });
+            _metadata = new OperationMetadata(new UriModel { Uri = "/some/uri" }, null);
         }
         
         [TestCase("Get", "GET")]

@@ -1,5 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using OpenRasta.Configuration.MetaModel;
+using OpenRasta.TypeSystem;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Discovery.Heuristics;
 using OpenRastaSwagger.DocumentationSupport;
@@ -12,12 +14,16 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         private DiscoverReturnType _sut;
         private OperationMetadata _metadata;
 
+        private Mock<IMember> _returnType;
+
         [SetUp]
         public void SetUp()
         {
             _sut = new DiscoverReturnType();
 
-            _metadata = new OperationMetadata(new UriModel { Uri = "/some/uri" });
+            _returnType = new Mock<IMember>();
+           
+            _metadata = new OperationMetadata(new UriModel { Uri = "/some/uri" }, _returnType.Object);
         }
 
         [Test]
@@ -38,6 +44,28 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
             _sut.Discover(methodToDetect, _metadata);
 
             Assert.That(_metadata.ReturnType, Is.EqualTo(typeof(PostResponse)));
+        }
+
+        [Test]
+        public void TrueWhenMatchingTypes()
+        {
+            var methodToDetect = typeof(TestHandler).GetMethod("Post");
+            _returnType.Setup(x => x.StaticType).Returns(typeof(PostResponse));
+
+            var result = _sut.Discover(methodToDetect, _metadata);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void FalseWhenNotMatchingTypes()
+        {
+            var methodToDetect = typeof(TestHandler).GetMethod("Post");
+            _returnType.Setup(x => x.StaticType).Returns(typeof(object));
+
+            var result = _sut.Discover(methodToDetect, _metadata);
+
+            Assert.IsFalse(result);
         }
 
         public class TestHandler

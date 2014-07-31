@@ -1,4 +1,6 @@
+using System;
 using System.Reflection;
+using OpenRasta.TypeSystem;
 using OpenRastaSwagger.DocumentationSupport;
 
 namespace OpenRastaSwagger.Discovery.Heuristics
@@ -12,7 +14,12 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             methodMetdata.ReturnType = responseType.ResponseType;
             methodMetdata.HandlerType = publicMethod.DeclaringType;
 
-            return true;
+            return IsTypeMatch(methodMetdata.DesiredReturnType, methodMetdata.ReturnType);
+        }
+
+        private static bool IsTypeMatch(IMember desiredType, Type returnType)
+        {
+            return returnType == desiredType.StaticType;
         }
     }
 }
