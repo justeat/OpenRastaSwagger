@@ -1,11 +1,14 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using NUnit.Framework;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.TypeSystem.ReflectionBased;
+using OpenRasta.TypeSystem.Surrogated;
 using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Grouping;
 using OpenRastaSwagger.SampleApi.Handlers;
+using OpenRastaSwagger.SampleApi.Resources;
 
 namespace OpenRastaSwagger.Test.Unit.Discovery
 {
@@ -22,6 +25,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
             _model = new ResourceModel();
             _model.Uris.Add(new UriModel { Name = "Test", Uri = "/test-with-attributes" });
             _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(TestHandler))));
+            AddHandlerResourceType(typeof (OperationResult));
         }
 
         [Test]
@@ -62,6 +66,8 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
         [Test]
         public void HandlerHasMoreResourcesThanRegistered_OnlyReturnsRegisteredResources()
         {
+            AddHandlerResourceType(typeof(int));
+
             var metadata = _discoverer.Discover(_model);
 
             Assert.AreEqual(1, metadata.Count);
@@ -73,6 +79,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
         {
             _model.Handlers.Clear();
             _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(SimpleHandler))));
+            AddHandlerResourceType(typeof(SimpleResource));
 
             var metadata = _discoverer.Discover(_model);
 
@@ -116,6 +123,11 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
                 MethodInfo = method;
                 return true;
             }
+        }
+
+        private void AddHandlerResourceType(Type type)
+        {
+            _model.ResourceKey = new ReflectionBasedType(new ReflectionBasedTypeSystem(null, null), type);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenRasta.Configuration.MetaModel;
@@ -45,7 +46,7 @@ namespace OpenRastaSwagger.Discovery
             foreach (var uri in metadata.Uris)
             {
                 var candidateMethods = handler.Type.StaticType.GetMethods()
-                    .Where(x => x.IsPublic && !exclusions.Contains(x.Name) && !x.IsSpecialName);
+                    .Where(x => x.IsPublic && !exclusions.Contains(x.Name) && !x.IsSpecialName && "CLR Type: " + x.ReturnType.Name == resource.ResourceKey.ToString());
 
                 foreach (var publicMethod in candidateMethods)
                 {
