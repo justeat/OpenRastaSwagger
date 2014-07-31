@@ -9,17 +9,4 @@ namespace OpenRastaSwagger.SampleApi.Handlers
             return new ComplexResource {Request = req};
         }
     }
-
-    public class ConfusedHandler
-    {
-        public ComplexResource Post(ComplexRequest req)
-        {
-            return new ComplexResource { Request = req };
-        }
-
-        public SimpleResource Put(ComplexRequest req)
-        {
-            return new SimpleResource();
-        }
-    }
 }

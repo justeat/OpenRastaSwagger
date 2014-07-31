@@ -106,6 +106,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\ConfusedHandler.cs" />
     <Compile Include="Handlers\HandlerWithAttributes.cs" />
     <Compile Include="Handlers\SimpleHandler.cs" />
     <Compile Include="Handlers\ComplexHandler.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Resources\ComplexRequest.cs" />
     <Compile Include="Resources\ComplexResource.cs" />
     <Compile Include="Resources\SimpleResource.cs" />
+    <Compile Include="Resources\ThirdResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.Debug.config">
