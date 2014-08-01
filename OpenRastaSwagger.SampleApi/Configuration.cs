@@ -32,6 +32,21 @@ namespace OpenRastaSwagger.SampleApi
                     .HandledBy<HandlerWithAttributes>()
                     .AsJsonDataContract();
 
+                ResourceSpace.Has.ResourcesOfType<ComplexResource>()
+                    .AtUri("/confusedResource")
+                    .HandledBy<ConfusedHandler>()
+                    .AsJsonDataContract();
+
+                ResourceSpace.Has.ResourcesOfType<SimpleResource>()
+                    .AtUri("/confusedResource")
+                    .HandledBy<ConfusedHandler>()
+                    .AsJsonDataContract();
+
+                ResourceSpace.Has.ResourcesOfType<ThirdResource>()
+                    .AtUri("/confusedResource")
+                    .HandledBy<ConfusedHandler>()
+                    .AsJsonDataContract();
+
                 ResourceSpace.Has.ResourcesOfType<string>()
                     .AtUri("/doNotDiscoverMe")
                     .HandledBy<AbstractHandlerThatCannotBeCreated>()

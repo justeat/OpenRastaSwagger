@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenRasta.Configuration.MetaModel;
+using OpenRasta.TypeSystem;
+using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRastaSwagger.Discovery.Heuristics;
 using OpenRastaSwagger.Grouping;
 
@@ -49,7 +52,7 @@ namespace OpenRastaSwagger.Discovery
 
                 foreach (var publicMethod in candidateMethods)
                 {
-                    var operation = new OperationMetadata(uri);
+                    var operation = new OperationMetadata(uri, resource.ResourceKey as IType);
 
                     if (DiscoveryRules.All(x => x.Discover(publicMethod, operation)))
                     {

@@ -23,7 +23,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetString");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri/{s}" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri/{s}" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
@@ -36,7 +36,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetString");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri?s={s}" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri?s={s}" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
@@ -48,7 +48,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetInt");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri/{i}" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri/{i}" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
@@ -60,7 +60,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetInt");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri?s={i}" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri?s={i}" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
@@ -72,7 +72,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetString");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
@@ -96,7 +96,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetRequest");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri/{req}" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri/{req}" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
@@ -109,7 +109,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetRequest");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri?req={req}" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri?req={req}" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
@@ -122,7 +122,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetString");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
@@ -134,7 +134,7 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
         {
             var methodToDetect = typeof(TestHandler).GetMethod("GetRequest");
 
-            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri" });
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri" }, null);
 
             _sut.Discover(methodToDetect, metadata);
 
