@@ -74,8 +74,6 @@
     <Content Include="contract.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Resources\error-test.htm" />
-    <Content Include="Resources\error.css" />
     <Content Include="swagger-ui\css\highlight.default.css" />
     <Content Include="swagger-ui\css\screen.css" />
     <Content Include="swagger-ui\images\logo_small.png" />
