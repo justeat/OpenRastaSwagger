@@ -11,6 +11,7 @@ namespace OpenRastaSwagger.SampleApi.Handlers
         [PossibleResponseCode(201, "I created this awesome thing.")]
         [PossibleResponseCode(500, "Ouch - this is rendered when blah blah blah")]
         [RequestHeader("Some header", typeof(int))]
+        [Notes("The notes for attribute handler")]
         public OperationResult Get(bool createSomething)
         {
             if (createSomething)
