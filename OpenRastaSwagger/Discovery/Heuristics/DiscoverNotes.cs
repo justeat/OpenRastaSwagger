@@ -7,9 +7,12 @@ namespace OpenRastaSwagger.Discovery.Heuristics
     {
         public bool Discover(MethodInfo publicMethod, OperationMetadata methodMetadata)
         {
-            var notes = publicMethod.GetCustomAttribute<NotesAttribute>() ?? new NotesAttribute("");
-            methodMetadata.Notes = notes.Notes;
-            methodMetadata.Notes += "Uri template " + methodMetadata.Uri.Uri;
+            var attribute = publicMethod.GetCustomAttribute<NotesAttribute>() ?? new NotesAttribute("");
+
+            if(string.IsNullOrEmpty(attribute.Notes))
+                methodMetadata.Notes += "Uri template " + methodMetadata.Uri.Uri;
+            else
+                methodMetadata.Notes = attribute.Notes;
 
             return true;
         }

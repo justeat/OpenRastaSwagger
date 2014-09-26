@@ -112,6 +112,30 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
         }
 
         [Test]
+        public void HandlerWithNoNotesAttribute_SetsTheNotesToTheUriTemplate()
+        {
+            _model.Handlers.Clear();
+            AddHandlerResourceType(typeof(int));
+            _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(TestHandlerWithAttribute))));
+
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.That(metadata[0].Notes, Is.EqualTo("Uri template /test-with-attributes"));
+        }
+
+        [Test]
+        public void HandlerWithNotesAttribute_SetsTheNotesToTheValueProvidedInTheNote()
+        {
+            _model.Handlers.Clear();
+            AddHandlerResourceType(typeof(string));
+            _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(HandlerWithAttributes))));
+
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.That(metadata[0].Notes, Is.EqualTo("The notes for attribute handler"));
+        }
+
+        [Test]
         public void HandlerWithHyphenatedResource_SetsCorrectGroupPath()
         {
             _model.Handlers.Clear();
