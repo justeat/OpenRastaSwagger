@@ -4,6 +4,7 @@ namespace OpenRastaSwagger.Model.ResourceDetails
 {
     public class Operation
     {
+        public string uri { get; set; }
         public string method { get; set; }
         public string nickname { get; set; }
         public string type { get; set; }

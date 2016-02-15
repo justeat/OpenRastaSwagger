@@ -34,5 +34,13 @@ namespace OpenRastaSwagger.Test.Unit
             Assert.IsTrue(parser.HasPathParam("name"));
             Assert.IsTrue(parser.HasQueryParam("id"));
         }
+
+        [Test]
+        public void CanParseParamsThatDoNotMatchSignature()
+        {
+            var parser = new UriParameterParser("parameterized/?f={messageFormat}&p={parameter}");
+            Assert.IsTrue(parser.HasQueryParam("messageFormat"));
+            Assert.IsTrue(parser.HasQueryParam("parameter"));
+        }
     }
 }

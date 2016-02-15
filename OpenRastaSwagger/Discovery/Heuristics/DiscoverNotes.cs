@@ -9,10 +9,14 @@ namespace OpenRastaSwagger.Discovery.Heuristics
         {
             var attribute = publicMethod.GetCustomAttribute<NotesAttribute>() ?? new NotesAttribute("");
 
-            if(string.IsNullOrEmpty(attribute.Notes))
+            if (string.IsNullOrEmpty(attribute.Notes))
+            {
                 methodMetadata.Notes += "Uri template " + methodMetadata.Uri.Uri;
+            }
             else
+            {
                 methodMetadata.Notes = attribute.Notes;
+            }
 
             return true;
         }

@@ -22,6 +22,11 @@ namespace OpenRastaSwagger.SampleApi
                     .HandledBy<SimpleHandler>()
                     .AsJsonDataContract();
 
+                ResourceSpace.Has.ResourcesOfType<SimpleResource>()
+                    .AtUri("/parameterized/?f={messageFormat}&p={parameter}")
+                    .HandledBy<ParameterizedHandler>()
+                    .AsJsonDataContract();
+
                 ResourceSpace.Has.ResourcesOfType<ComplexResource>()
                     .AtUri("/complex")
                     .HandledBy<ComplexHandler>()

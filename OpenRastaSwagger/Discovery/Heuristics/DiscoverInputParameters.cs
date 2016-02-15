@@ -40,7 +40,7 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             var requiredHeaders = publicMethod.GetCustomAttributes<RequestHeaderAttribute>();
             foreach (var header in requiredHeaders)
             {
-                methodMetdata.InputParameters.Add(new InputParameter()
+                methodMetdata.InputParameters.Add(new InputParameter
                 {
                     Name = header.Name,
                     Type = header.Type, 

@@ -427,7 +427,7 @@
             }
           }
           o.nickname = this.sanitize(o.nickname);
-          op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces, o.authorizations);
+          op = new SwaggerOperation(o, resource_path, method, type, responseMessages, this, consumes, produces);
           this.operations[op.nickname] = op;
           _results.push(this.operationsArray.push(op));
         }
@@ -619,7 +619,13 @@
   })();
 
   SwaggerOperation = (function() {
-    function SwaggerOperation(nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces, authorizations) {
+    function SwaggerOperation(operation, path, method, type, responseMessages, resource, consumes, produces) {
+      var nickname = operation.nickname;
+      var parameters = operation.parameters;
+      var summary = operation.summary;
+      var notes = operation.notes;
+      var authorizations = operation.authorizations;
+
       var parameter, v, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3,
         _this = this;
       this.nickname = nickname;
@@ -634,6 +640,8 @@
       this.consumes = consumes;
       this.produces = produces;
       this.authorizations = authorizations;
+      this.uri = operation.uri;
+
       this["do"] = __bind(this["do"], this);
       if (this.nickname == null) {
         this.resource.api.fail("SwaggerOperations must have a nickname.");
@@ -863,18 +871,21 @@
         }
       }
       queryParams = "";
-      _ref1 = this.parameters;
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        param = _ref1[_j];
-        if (param.paramType === 'query') {
-          if (args[param.name]) {
-            if (queryParams !== "") {
-              queryParams += "&";
-            }
-            queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);
+      var uriSplit = this.uri.split('?');
+      if (uriSplit.length > 1) {
+        queryParams = uriSplit[1];
+        _ref1 = this.parameters;
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          param = _ref1[_j];
+          if (param.paramType === "query") {
+            var value = args[param.name] || "";
+            value = encodeURIComponent(value);
+            var paramNameWithBraces = "{" + param.name + "}";
+            queryParams = queryParams.replace(paramNameWithBraces, value);
           }
         }
       }
+      
       if ((queryParams != null) && queryParams.length > 0) {
         url += "?" + queryParams;
       }
