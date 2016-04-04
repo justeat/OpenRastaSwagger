@@ -145,7 +145,8 @@
     <PreBuildEvent>rd /s /q "$(ProjectDir)\swagger-ui"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)\swagger-ui" "$(ProjectDir)\swagger-ui\" /e</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)\swagger-ui" "$(ProjectDir)\swagger-ui\" /e
+echo Do not edit this copy: edit the one in the root of the repository instead &gt; "$(ProjectDir)\swagger-ui\readme.txt"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
