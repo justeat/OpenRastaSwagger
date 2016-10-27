@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using OpenRasta.Configuration.MetaModel;
+using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.Discovery.Heuristics;
 using OpenRastaSwagger.DocumentationSupport;
@@ -141,6 +142,18 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
             Assert.That(metadata.InputParameters[0].LocationType, Is.EqualTo(InputParameter.LocationTypes.Body));
         }
 
+        [Test]
+        public void ParamsMatch()
+        {
+            var method1 = typeof(TestHandler).GetMethod("ParamTest1");
+            var method2 = typeof(TestHandler).GetMethod("ParamTest2");
+
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri/{myString}" }, null);
+
+            Assert.That(_sut.Discover(method1, metadata), Is.True);
+            Assert.That(_sut.Discover(method2, metadata), Is.False);
+        }
+
         public class TestHandler
         {
             public GetResponse GetInt(int i) { return null; }
@@ -151,6 +164,17 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
             public GetResponse GetString(string s) { return null; }
 
             public GetResponse GetRequest(ComplexRequest req) { return null; }
+            [HttpOperation(HttpMethod.GET)]
+            public GetResponse ParamTest1(string myString)
+            {
+                return null;
+            }
+
+            [HttpOperation(HttpMethod.GET)]
+            public GetResponse ParamTest2(int myInt)
+            {
+                return null;
+            }
         }
 
         public class GetResponse {}

@@ -15,6 +15,17 @@ namespace OpenRastaSwagger.Discovery.Heuristics
 
             }).ToList();
 
+            /* 
+             * If the OpenRasta configured parameters don't match the method
+             * then this isn't the correct method to match
+             */
+            var methodParameters = methodMetdata.InputParameters.Select(q => q.Name.ToLowerInvariant()).ToArray();
+            var openRastaParameters = methodMetdata.UriParser.Parameters.Select(q => q.ToLowerInvariant()).ToArray();
+            if (openRastaParameters.Except(methodParameters).Any())
+            {
+                return false;
+            }
+
             foreach (var param in methodMetdata.InputParameters)
             {
                 param.LocationType = InputParameter.LocationTypes.Query;

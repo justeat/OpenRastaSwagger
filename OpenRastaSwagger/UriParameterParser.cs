@@ -8,7 +8,12 @@ namespace OpenRastaSwagger
     {
         public string Path { get; private set; }
         public string Query { get; private set; }
-        
+
+        public IEnumerable<string> Parameters
+        {
+            get { return _queryParams.Concat(_pathParams); }
+        }
+
         private readonly List<string> _pathParams;
         private readonly List<string> _queryParams;
         private readonly Regex _paramRegex=new Regex(@"\{(\w+)\}");
