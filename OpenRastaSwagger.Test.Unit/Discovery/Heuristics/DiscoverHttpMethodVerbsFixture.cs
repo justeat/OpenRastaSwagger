@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
@@ -67,6 +68,17 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
             Assert.IsFalse(_sut.Discover(methodToDetect, _metadata));
         }
 
+        [Test]
+        public void NamesMatchCorrectly()
+        {
+            var method1 = typeof(SampleHandler).GetMethod("NameTest1");
+            var method2 = typeof(SampleHandler).GetMethod("NameTest2");
+            var metadata = new OperationMetadata(new UriModel { Uri = "/some/uri", Name = "NameTest1" }, null);
+
+            Assert.IsTrue(_sut.Discover(method1, metadata));
+            Assert.IsFalse(_sut.Discover(method2, metadata));
+        }
+
         
         public class SampleHandler
         {
@@ -88,6 +100,16 @@ namespace OpenRastaSwagger.Test.Unit.Discovery.Heuristics
             public void SomeWeirdName() { }
 
             public void SomeOtherWeirdName() { }
+
+            [HttpOperation(HttpMethod.GET, ForUriName = "NameTest1")]
+            public void NameTest1()
+            {
+            }
+
+            [HttpOperation(HttpMethod.GET, ForUriName = "NameTest2")]
+            public void NameTest2()
+            {
+            }
         }
     }
 }

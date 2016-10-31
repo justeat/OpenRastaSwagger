@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -22,7 +23,21 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             var methodAttribute = HttpOperationAttribute.Find(publicMethod);
             if (methodAttribute != null)
             {
+                /*
+                 * If the name configured in OpenRasta doesn't match
+                 * the HttpOperation name, then this is the wrong
+                 * method to match
+                 */
+                var uriName = methodMetdata.Uri.Name;
+                var operationName = methodAttribute.ForUriName;
+                if (!string.IsNullOrWhiteSpace(uriName) && !string.IsNullOrWhiteSpace(operationName) &&
+                    !uriName.Equals(operationName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+
                 methodMetdata.HttpVerb = methodAttribute.Method;
+
                 return true;
             }
 
