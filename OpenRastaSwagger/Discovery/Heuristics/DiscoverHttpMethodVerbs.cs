@@ -23,8 +23,6 @@ namespace OpenRastaSwagger.Discovery.Heuristics
             var methodAttribute = HttpOperationAttribute.Find(publicMethod);
             if (methodAttribute != null)
             {
-                methodMetdata.HttpVerb = methodAttribute.Method;
-
                 /*
                  * If the name configured in OpenRasta doesn't match
                  * the HttpOperation name, then this is the wrong
@@ -37,6 +35,8 @@ namespace OpenRastaSwagger.Discovery.Heuristics
                 {
                     return false;
                 }
+
+                methodMetdata.HttpVerb = methodAttribute.Method;
 
                 return true;
             }
