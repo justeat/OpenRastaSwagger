@@ -20,8 +20,8 @@ namespace OpenRastaSwagger.Discovery.Heuristics
              * then this isn't the correct method to match
              */
             var methodParameters = methodMetdata.InputParameters.Select(q => q.Name.ToLowerInvariant()).ToArray();
-            var openRastaParameters = methodMetdata.UriParser.Parameters.Select(q => q.ToLowerInvariant()).ToArray();
-            if (openRastaParameters.Except(methodParameters).Any())
+            var uriParameters = methodMetdata.UriParser.Parameters.Select(q => q.ToLowerInvariant()).ToArray();
+            if (uriParameters.Except(methodParameters).Any())
             {
                 return false;
             }
