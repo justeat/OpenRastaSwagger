@@ -5,7 +5,7 @@
     <version>$version$</version>
     <authors>Rob Lascelles, David Whitney</authors>
     <owners>$author$</owners>
-    <projectUrl>https://github.je-labs.com/Hackathon/OpenRastaSwagger</projectUrl>
+    <projectUrl>https://github.com/justeat/OpenRastaSwagger</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 	<summary>Swagger implementation for OpenRasta</summary>
     <description>$description$</description>
