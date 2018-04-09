@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.TypeSystem;
-using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRastaSwagger.Discovery.Heuristics;
 using OpenRastaSwagger.Grouping;
 
@@ -48,7 +48,11 @@ namespace OpenRastaSwagger.Discovery
             foreach (var uri in metadata.Uris)
             {
                 var candidateMethods = handler.Type.StaticType.GetMethods()
-                    .Where(x => x.IsPublic && !exclusions.Contains(x.Name) && !x.IsSpecialName);
+                    .Where(x => x.IsPublic)
+                    .Where(x => !exclusions.Contains(x.Name))
+                    .Where(x => !x.IsSpecialName)
+                    .Where(x => !IsMethodObsolete(x))
+                    .ToList();
 
                 foreach (var publicMethod in candidateMethods)
                 {
@@ -61,6 +65,11 @@ namespace OpenRastaSwagger.Discovery
                     }
                 }
             }
+        }
+
+        private static bool IsMethodObsolete(MethodInfo method)
+        {
+            return method.GetCustomAttribute<ObsoleteAttribute>() != null;
         }
     }
 }
