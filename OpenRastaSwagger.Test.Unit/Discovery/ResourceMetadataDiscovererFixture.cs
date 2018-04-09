@@ -3,7 +3,6 @@ using System.Reflection;
 using NUnit.Framework;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.TypeSystem.ReflectionBased;
-using OpenRasta.TypeSystem.Surrogated;
 using OpenRasta.Web;
 using OpenRastaSwagger.Discovery;
 using OpenRastaSwagger.DocumentationSupport;
@@ -147,10 +146,30 @@ namespace OpenRastaSwagger.Test.Unit.Discovery
             Assert.That(metadata[0].Group.Path, Is.EqualTo("test-with-attributes"));
         }
 
+        [Test]
+        public void HandlerWithObsoleteMethod_DoesNotRecogniseAsAHandler()
+        {
+            _model.Handlers.Clear();
+            _model.Handlers.Add(new HandlerModel(new ReflectionBasedType(new ReflectionBasedTypeSystem(), typeof(TestHandlerWithObsoleteAttribute))));
+
+            var metadata = _discoverer.Discover(_model);
+
+            Assert.That(metadata, Is.Empty);
+        }
+
         public class TestHandler { public OperationResult GetInt(int i) { return null; } public int GetInt2(int i) { return 0; } }
         public class TestHandlerWithAttribute { public OperationResult GetInt(int i) { return null; } [ResponseTypeIs(typeof(int))] public OperationResult GetInt2(int i) { return new OperationResult.OK(0); } }
         public abstract class TestHandlerWithProperyThatShouldNotBeDiscovered { public string Something { get; set; } }
         public class TestHandlerDerivedFromAbstract : TestHandlerWithProperyThatShouldNotBeDiscovered { }
+
+        public class TestHandlerWithObsoleteAttribute
+        {
+            [Obsolete]
+            public OperationResult GetInt(int i)
+            {
+                return null;
+            }
+        }
 
         public class FakeDiscoveryHeuristic : IDiscoveryHeuristic
         {
